@@ -86,20 +86,22 @@ public class AccessoriesContainerLookupCache extends EquipmentLookupCache {
     }
 
     public List<SlotEntryReference> getAllEquipped() {
-        if(this.getAllEquipped == null) {
-            this.getAllEquipped = new ArrayList<>();
+        if(this.getAllEquipped != null) return this.getAllEquipped;
 
-            for (var stackEntry : this.container.getAccessories()) {
-                var stack = stackEntry.getSecond();
+        var currentlyAllEquipped = new ArrayList<SlotEntryReference>();
 
-                if (stack.isEmpty()) continue;
+        for (var stackEntry : this.container.getAccessories()) {
+            var stack = stackEntry.getSecond();
 
-                var reference = this.container.createReference(stackEntry.getFirst());
+            if (stack.isEmpty()) continue;
 
-                AccessoryNestUtils.recursiveStackConsumption(stack, reference, (innerStack, ref) -> this.getAllEquipped.add(new SlotEntryReference(ref, innerStack)));
-            }
+            var reference = this.container.createReference(stackEntry.getFirst());
+
+            AccessoryNestUtils.recursiveStackConsumption(stack, reference, (innerStack, ref) -> currentlyAllEquipped.add(new SlotEntryReference(ref, innerStack)));
         }
 
-        return getAllEquipped;
+        this.getAllEquipped = currentlyAllEquipped;
+
+        return currentlyAllEquipped;
     }
 }

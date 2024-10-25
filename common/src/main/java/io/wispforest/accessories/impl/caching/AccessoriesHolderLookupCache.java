@@ -92,15 +92,17 @@ public class AccessoriesHolderLookupCache extends EquipmentLookupCache {
 
     @Override
     public List<SlotEntryReference> getAllEquipped() {
-        if (this.getAllEquipped == null) {
-            this.getAllEquipped = new ArrayList<>();
+        if (this.getAllEquipped != null) return this.getAllEquipped;
 
-            for (var value : this.containerLookupCacheMap.values()) {
-                this.getAllEquipped.addAll(value.getAllEquipped());
-            }
+        var currentlyAllEquipped = new ArrayList<SlotEntryReference>();
+
+        for (var value : this.containerLookupCacheMap.values()) {
+            currentlyAllEquipped.addAll(value.getAllEquipped());
         }
 
-        return this.getAllEquipped;
+        this.getAllEquipped = currentlyAllEquipped;
+
+        return currentlyAllEquipped;
     }
 
     @Override
