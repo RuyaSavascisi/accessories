@@ -496,24 +496,6 @@ public class AccessoriesContainerImpl implements AccessoriesContainer, InstanceE
         } else {
             this.renderOptions = carrier.get(RENDER_OPTIONS_KEY);
         }
-
-        if(carrier.has(CURRENT_SIZE_KEY)) {
-            var currentSize = carrier.get(CURRENT_SIZE_KEY);
-
-            var sentOptions = carrier.get(RENDER_OPTIONS_KEY);
-
-            this.renderOptions = getWithSize(currentSize, sentOptions, true);
-
-            if(this.accessories.getContainerSize() != currentSize) {
-                this.accessories = new ExpandedSimpleContainer(this, currentSize, "accessories");
-                this.cosmeticAccessories = new ExpandedSimpleContainer(this, currentSize, "cosmetic_accessories");
-            }
-
-            this.accessories.fromTag(carrier.get(ITEMS_KEY), registryAccess);
-            this.cosmeticAccessories.fromTag(carrier.get(COSMETICS_KEY), registryAccess);
-        } else {
-            this.renderOptions = carrier.get(RENDER_OPTIONS_KEY);
-        }
     }
 
     private <T> List<T> getWithSize(int size, List<T> list, T defaultValue) {

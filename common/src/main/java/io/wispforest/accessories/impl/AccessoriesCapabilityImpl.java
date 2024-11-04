@@ -74,11 +74,11 @@ public class AccessoriesCapabilityImpl implements AccessoriesCapability, Instanc
         var holder = ((AccessoriesHolderImpl) AccessoriesInternals.getHolder(entity));
 
         if (!loadedFromTag) {
-            var oldContainers = Map.copyOf(holder.getSlotContainers());
+            var oldContainers = Map.copyOf(holder.getAllSlotContainers());
 
             holder.init(this);
 
-            var currentContainers = holder.getSlotContainers();
+            var currentContainers = holder.getAllSlotContainers();
 
             oldContainers.forEach((s, oldContainer) -> {
                 var currentContainer = currentContainers.get(s);

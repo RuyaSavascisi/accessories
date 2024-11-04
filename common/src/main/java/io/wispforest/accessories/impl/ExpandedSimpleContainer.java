@@ -16,6 +16,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -217,7 +219,7 @@ public class ExpandedSimpleContainer extends SimpleContainer implements Iterable
 
             int j = compoundTag.getInt("Slot");
 
-            var stack = ItemStack.parseOptional(provider, compoundTag);
+            var stack = parseOptional(provider, compoundTag);
 
             decodedStacks.add(stack);
 
@@ -237,6 +239,18 @@ public class ExpandedSimpleContainer extends SimpleContainer implements Iterable
 
             AccessoriesHolderImpl.getHolder(capability).invalidStacks.addAll(invalidStacks);
         }
+    }
+
+    public ItemStack parseOptional(HolderLookup.Provider lookupProvider, Tag tag) {
+        return ItemStack.CODEC.parse(lookupProvider.createSerializationContext(NbtOps.INSTANCE), tag)
+                .resultOrPartial(string -> {
+                    LOGGER.error("[ExpandedSimpleContainer] An error has occured while decoding stack!");
+                    LOGGER.error(" - Entity Effected: '{}'", this.container.capability.entity().toString());
+                    LOGGER.error(" - Container Name: '{}'", this.container.getSlotName());
+                    LOGGER.error(" - Tried to load invalid item: '{}'", string);
+                    LOGGER.error(" - Stack Data: '{}'", tag.toString());
+                })
+                .orElse(ItemStack.EMPTY);
     }
 
     @Override
