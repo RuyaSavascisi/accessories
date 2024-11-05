@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -53,10 +54,10 @@ public class TestScreen extends AbstractContainerScreen<TestMenu> implements Men
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate((float)leftPos, (float)topPos, 0.0F);
 
-        guiGraphics.blitSprite(BACKGROUND_PATCH, startX - 1, startY - 1, width + 1, height + 1); //147
+        guiGraphics.blitSprite(RenderType::guiTextured, BACKGROUND_PATCH, startX - 1, startY - 1, width + 1, height + 1); //147
 
         for (Slot slot : this.menu.slots) {
-            guiGraphics.blit(SLOT_FRAME, slot.x - 1, slot.y - 1, 0, 0, 18, 18, 18, 18);
+            guiGraphics.blit(RenderType::guiTextured, SLOT_FRAME, slot.x - 1, slot.y - 1, 0, 0, 18, 18, 18, 18);
         }
 
         guiGraphics.pose().popPose();

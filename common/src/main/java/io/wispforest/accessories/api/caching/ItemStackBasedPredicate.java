@@ -3,6 +3,7 @@ package io.wispforest.accessories.api.caching;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 import java.util.function.Predicate;
 
@@ -17,6 +18,14 @@ public abstract class ItemStackBasedPredicate implements Predicate<ItemStack> {
     }
 
     //--
+
+    public static ItemStackBasedPredicate ofClass(Class<? extends ItemLike> clazz) {
+        return ofClass(UNKNOWN_PREDICATE, clazz);
+    }
+
+    public static ItemStackBasedPredicate ofClass(String name, Class<? extends ItemLike> clazz) {
+        return new ItemLikeClassPredicate(name, clazz);
+    }
 
     public static ItemStackBasedPredicate ofItem(Item item) {
         return ofItem(UNKNOWN_PREDICATE, item);

@@ -27,7 +27,7 @@ dependencies {
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-    compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.5")
+    compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1")
 
     modApi annotationProcessor("io.wispforest:owo-lib:${project.owo_version}")
 
@@ -39,7 +39,7 @@ dependencies {
 
     modCompileOnly "software.bernie.geckolib:geckolib-fabric-1.21.1:${rootProject.geckolib_version}"
 
-    modCompileOnly "maven.modrinth:sodium:${rootProject.sodium_version}"
+    modCompileOnly "maven.modrinth:sodium:${rootProject.sodium_version}-fabric"
 
     modCompileOnly ("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}")
     modCompileOnly ("me.shedaniel:RoughlyEnoughItems-default-plugin:${rootProject.rei_version}")

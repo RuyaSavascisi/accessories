@@ -2,7 +2,6 @@ package io.wispforest.accessories.impl;
 
 import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.AccessoryRegistry;
 import io.wispforest.accessories.api.components.AccessoriesDataComponents;
 import io.wispforest.accessories.utils.ItemStackMutation;
@@ -25,6 +24,7 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * An implementation of SimpleContainer with easy utilities for iterating over the stacks
@@ -166,7 +166,7 @@ public class ExpandedSimpleContainer extends SimpleContainer implements Iterable
                         }
 
                         if (!this.container.capability.entity().level().isClientSide()) {
-                            var cache = ((AccessoriesHolderImpl) this.container.capability.getHolder()).getLookupCache();
+                            var cache = AccessoriesHolderImpl.getHolder(this.container.capability).getLookupCache();
 
                             if (cache != null) cache.invalidateLookupData(this.container.getSlotName(), stack1, types);
                         }

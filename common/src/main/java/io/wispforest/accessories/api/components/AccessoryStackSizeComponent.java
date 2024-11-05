@@ -5,7 +5,7 @@ import io.wispforest.endec.impl.StructEndecBuilder;
 
 public record AccessoryStackSizeComponent(boolean useStackSize, int sizeOverride) {
 
-    public static final AccessoryStackSizeComponent DEFAULT = new AccessoryStackSizeComponent(false, 1);
+    public static final AccessoryStackSizeComponent DEFAULT = new AccessoryStackSizeComponent(true, 1);
 
     public AccessoryStackSizeComponent useStackSize(boolean value) {
         return new AccessoryStackSizeComponent(value, 1);

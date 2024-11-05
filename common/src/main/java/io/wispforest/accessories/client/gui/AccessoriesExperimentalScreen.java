@@ -13,6 +13,7 @@ import io.wispforest.accessories.client.gui.components.*;
 import io.wispforest.accessories.data.SlotGroupLoader;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
+import io.wispforest.accessories.menu.AccessoriesArmorSlot;
 import io.wispforest.accessories.menu.AccessoriesInternalSlot;
 import io.wispforest.accessories.menu.ArmorSlotTypes;
 import io.wispforest.accessories.menu.SlotTypeAccessible;
@@ -36,6 +37,7 @@ import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -51,6 +53,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
 import oshi.util.tuples.Triplet;
 
@@ -76,6 +79,24 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
     //--
 
+    private static final ResourceLocation SLOT_HIGHLIGHT_BACK_SPRITE = ResourceLocation.withDefaultNamespace("container/slot_highlight_back");
+    private static final ResourceLocation SLOT_HIGHLIGHT_FRONT_SPRITE = ResourceLocation.withDefaultNamespace("container/slot_highlight_front");
+
+    protected void renderSlotHighlightBack(GuiGraphics guiGraphics) {
+        guiGraphics.translate(0, 0, 300);
+
+        if (this.hoveredSlot != null && this.hoveredSlot.isHighlightable()) {
+            guiGraphics.blitSprite(RenderType::guiTextured, SLOT_HIGHLIGHT_BACK_SPRITE, this.hoveredSlot.x - 4, this.hoveredSlot.y - 4, 24, 24);
+        }
+    }
+
+    protected void renderSlotHighlightFront(GuiGraphics guiGraphics) {
+        if (this.hoveredSlot != null && this.hoveredSlot.isHighlightable()) {
+            guiGraphics.blitSprite(RenderType::guiTexturedOverlay, SLOT_HIGHLIGHT_FRONT_SPRITE, this.hoveredSlot.x - 4, this.hoveredSlot.y - 4, 24, 24);
+        }
+
+        guiGraphics.translate(0, 0, -300);
+    }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
@@ -131,12 +152,9 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
     @Override
     public void disableSlot(Slot slot) {
-        disableSlot(slot.index);
-    }
+        super.disableSlot(slot);
 
-    @Override
-    public void disableSlot(int index) {
-        super.disableSlot(index);
+        var index = slot.index;
 
         var state = this.changedSlots.getOrDefault(index, null);
 
@@ -147,34 +165,17 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
         this.changedSlots.put(index, true);
     }
 
-    public void disableSlots(int ...index) {
-        for (int i : index) disableSlot(i);
-    }
-
     @Override
     public void enableSlot(Slot slot) {
-        enableSlot(slot.index);
-    }
+        super.enableSlot(slot);
 
-    @Override
-    public void enableSlot(int index) {
-        super.enableSlot(index);
+        var index = slot.index;
 
         var state = this.changedSlots.getOrDefault(index, null);
 
         if (state != null && !state) return;
 
         this.changedSlots.put(index, false);
-    }
-
-    @Override
-    protected boolean isSlotEnabled(int index) {
-        return isSlotEnabled(this.menu.slots.get(index));
-    }
-
-    @Override
-    protected boolean isSlotEnabled(Slot slot) {
-        return !((OwoSlotExtension) slot).owo$getDisabledOverride();
     }
 
     //--
@@ -202,17 +203,17 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     @Override
     @Nullable
     public Boolean isHovering_Rendering(Slot slot, double mouseX, double mouseY) {
-        return (slot instanceof SlotTypeAccessible) ? Boolean.FALSE : null;
+        return true;
     }
 
     @Override
     public @Nullable Boolean shouldRenderSlot(Slot slot) {
-        return (slot instanceof SlotTypeAccessible) ? Boolean.FALSE : null;
+        return true;
     }
 
     @Override
     public int hoverStackOffset() {
-        return 160;
+        return 300;
     }
 
     @Override
@@ -900,7 +901,8 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
                                     var color = Color.WHITE;
 
-                                    context.blit(location -> COLORED_GUI_TEXTURED.apply(color, location), Accessories.of("textures/gui/reset_icon.png"), button.x() + 3 + 3, button.y() + 3, 0, 0, 0, 8, 8, 8, 8);
+                                    context.blit(location -> COLORED_GUI_TEXTURED.apply(color, location), Accessories.of("textures/gui/reset_icon.png"), button.x() + 3 + 3, button.y() + 3, 0, 0, 8, 8, 8, 8);
+                                    context.flush();
                                 }).sizing(Sizing.fixed(14))
                                 .horizontalSizing(Sizing.fixed(20))
                                 .margins(Insets.bottom(1))
@@ -958,7 +960,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
         if (!this.showCraftingGrid()) {
             bottom_holder.margins(Insets.of(0));
 
-            this.disableSlots(0, 1, 2, 3, 4);
+            for (int i = 0; i < 5; i++) this.disableSlot(i);
         }
     }
 
@@ -1257,24 +1259,32 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
         @Override
         public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
-            if (!(slot() instanceof SlotTypeAccessible)) {
-                super.draw(context, mouseX, mouseY, partialTicks, delta);
+//            if (!(slot() instanceof SlotTypeAccessible) || true) {
+//                super.draw(context, mouseX, mouseY, partialTicks, delta);
+//
+//                return;
+//            }
 
-                return;
-            }
-
+            //super.draw(context, mouseX, mouseY, partialTicks, delta);
             this.didDraw = true;
 
-            if (isBatched) return;
+//            int[] scissor = new int[4];
+//            GL11.glGetIntegerv(GL11.GL_SCISSOR_BOX, scissor);
+//
+//            ((OwoSlotExtension) this.slot).owo$setScissorArea(PositionedRectangle.of(
+//                    scissor[0], scissor[1], scissor[2], scissor[3]
+//            ));
 
-            RenderSystem.enableDepthTest();
-            RenderSystem.enableBlend();
-
-            renderSlot(context);
-
-            renderCosmeticOverlay(context, false);
-
-            renderHover(context, () -> screen.hoveredSlot);
+//            if (isBatched) return;
+//
+//            RenderSystem.enableDepthTest();
+//            RenderSystem.enableBlend();
+//
+//            renderSlot(context);
+//
+//            renderCosmeticOverlay(context, false);
+//
+//            renderHover(context, () -> screen.hoveredSlot);
         }
 
         public void renderSlot(OwoUIDrawContext context) {
@@ -1435,7 +1445,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
         return false;
     }
 
-    public final Surface FULL_SLOT_RENDERING = BACKGROUND_SLOT_RENDERING_SURFACE.and(SLOT_RENDERING_SURFACE);
+    public final Surface FULL_SLOT_RENDERING = BACKGROUND_SLOT_RENDERING_SURFACE/*.and(SLOT_RENDERING_SURFACE)*/;
 
     //--
 

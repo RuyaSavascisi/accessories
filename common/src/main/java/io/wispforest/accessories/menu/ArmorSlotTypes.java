@@ -96,7 +96,6 @@ public class ArmorSlotTypes implements UniqueSlotHandling.RegistrationCallback {
 
         if (texture != null) return Pair.of(null, texture);
 
-
         if (living instanceof AbstractHorse horse) {
             if (horse.canUseSlot(EquipmentSlot.BODY)) {
                 if (horse instanceof Llama) return Pair.of(SPRITE_ATLAS_LOCATION, LLAMA_ARMOR_SLOT_SPRITE);

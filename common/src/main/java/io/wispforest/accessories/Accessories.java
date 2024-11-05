@@ -4,6 +4,7 @@ import blue.endless.jankson.JsonElement;
 import io.wispforest.accessories.api.data.AccessoriesTags;
 import io.wispforest.accessories.api.events.AllowEntityModificationCallback;
 import io.wispforest.accessories.criteria.AccessoryChangedCriterion;
+import io.wispforest.accessories.impl.VanillaItemPredicates;
 import io.wispforest.accessories.menu.AccessoriesMenuVariant;
 import io.wispforest.accessories.menu.ArmorSlotTypes;
 import io.wispforest.accessories.mixin.CriteriaTriggersAccessor;
@@ -44,16 +45,9 @@ public class Accessories {
 
     //--
 
-    private static final io.wispforest.accessories.compat.config.AccessoriesConfig CONFIG = io.wispforest.accessories.compat.config.AccessoriesConfig.createAndLoad(builder -> {
-        builder.registerDeserializer(JsonElement.class, Vector2i.class, (jsonElement, m) -> EndecUtils.VECTOR_2_I_ENDEC.decodeFully(JanksonDeserializer::of, jsonElement))
-                .registerSerializer(Vector2i.class, (vector2i, m) -> EndecUtils.VECTOR_2_I_ENDEC.encodeFully(JanksonSerializer::of, vector2i));
+    private static final io.wispforest.accessories.compat.config.AccessoriesConfig CONFIG = io.wispforest.accessories.compat.config.AccessoriesConfig.createAndLoad(serializationBuilder -> {
+        serializationBuilder.addEndec(Vector2i.class, EndecUtils.VECTOR_2_I_ENDEC);
     });
-
-    static {
-        var builder = ((ConfigWrapperAccessor) CONFIG).accessories$builder();
-
-        builder.register(EndecUtils.VECTOR_2_I_ENDEC, Vector2i.class);
-    }
 
     public static io.wispforest.accessories.compat.config.AccessoriesConfig config(){
         return CONFIG;
@@ -112,6 +106,8 @@ public class Accessories {
         });
 
         ArmorSlotTypes.INSTANCE.init();
+
+        VanillaItemPredicates.init();
     }
 
     public static void registerCriteria(){
