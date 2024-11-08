@@ -21,6 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.wispforest.accessories.client.gui.components.ComponentUtils.BACKGROUND_SLOT_RENDERING_SURFACE;
+
 public class GriddedAccessoriesComponent extends FlowLayout implements AccessoriesContainingComponent {
 
     private final Map<Integer, PageLayouts> slotPages;
@@ -99,11 +101,13 @@ public class GriddedAccessoriesComponent extends FlowLayout implements Accessori
                     var colStartingIndex = pageStartingSlotIndex + (row * (maxColumnCount * 2));
 
                     var accessoriesRowLayout = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                            .surface(screen.FULL_SLOT_RENDERING)
+                            .allowOverflow(true)
+                            //.surface(screen.FULL_SLOT_RENDERING)
                             .id("row_" + row);
 
                     var cosmeticRowLayout = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                            .surface(screen.FULL_SLOT_RENDERING)
+                            .allowOverflow(true)
+                            //.surface(screen.FULL_SLOT_RENDERING)
                             .id("row_" + row);
 
                     var accessoriesRowButtons = new ArrayList<PositionedRectangle>();
@@ -174,7 +178,8 @@ public class GriddedAccessoriesComponent extends FlowLayout implements Accessori
                 .gap(2)
                 .child(holder)
                 .horizontalAlignment(HorizontalAlignment.RIGHT)
-                .surface(ComponentUtils.getPanelSurface())
+                .surface(ComponentUtils.getPanelSurface().and(BACKGROUND_SLOT_RENDERING_SURFACE))
+                .allowOverflow(true)
                 .padding(Insets.of(6))
                 .id("accessories_layout");
 

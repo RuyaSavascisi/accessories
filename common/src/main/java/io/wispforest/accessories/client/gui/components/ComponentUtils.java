@@ -42,6 +42,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static net.minecraft.commands.arguments.SlotArgument.slot;
+
 public class ComponentUtils {
 
     public static final ResourceLocation ENABLED_TEXTURE = Accessories.of("button/enabled");
@@ -62,6 +64,14 @@ public class ComponentUtils {
 
         for (var slotComponent : slotComponents) {
             context.blit(RenderType::guiTextured, getSlotTexture(), slotComponent.x() - component.x() - 1, slotComponent.y() - component.y() - 1, 0, 0, 18, 18, 18, 18);
+        }
+
+        for (var slotComponent : slotComponents) {
+            var slot = slotComponent.slot();
+
+            if (!(slot instanceof SlotTypeAccessible slotTypeAccessible) || !slotTypeAccessible.isCosmeticSlot()) continue;
+
+            GuiGraphicsUtils.drawRectOutlineWithSpectrum(context, slotComponent.x() - component.x(), slotComponent.y() - component.y(), 0, 16, 16, 0.35f, true);
         }
 
         context.pop();
@@ -161,7 +171,7 @@ public class ComponentUtils {
 
         var toggleBtn = ComponentUtils.slotToggleBtn(slot)
                 .configure(component -> {
-                    component.zIndex(360)
+                    component.zIndex(600) //900
                             .sizing(Sizing.fixed(5))
                             .positioning(btnPosition);
                 });
@@ -173,7 +183,9 @@ public class ComponentUtils {
                         slotBuilder.apply(slot.index)
                                 .isBatched(false)
                                 .margins(Insets.of(1))
-                ).child(toggleBtn);
+                )
+                .child(toggleBtn)
+                .allowOverflow(true);
 
         var combinedArea = ((MutableBoundingArea) combinedLayout);
 
@@ -293,19 +305,8 @@ public class ComponentUtils {
 
             context.push();
 
-            Runnable drawCall = () -> {
-                NinePatchTexture.draw(texture, context, btn.getX(), btn.getY(), btn.width(), btn.height());
-                extraRendering.draw(context, btn, delta);
-                context.flush();
-            };
-
-            if(btn instanceof ComponentExtension<?> extension && extension.allowIndividualOverdraw()) {
-                ScissorStack.popFramesAndDraw(7, drawCall);
-                //ScissorStack.drawUnclipped(drawCall);
-                //context.flush();
-            } else {
-                drawCall.run();
-            }
+            NinePatchTexture.draw(texture, context, btn.getX(), btn.getY(), btn.width(), btn.height());
+            extraRendering.draw(context, btn, delta);
 
             context.pop();
         };

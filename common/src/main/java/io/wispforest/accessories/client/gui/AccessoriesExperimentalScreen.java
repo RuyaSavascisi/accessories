@@ -32,6 +32,7 @@ import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.component.DiscreteSliderComponent;
 import io.wispforest.owo.ui.container.*;
 import io.wispforest.owo.ui.core.*;
+import io.wispforest.owo.ui.util.ScissorStack;
 import io.wispforest.owo.util.pond.OwoSlotExtension;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.ChatFormatting;
@@ -247,7 +248,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
         }
 
         guiGraphics.push()
-                .translate(0,0,300);
+                .translate(0,0,600);
 
         super.renderTooltip(guiGraphics, x, y);
 
@@ -573,7 +574,19 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                     .child(
                             outerLeftArmorLayout
                                     .configure((FlowLayout component) -> component.mouseScroll().subscribe((mouseX, mouseY, amount) -> true))
-                                    .surface(ComponentUtils.getPanelSurface())
+                                    .surface((context, component) -> {
+                                        var margin = component.margins().get();
+
+                                        var offset = margin.left();
+
+                                        ScissorStack.push(component.x() - offset, component.y(), component.width() + offset, component.height(), context);
+
+                                        ComponentUtils.getPanelSurface().draw(context, component);
+
+                                        context.flush();
+
+                                        ScissorStack.pop();
+                                    })
                                     .padding(Insets.of(6))
                                     .margins(Insets.left(-6))
                                     .positioning(Positioning.relative(0, 40))
@@ -582,7 +595,20 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                     .child(
                             outerRightArmorLayout
                                     .configure((FlowLayout component) -> component.mouseScroll().subscribe((mouseX, mouseY, amount) -> true))
-                                    .surface(ComponentUtils.getPanelSurface())
+                                    .surface((context, component) -> {
+                                        var margin = component.margins().get();
+
+                                        var offset = margin.right();
+
+                                        ScissorStack.push(component.x(), component.y(), component.width() + offset, component.height(), context);
+
+                                        ComponentUtils.getPanelSurface().draw(context, component);
+
+                                        context.flush();
+
+                                        ScissorStack.pop();
+                                    })
+                                    .allowOverflow(true)
                                     .padding(Insets.of(6))
                                     .margins(Insets.right(-6))
                                     .positioning(Positioning.relative(100, 40))
@@ -609,6 +635,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                                     .margins(Insets.of(1, 0, 0, 1))
                                     .sizing(Sizing.fixed(10))
                     )
+                    .allowOverflow(true)
                     .padding(Insets.of(6))
                     .surface(ComponentUtils.getPanelSurface());
 
@@ -1267,227 +1294,36 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
             //super.draw(context, mouseX, mouseY, partialTicks, delta);
             this.didDraw = true;
-
-//            int[] scissor = new int[4];
-//            GL11.glGetIntegerv(GL11.GL_SCISSOR_BOX, scissor);
-//
-//            ((OwoSlotExtension) this.slot).owo$setScissorArea(PositionedRectangle.of(
-//                    scissor[0], scissor[1], scissor[2], scissor[3]
-//            ));
-
-//            if (isBatched) return;
-//
-//            RenderSystem.enableDepthTest();
-//            RenderSystem.enableBlend();
-//
-//            renderSlot(context);
-//
-//            renderCosmeticOverlay(context, false);
-//
-//            renderHover(context, () -> screen.hoveredSlot);
-        }
-
-        public void renderSlot(OwoUIDrawContext context) {
-            int i = screen.leftPos;
-            int j = screen.topPos;
-
-            context.push();
-            context.translate((float) i, (float) j, 0);
-
-            screen.forceRenderSlot(context, slot());
-
-            context.pop();
-        }
-
-        public void renderCosmeticOverlay(OwoUIDrawContext context, boolean externalBatching) {
-            if (!(slot() instanceof SlotTypeAccessible slotTypeAccessible) || !slotTypeAccessible.isCosmeticSlot())
-                return;
-
-            context.push();
-            context.translate(0.0F, 0.0F, 101.0F);
-
-            if (externalBatching) {
-                GuiGraphicsUtils.drawRectOutlineWithSpectrumWithoutRecord(context, this.x(), this.y(), 0, 16, 16, 0.35f, true);
-            } else {
-                GuiGraphicsUtils.drawRectOutlineWithSpectrum(context, this.x(), this.y(), 0, 16, 16, 0.35f, true);
-            }
-
-            context.pop();
-        }
-
-        public void renderHover(OwoUIDrawContext context, Supplier<Slot> hoverSlot) {
-            var hoveredSlot = hoverSlot.get();
-
-            if (this.slot.equals(hoveredSlot) && hoveredSlot.isHighlightable()) {
-                context.push();
-
-                context.fillGradient(RenderType.gui(), x(), y(), x() + 16, y() + 16, -2130706433, -2130706433, 330);
-
-                context.pop();
-            }
         }
 
         @Override
         public void drawTooltip(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
-            RenderSystem.enableDepthTest();
-            context.push().translate(0, 0, 300);
+            RenderSystem.disableDepthTest();
+            context.push().translate(0, 0, 600);
 
-            AccessoriesScreenBase.FORCE_TOOLTIP_LEFT.setValue(AccessoriesExperimentalScreen.this.mainWidgetPosition());
+            var slot = this.slot();
+
+            if(slot != null) {
+                if (slot instanceof AccessoriesInternalSlot accessoriesInternalSlot) {
+                    if (!ArmorSlotTypes.isArmorType(accessoriesInternalSlot.slotName())) {
+                        AccessoriesScreenBase.FORCE_TOOLTIP_LEFT.setValue(screen.mainWidgetPosition());
+                    }
+                } else if (slot instanceof ArmorSlot) {
+                    AccessoriesScreenBase.FORCE_TOOLTIP_LEFT.setValue(true);
+                } else if (slot.container instanceof TransientCraftingContainer || slot instanceof ResultSlot) {
+                    if (!screen.showGroupFilters()) {
+                        AccessoriesScreenBase.FORCE_TOOLTIP_LEFT.setValue(!screen.mainWidgetPosition());
+                    }
+                }
+            }
+
             super.drawTooltip(context, mouseX, mouseY, partialTicks, delta);
             AccessoriesScreenBase.FORCE_TOOLTIP_LEFT.setValue(false);
             context.pop();
         }
     }
 
-    //--
-    // Below is a copy of minecraft code for rendering slots and items stacks in a batched method for performance
-
-    private final Surface SLOT_RENDERING_SURFACE = (context, component) -> {
-        var validComponents = new ArrayList<ExtendedSlotComponent>();
-
-        ComponentUtils.recursiveSearch(component, AccessoriesExperimentalScreen.ExtendedSlotComponent.class, slotComponent -> {
-            if(!slotComponent.isBatched() || !(slotComponent.slot() instanceof SlotTypeAccessible)) return;
-
-            validComponents.add(slotComponent);
-        });
-
-        RenderSystem.enableDepthTest();
-        RenderSystem.enableBlend();
-
-        context.push();
-        context.translate(0, 0, 100.0F);
-
-        //--
-
-        Map<Slot, Triplet<ItemStack, Boolean, @Nullable String>> slotStateData = new HashMap<>();
-        Map<Slot, Boolean> allBl2s = new HashMap<>();
-
-        //--
-
-        var accessor = (AbstractContainerScreenAccessor) this;
-
-        //--
-
-        int i = this.leftPos;
-        int j = this.topPos;
-
-        context.push();
-        context.translate(i, j, 0);
-
-        for (var slotComponent : validComponents) {
-            var slot = slotComponent.slot();
-
-            var data = slotStateData.computeIfAbsent(slot, this::getRenderStack);
-
-            if (data == null) continue;
-
-            allBl2s.put(slot, renderSlotTexture(context, slot, data.getA()));
-        }
-
-        //--
-
-        for (var slotComponent : validComponents) {
-            var slot = slotComponent.slot();
-
-            var data = slotStateData.computeIfAbsent(slot, this::getRenderStack);
-
-            if (data == null) return;
-
-            var itemStack = data.getA();
-
-            var bl2 = allBl2s.getOrDefault(slot, false)
-                    || (slot == accessor.accessories$getClickedSlot() && !accessor.accessories$getDraggingItem().isEmpty() && !accessor.accessories$isSplittingStack());
-
-            if (!bl2) {
-                int slotX = slot.x;
-                int slotY = slot.y;
-
-                if (data.getB()) {
-                    context.fill(slotX, slotY, slotX + 16, slotY + 16, -2130706433);
-                }
-
-                int k = slot.x + slot.y * this.imageWidth;
-
-                if (slot.isFake()) {
-                    context.renderFakeItem(itemStack, slotX, slotY, k);
-                } else {
-                    context.renderItem(itemStack, slotX, slotY, k);
-                }
-
-                context.renderItemDecorations(this.font, itemStack, slotX, slotY, data.getC());
-            }
-        }
-
-        context.pop();
-
-        for (var slotComponent : validComponents) {
-            slotComponent.renderCosmeticOverlay(context, true);
-        }
-
-        context.pop();
-
-        validComponents.forEach(slotComponent -> slotComponent.renderHover(context, () -> this.hoveredSlot));
-    };
-
-    private static boolean renderSlotTexture(GuiGraphics context, Slot slot, ItemStack itemStack) {
-        if (itemStack.isEmpty() /*&& slot.isActive()*/) {
-            com.mojang.datafixers.util.Pair<ResourceLocation, ResourceLocation> pair = slot.getNoItemIcon();
-
-            if (pair != null) {
-                TextureAtlasSprite textureAtlasSprite = Minecraft.getInstance().getTextureAtlas(pair.getFirst()).apply(pair.getSecond());
-
-                context.blitSprite(RenderType::guiTextured, textureAtlasSprite, slot.x, slot.y, 16, 16);
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public final Surface FULL_SLOT_RENDERING = BACKGROUND_SLOT_RENDERING_SURFACE/*.and(SLOT_RENDERING_SURFACE)*/;
-
-    //--
-
-    @Nullable
-    private Triplet<ItemStack, Boolean, @Nullable String> getRenderStack(Slot slot) {
-        var accessor = (AbstractContainerScreenAccessor) this;
-
-        var itemStack = slot.getItem();
-
-        var bl = false;
-
-        var itemStack2 = this.menu.getCarried();
-
-        String string = null;
-
-        if (slot == accessor.accessories$getClickedSlot() && !accessor.accessories$getDraggingItem().isEmpty() && accessor.accessories$isSplittingStack() && !itemStack.isEmpty()) {
-            itemStack = itemStack.copyWithCount(itemStack.getCount() / 2);
-        } else if (this.isQuickCrafting && this.quickCraftSlots.contains(slot) && !itemStack2.isEmpty()) {
-            if (this.quickCraftSlots.size() == 1) return null;
-
-            if (AbstractContainerMenu.canItemQuickReplace(slot, itemStack2, true) && this.menu.canDragTo(slot)) {
-                bl = true;
-
-                int maxSlotStackSize = Math.min(itemStack2.getMaxStackSize(), slot.getMaxStackSize(itemStack2));
-                int currentSlotStackSize = slot.getItem().isEmpty() ? 0 : slot.getItem().getCount();
-
-                int newStackSize = AbstractContainerMenu.getQuickCraftPlaceCount(this.quickCraftSlots, accessor.accessories$getQuickCraftingType(), itemStack2) + currentSlotStackSize;
-
-                if (newStackSize > maxSlotStackSize) {
-                    newStackSize = maxSlotStackSize;
-                    string = ChatFormatting.YELLOW.toString() + maxSlotStackSize;
-                }
-
-                itemStack = itemStack2.copyWithCount(newStackSize);
-            } else {
-                this.quickCraftSlots.remove(slot);
-                accessor.accessories$recalculateQuickCraftRemaining();
-            }
-        }
-
-        return new Triplet<>(itemStack, bl, string);
-    }
 
     //--
 

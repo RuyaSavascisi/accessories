@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static io.wispforest.accessories.client.gui.components.ComponentUtils.BACKGROUND_SLOT_RENDERING_SURFACE;
+
 public class ScrollableAccessoriesComponent extends FlowLayout implements AccessoriesContainingComponent {
 
     private final int totalRowCount;
@@ -85,9 +87,13 @@ public class ScrollableAccessoriesComponent extends FlowLayout implements Access
         var minimumHeight = maxRowCount * 18;
 
         var fullAccessoriesLayout = (FlowLayout) Containers.verticalFlow(Sizing.content(), Sizing.content())
+                .allowOverflow(true)
+                .surface(BACKGROUND_SLOT_RENDERING_SURFACE)
                 .id("accessories_container");
 
         var fullCosmeticsLayout = (FlowLayout) Containers.verticalFlow(Sizing.content(), Sizing.content())
+                .allowOverflow(true)
+                .surface(BACKGROUND_SLOT_RENDERING_SURFACE)
                 .id("cosmetics_container");
 
         var alternativeButtonChecks = new ArrayList<PositionedRectangle>();
@@ -96,11 +102,13 @@ public class ScrollableAccessoriesComponent extends FlowLayout implements Access
             var colStartingIndex = (row * (maxColumnCount * 2));
 
             var accessoriesRowLayout = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                    .surface(screen.FULL_SLOT_RENDERING)
+                    .allowOverflow(true)
+                    //.surface(screen.FULL_SLOT_RENDERING)
                     .id("row_" + row);
 
             var cosmeticRowLayout = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                    .surface(screen.FULL_SLOT_RENDERING)
+                    .allowOverflow(true)
+                    //.surface(screen.FULL_SLOT_RENDERING)
                     .id("row_" + row);
 
             var rowButtons = new ArrayList<PositionedRectangle>();
@@ -207,7 +215,9 @@ public class ScrollableAccessoriesComponent extends FlowLayout implements Access
             innerAccessoriesLayout = Containers.verticalFlow(Sizing.content(), Sizing.content()).child(fullLayout);
         }
 
-        innerAccessoriesLayout.id("inner_accessories_container");
+        innerAccessoriesLayout
+                .allowOverflow(true)
+                .id("inner_accessories_container");
 
         var accessoriesMainLayout = (FlowLayout) Containers.verticalFlow(Sizing.content(), Sizing.content())
                 .gap(3)
