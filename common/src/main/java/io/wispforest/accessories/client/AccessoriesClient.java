@@ -51,11 +51,14 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderDefines;
 import net.minecraft.client.renderer.ShaderProgram;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.TriState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.phys.EntityHitResult;
 
@@ -150,6 +153,17 @@ public class AccessoriesClient {
     public static void init(){
         ClientLifecycleEvents.END_DATA_PACK_RELOAD.register((client, success) -> {
             if (!success) return; // LOADING PROBLEM HAS OCCURRED SO THINGS WILL GO WRONG IF WE TRY DOING OUR STUFF
+
+            BuiltInRegistries.ITEM.forEach(item -> {
+                var defaultStack = item.getDefaultInstance();
+
+                if (item instanceof BannerItem || defaultStack.has(DataComponents.GLIDER)) {
+                    if (!AccessoriesRendererRegistry.hasRenderer(item)) {
+                        // TODO: Replace with better method of targeting only specific slots to disable default rendering
+                        AccessoriesRendererRegistry.registerNoRenderer(item);
+                    }
+                }
+            });
 
             AccessoriesRendererRegistry.onReload();
         });

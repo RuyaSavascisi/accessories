@@ -220,6 +220,41 @@
     "to be more performant but may cause issues."
   ],
 
+  "text.config.accessories.category.contentOptions": "Content Options",
+  "text.config.accessories.category.contentOptions.tooltip": [
+    "Contains more content focused options like glider and totem equippablity"
+  ],
+
+  "text.config.accessories.option.contentOptions.validGliderSlots": "Valid Glider Slots",
+  "text.config.accessories.option.contentOptions.validGliderSlots.tooltip": [
+    "Adds the slots to which a Glider item is allowed to be equipped."
+  ],
+
+  "text.config.accessories.option.contentOptions.allowGliderEquip": "Allow Gliders to be Equip",
+  "text.config.accessories.option.contentOptions.allowGliderEquip.tooltip": [
+    "Toggles the ability for Gliders to be equipped within Accessories Slots."
+  ],
+
+  "text.config.accessories.option.contentOptions.validTotemSlots": "Valid Totem Slots",
+  "text.config.accessories.option.contentOptions.validTotemSlots.tooltip": [
+    "Adds the slots to which a Totem item is allowed to be equipped."
+  ],
+
+  "text.config.accessories.option.contentOptions.allowTotemEquip": "Allow Totems to be Equip",
+  "text.config.accessories.option.contentOptions.allowTotemEquip.tooltip": [
+    "Toggles the ability for Totems to be equipped within Accessories Slots."
+  ],
+
+  "text.config.accessories.option.contentOptions.validBannerSlots": "Valid Banner Slots",
+  "text.config.accessories.option.contentOptions.validBannerSlots.tooltip": [
+    "Adds the slots to which a Banner item is allowed to be equipped."
+  ],
+
+  "text.config.accessories.option.contentOptions.allowBannerEquip": "Allow Banners to be Equip",
+  "text.config.accessories.option.contentOptions.allowBannerEquip.tooltip": [
+    "Toggles the ability for Banners to be equipped within Accessories Slots."
+  ],
+
   "text.config.accessories.category.clientOptions": "Client Options",
   "text.config.accessories.category.clientOptions.tooltip": [
     "Contains more generic client side options for rendering or player input"

@@ -19,6 +19,30 @@ public class AccessoriesConfigModel {
 
     @Nest
     @Expanded
+    public ContentFocusedOptions contentOptions = new ContentFocusedOptions();
+    
+    public static class ContentFocusedOptions {
+        @RestartRequired
+        @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+        public List<String> validGliderSlots = new ArrayList<>(List.of("cape", "back"));
+
+        public boolean allowGliderEquip = false;
+
+        @RestartRequired
+        @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+        public List<String> validTotemSlots = new ArrayList<>(List.of("charm"));
+        
+        public boolean allowTotemEquip = false;
+
+        @RestartRequired
+        @Sync(Option.SyncMode.OVERRIDE_CLIENT)
+        public List<String> validBannerSlots = new ArrayList<>(List.of("hat", "cape"));
+
+        public boolean allowBannerEquip = true;
+    }
+    
+    @Nest
+    @Expanded
     public GeneralClientOptions clientOptions = new GeneralClientOptions();
 
     public static class GeneralClientOptions {

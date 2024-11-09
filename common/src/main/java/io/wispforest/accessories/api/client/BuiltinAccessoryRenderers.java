@@ -6,11 +6,13 @@ import io.wispforest.accessories.api.slot.SlotReference;
 import io.wispforest.accessories.compat.GeckoLibCompat;
 import io.wispforest.accessories.mixin.client.HumanoidArmorLayerAccessor;
 import io.wispforest.accessories.mixin.client.LivingEntityRendererAccessor;
+import io.wispforest.accessories.pond.WingsLayerExtension;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.entity.layers.WingsLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.core.component.DataComponents;
@@ -59,4 +61,28 @@ public class BuiltinAccessoryRenderers {
         return GeckoLibCompat.renderGeckoArmor(poseStack, multiBufferSource, renderState, stack, equipmentSlot, parentModel, armorModel, partialTicks, light, partVisibilitySetter);
     }
 
+    //--
+
+    public static final AccessoryRenderer ELYTRA_RENDERER = new AccessoryRenderer() {
+        @Override
+        public <STATE extends LivingEntityRenderState> void render(ItemStack stack, SlotReference reference, PoseStack matrices, EntityModel<STATE> model, STATE renderState, MultiBufferSource multiBufferSource, int light, float partialTicks) {
+            var entityRender = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(reference.entity());
+
+            if (!(entityRender instanceof LivingEntityRendererAccessor<?, ?, ?> accessor)) return;
+            if (!(renderState instanceof HumanoidRenderState humanoidRenderState)) return;
+            if (!(stack.has(DataComponents.GLIDER))) return;
+
+            var possibleLayer = accessor.getLayers().stream()
+                    .filter(renderLayer -> renderLayer instanceof WingsLayer<?,?>)
+                    .findFirst();
+
+            possibleLayer.ifPresent(layer -> ((WingsLayerExtension<HumanoidRenderState>) layer).renderStack(stack, matrices, multiBufferSource, light, humanoidRenderState));
+        }
+    };
+
+    public static void onAddCallback(Item item) {
+//        if (item.getDefaultInstance().has(DataComponents.GLIDER)) {
+//            AccessoriesRendererRegistry.registerRenderer(item, () -> ELYTRA_RENDERER);
+//        }
+    }
 }

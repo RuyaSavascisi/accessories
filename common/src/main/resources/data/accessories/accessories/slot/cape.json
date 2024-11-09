@@ -6,6 +6,8 @@
   "icon": "accessories:gui/slot/cape",
   "validators": [
     "accessories:tag",
-    "accessories:component"
+    "accessories:component",
+    "accessories:elytra_item",
+    "accessories:banner_item"
   ]
 }

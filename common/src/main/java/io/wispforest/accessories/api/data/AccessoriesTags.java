@@ -42,6 +42,10 @@ public class AccessoriesTags {
      */
     public static final TagKey<Item> ANY_TAG = itemTag("any");
 
+    public static final TagKey<Item> VALID_GLIDER_EQUIP = itemTag("valid_glider_equip");
+
+    public static final TagKey<Item> VALID_TOTEM_EQUIP = itemTag("valid_totem_equip");
+
     /**
      * Tag used to add to the default binding added by Accessories
      */

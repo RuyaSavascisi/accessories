@@ -2,6 +2,7 @@ package io.wispforest.accessories.fabric.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import io.wispforest.accessories.Accessories;
+import io.wispforest.accessories.api.client.BuiltinAccessoryRenderers;
 import io.wispforest.accessories.client.AccessoriesClient;
 import io.wispforest.accessories.client.AccessoriesRenderLayer;
 import io.wispforest.accessories.client.gui.AccessoriesScreenBase;
@@ -22,6 +23,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRe
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.registry.RegistryEntryAddedCallback;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -64,6 +66,12 @@ public class AccessoriesClientFabric implements ClientModInitializer {
                 if(!tooltipData.isEmpty()) lines.addAll(1, tooltipData);
             });
         }
+
+        BuiltInRegistries.ITEM.forEach(BuiltinAccessoryRenderers::onAddCallback);
+
+        RegistryEntryAddedCallback.event(BuiltInRegistries.ITEM).register((i, resourceLocation, item) -> {
+            BuiltinAccessoryRenderers.onAddCallback(item);
+        });
 
         AccessoriesClient.OPEN_SCREEN = KeyBindingHelper.registerKeyBinding(new KeyMapping(MODID + ".key.open_accessories_screen", GLFW.GLFW_KEY_H, MODID + ".key.category.accessories"));
 
