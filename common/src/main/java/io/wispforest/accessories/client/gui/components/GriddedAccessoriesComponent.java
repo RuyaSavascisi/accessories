@@ -101,12 +101,10 @@ public class GriddedAccessoriesComponent extends FlowLayout implements Accessori
                     var colStartingIndex = pageStartingSlotIndex + (row * (maxColumnCount * 2));
 
                     var accessoriesRowLayout = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                            .allowOverflow(true)
                             //.surface(screen.FULL_SLOT_RENDERING)
                             .id("row_" + row);
 
                     var cosmeticRowLayout = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                            .allowOverflow(true)
                             //.surface(screen.FULL_SLOT_RENDERING)
                             .id("row_" + row);
 
@@ -179,7 +177,6 @@ public class GriddedAccessoriesComponent extends FlowLayout implements Accessori
                 .child(holder)
                 .horizontalAlignment(HorizontalAlignment.RIGHT)
                 .surface(ComponentUtils.getPanelSurface().and(BACKGROUND_SLOT_RENDERING_SURFACE))
-                .allowOverflow(true)
                 .padding(Insets.of(6))
                 .id("accessories_layout");
 

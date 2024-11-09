@@ -35,8 +35,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.TriState;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.CreativeModeTab;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -184,8 +186,7 @@ public class ComponentUtils {
                                 .isBatched(false)
                                 .margins(Insets.of(1))
                 )
-                .child(toggleBtn)
-                .allowOverflow(true);
+                .child(toggleBtn);
 
         var combinedArea = ((MutableBoundingArea) combinedLayout);
 
@@ -305,8 +306,17 @@ public class ComponentUtils {
 
             context.push();
 
-            NinePatchTexture.draw(texture, context, btn.getX(), btn.getY(), btn.width(), btn.height());
-            extraRendering.draw(context, btn, delta);
+            Runnable drawCall = () -> {
+                NinePatchTexture.draw(texture, context, btn.getX(), btn.getY(), btn.width(), btn.height());
+                extraRendering.draw(context, btn, delta);
+                context.flush();
+            };
+
+            if(btn instanceof ComponentExtension<?> extension && extension.allowIndividualOverdraw()) {
+                ScissorStack.popFramesAndDraw(7, drawCall);
+            } else {
+                drawCall.run();
+            }
 
             context.pop();
         };

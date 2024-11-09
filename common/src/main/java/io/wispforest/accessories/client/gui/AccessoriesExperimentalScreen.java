@@ -214,7 +214,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
     @Override
     public int hoverStackOffset() {
-        return 300;
+        return 600;
     }
 
     @Override
@@ -510,8 +510,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
         {
             var armorSlotsLayout = Containers.verticalFlow(Sizing.content(), Sizing.content())
                     .configure((FlowLayout layout) -> {
-                        layout.surface(BACKGROUND_SLOT_RENDERING_SURFACE)
-                                .allowOverflow(true);
+                        layout.surface(BACKGROUND_SLOT_RENDERING_SURFACE);
                     });
 
             var outerLeftArmorLayout = Containers.horizontalFlow(Sizing.content(), Sizing.content())
@@ -519,8 +518,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
             var cosmeticArmorSlotsLayout = Containers.verticalFlow(Sizing.content(), Sizing.content())
                             .configure((FlowLayout layout) -> {
-                                layout.surface(BACKGROUND_SLOT_RENDERING_SURFACE)
-                                        .allowOverflow(true);
+                                layout.surface(BACKGROUND_SLOT_RENDERING_SURFACE);
                             });
 
             var outerRightArmorLayout = Containers.horizontalFlow(Sizing.content(), Sizing.content())
@@ -608,7 +606,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
                                         ScissorStack.pop();
                                     })
-                                    .allowOverflow(true)
                                     .padding(Insets.of(6))
                                     .margins(Insets.right(-6))
                                     .positioning(Positioning.relative(100, 40))
@@ -635,7 +632,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                                     .margins(Insets.of(1, 0, 0, 1))
                                     .sizing(Sizing.fixed(10))
                     )
-                    .allowOverflow(true)
                     .padding(Insets.of(6))
                     .surface(ComponentUtils.getPanelSurface());
 
@@ -1286,12 +1282,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
         @Override
         public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
-//            if (!(slot() instanceof SlotTypeAccessible) || true) {
-//                super.draw(context, mouseX, mouseY, partialTicks, delta);
-//
-//                return;
-//            }
-
             //super.draw(context, mouseX, mouseY, partialTicks, delta);
             this.didDraw = true;
         }

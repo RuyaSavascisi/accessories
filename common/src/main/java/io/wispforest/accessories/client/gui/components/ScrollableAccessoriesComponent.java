@@ -87,12 +87,10 @@ public class ScrollableAccessoriesComponent extends FlowLayout implements Access
         var minimumHeight = maxRowCount * 18;
 
         var fullAccessoriesLayout = (FlowLayout) Containers.verticalFlow(Sizing.content(), Sizing.content())
-                .allowOverflow(true)
                 .surface(BACKGROUND_SLOT_RENDERING_SURFACE)
                 .id("accessories_container");
 
         var fullCosmeticsLayout = (FlowLayout) Containers.verticalFlow(Sizing.content(), Sizing.content())
-                .allowOverflow(true)
                 .surface(BACKGROUND_SLOT_RENDERING_SURFACE)
                 .id("cosmetics_container");
 
@@ -102,12 +100,10 @@ public class ScrollableAccessoriesComponent extends FlowLayout implements Access
             var colStartingIndex = (row * (maxColumnCount * 2));
 
             var accessoriesRowLayout = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                    .allowOverflow(true)
                     //.surface(screen.FULL_SLOT_RENDERING)
                     .id("row_" + row);
 
             var cosmeticRowLayout = (FlowLayout) Containers.horizontalFlow(Sizing.content(), Sizing.content())
-                    .allowOverflow(true)
                     //.surface(screen.FULL_SLOT_RENDERING)
                     .id("row_" + row);
 
@@ -216,7 +212,6 @@ public class ScrollableAccessoriesComponent extends FlowLayout implements Access
         }
 
         innerAccessoriesLayout
-                .allowOverflow(true)
                 .id("inner_accessories_container");
 
         var accessoriesMainLayout = (FlowLayout) Containers.verticalFlow(Sizing.content(), Sizing.content())
@@ -224,7 +219,6 @@ public class ScrollableAccessoriesComponent extends FlowLayout implements Access
                 .child(innerAccessoriesLayout)
                 .horizontalAlignment(HorizontalAlignment.RIGHT)
                 .surface(ComponentUtils.getPanelSurface())
-                //.allowOverflow(true)
                 .padding(Insets.of(6))
                 .id("accessories_layout");
 
