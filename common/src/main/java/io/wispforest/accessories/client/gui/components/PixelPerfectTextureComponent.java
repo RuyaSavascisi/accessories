@@ -1,14 +1,10 @@
 package io.wispforest.accessories.client.gui.components;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
 import io.wispforest.owo.ui.base.BaseComponent;
 import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.Sizing;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix4f;
 
 public class PixelPerfectTextureComponent extends BaseComponent {
 
@@ -45,15 +41,19 @@ public class PixelPerfectTextureComponent extends BaseComponent {
         var matrix4f = context.pose().last().pose();
 
         vertexConsumer.addVertex(matrix4f, x1, y1, z)
+                .setColor(0xFFFFFFFF)
                 .setUv(0, 0);
 
         vertexConsumer.addVertex(matrix4f, x1, y2, z)
+                .setColor(0xFFFFFFFF)
                 .setUv(0, 1);
 
         vertexConsumer.addVertex(matrix4f, x2, y2, z)
+                .setColor(0xFFFFFFFF)
                 .setUv(1, 1);
 
         vertexConsumer.addVertex(matrix4f, x2, y1, z)
+                .setColor(0xFFFFFFFF)
                 .setUv(1, 0);
     }
 }

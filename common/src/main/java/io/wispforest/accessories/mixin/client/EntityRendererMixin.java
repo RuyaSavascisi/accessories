@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class EntityRendererMixin<T extends Entity, S extends EntityRenderState>{
     @WrapMethod(method = {
             "createRenderState(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/client/renderer/entity/state/EntityRenderState;",
-            "method_55269(Lnet/minecraft/class_1297;F)Lnet/minecraft/class_10017;" //TODO: WHY DO I NEEDED THIS!
+            "Lnet/minecraft/class_897;method_62425(Lnet/minecraft/class_1297;F)Lnet/minecraft/class_10017;" //TODO: WHY DO I NEEDED THIS!
     }, remap = false, expect = 1, require = 1, allow = 1)
     private S accessories$adjustArmorLookup(T entity, float f, Operation<S> original) {
         var bl = entity instanceof LivingEntity;
