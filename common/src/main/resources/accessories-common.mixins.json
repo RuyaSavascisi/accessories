@@ -65,6 +65,7 @@
     "SlotAccessor",
     "StriderMixin",
     "owo.ConfigWrapperAccessor",
+    "owo.NbtDeserializerMixin",
     "ArmorSlotMixin",
     "DataPackContentsMixin",
     "PatchedDataComponentMapMixin"
