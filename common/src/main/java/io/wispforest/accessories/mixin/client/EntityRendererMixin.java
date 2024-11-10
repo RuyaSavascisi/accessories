@@ -10,12 +10,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(value = EntityRenderer.class, remap = false)
+@Mixin(value = EntityRenderer.class)
 public abstract class EntityRendererMixin<T extends Entity, S extends EntityRenderState>{
     @WrapMethod(method = {
             "createRenderState(Lnet/minecraft/world/entity/Entity;F)Lnet/minecraft/client/renderer/entity/state/EntityRenderState;",
-            "Lnet/minecraft/class_897;method_62425(Lnet/minecraft/class_1297;F)Lnet/minecraft/class_10017;" //TODO: WHY DO I NEEDED THIS!
-    }, remap = false, expect = 1, require = 1, allow = 1)
+            "method_62425(Lnet/minecraft/class_1297;F)Lnet/minecraft/class_10017;" //TODO: FIGURE OUT WHY ARCH LOOM DON'T REMAP WRAP METHOD
+    }, expect = 1, require = 1, allow = 1)
     private S accessories$adjustArmorLookup(T entity, float f, Operation<S> original) {
         var bl = entity instanceof LivingEntity;
 

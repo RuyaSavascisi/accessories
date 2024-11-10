@@ -1,5 +1,6 @@
 package io.wispforest.accessories.mixin;
 
+
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import io.wispforest.accessories.pond.stack.PatchedDataComponentMapExtension;
@@ -68,15 +69,17 @@ public abstract class PatchedDataComponentMapMixin implements PatchedDataCompone
     @Unique
     private boolean inApplyPatchLock = false;
 
-    @Inject(method = "applyPatch(Lnet/minecraft/core/component/DataComponentPatch;)V", at = @At("HEAD"))
-    private void accessories$updateChangeValue_applyPatchHead(DataComponentPatch patch, CallbackInfo ci){
+    @WrapMethod(method = {
+            "applyPatch(Lnet/minecraft/core/component/DataComponentPatch;)V",
+            "method_57936(Lnet/minecraft/class_9326;)V" //TODO: FIGURE OUT WHY ARCH LOOM DON'T REMAP WRAP METHOD
+    }, expect = 1, require = 1, allow = 1)
+    private void accessories$updateChangeValue(DataComponentPatch patch, Operation<Void> original) {
         this.changeCheckStack = true;
 
         this.inApplyPatchLock = true;
-    }
 
-    @Inject(method = "applyPatch(Lnet/minecraft/core/component/DataComponentPatch;)V", at = @At("TAIL"))
-    private void accessories$updateChangeValue_applyPatchTail(DataComponentPatch patch, CallbackInfo ci){
+        original.call(patch);
+
         this.inApplyPatchLock = false;
 
         var changedDataTypes = (List<DataComponentType<?>>) (List) patch.entrySet().stream().map(Map.Entry::getKey).toList();
