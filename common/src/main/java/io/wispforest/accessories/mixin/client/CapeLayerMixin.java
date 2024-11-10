@@ -32,8 +32,7 @@ public abstract class CapeLayerMixin {
                     var equippable = stack1.get(DataComponents.EQUIPPABLE);
 
                     if (equippable != null && equippable.model().isPresent()) {
-                        var list = ((EquipmentLayerRendererAccessor) this.equipmentModels).accessories$equipmentModels()
-                                .get(equippable.model().get())
+                        var list = equipmentModels.get(equippable.model().get())
                                 .getLayers(EquipmentModel.LayerType.WINGS);
 
                         return !list.isEmpty();
