@@ -37,8 +37,6 @@ public abstract class AbstractContainerScreenMixin implements ContainerScreenExt
 
     @Inject(method = "renderSlot", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;pushPose()V"), cancellable = true)
     private void accessories$shouldRenderSlot(GuiGraphics guiGraphics, Slot slot, CallbackInfo ci) {
-        if(accessories$bypassSlotCheck) return;
-
         var result = this.shouldRenderSlot(slot);
 
         if(result != null && !result) ci.cancel();
@@ -57,22 +55,5 @@ public abstract class AbstractContainerScreenMixin implements ContainerScreenExt
         }
 
         original.call(instance, function, textureAtlasSprite, x, y, width, height);
-    }
-
-    @WrapOperation(method = "renderFloatingItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"))
-    private void accessories$adjustZOffset(PoseStack instance, float x, float y, float z, Operation<Void> original) {
-        original.call(instance, x, y, z + this.hoverStackOffset());
-    }
-
-    @Unique
-    private boolean accessories$bypassSlotCheck = false;
-
-    @Override
-    public void forceRenderSlot(GuiGraphics context, Slot slot) {
-        this.accessories$bypassSlotCheck = true;
-
-        this.renderSlot(context, slot);
-
-        this.accessories$bypassSlotCheck = false;
     }
 }

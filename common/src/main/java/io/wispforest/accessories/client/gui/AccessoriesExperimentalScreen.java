@@ -202,22 +202,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     }
 
     @Override
-    @Nullable
-    public Boolean isHovering_Rendering(Slot slot, double mouseX, double mouseY) {
-        return true;
-    }
-
-    @Override
-    public @Nullable Boolean shouldRenderSlot(Slot slot) {
-        return true;
-    }
-
-    @Override
-    public int hoverStackOffset() {
-        return 600;
-    }
-
-    @Override
     public void onClose() {
         var selectedGroups = this.getMenu().selectedGroups().stream()
                 .map(SlotGroup::name)
@@ -230,6 +214,13 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     }
 
     //--
+
+    @Override
+    protected void renderFloatingItem(GuiGraphics guiGraphics, ItemStack stack, int x, int y, @Nullable String text) {
+        guiGraphics.translate(0,0, 600);
+        super.renderFloatingItem(guiGraphics, stack, x, y, text);
+        guiGraphics.translate(0,0, -600);
+    }
 
     @Override
     protected void renderTooltip(GuiGraphics guiGraphics, int x, int y) {
@@ -247,12 +238,9 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
             }
         }
 
-        guiGraphics.push()
-                .translate(0,0,600);
-
+        guiGraphics.translate(0,0,600);
         super.renderTooltip(guiGraphics, x, y);
-
-        guiGraphics.pop();
+        guiGraphics.translate(0,0,-600);
 
         AccessoriesScreenBase.FORCE_TOOLTIP_LEFT.setValue(false);
     }
@@ -1236,20 +1224,18 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     //--
 
     public ExtendedSlotComponent slotAsComponent(int index) {
-        return new ExtendedSlotComponent(this, index);
+        return new ExtendedSlotComponent(index);
     }
 
     public class ExtendedSlotComponent extends SlotComponent {
 
-        private boolean isBatched = false;
-
         protected final AccessoriesExperimentalScreen screen;
         protected int index;
 
-        protected ExtendedSlotComponent(AccessoriesExperimentalScreen screen, int index) {
+        protected ExtendedSlotComponent(int index) {
             super(index);
 
-            this.screen = screen;
+            this.screen = AccessoriesExperimentalScreen.this;
             this.index = index;
 
             this.didDraw = true;
@@ -1263,21 +1249,14 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
             return this.slot;
         }
 
-        public final boolean isBatched() {
-            return this.isBatched;
-        }
-
-        public ExtendedSlotComponent isBatched(boolean value) {
-            this.isBatched = value;
-
-            return this;
-        }
-
         @Override
         public void dismount(DismountReason reason) {
             super.dismount(reason);
 
-            if (reason == DismountReason.REMOVED) screen.hideSlot(slot);
+            if (reason == DismountReason.REMOVED) {
+                ((SlotAccessor) slot).owo$setX(-300);
+                ((SlotAccessor) slot).owo$setY(-300);
+            }
         }
 
         @Override
@@ -1288,9 +1267,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
         @Override
         public void drawTooltip(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
-            RenderSystem.disableDepthTest();
-            context.push().translate(0, 0, 600);
-
             var slot = this.slot();
 
             if(slot != null) {
@@ -1307,9 +1283,10 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                 }
             }
 
+            context.translate(0, 0, 600);
             super.drawTooltip(context, mouseX, mouseY, partialTicks, delta);
+            context.translate(0, 0, -600);
             AccessoriesScreenBase.FORCE_TOOLTIP_LEFT.setValue(false);
-            context.pop();
         }
     }
 

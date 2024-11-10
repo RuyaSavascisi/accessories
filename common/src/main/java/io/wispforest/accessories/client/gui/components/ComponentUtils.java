@@ -183,7 +183,6 @@ public class ComponentUtils {
         var combinedLayout = Containers.verticalFlow(Sizing.fixed(18), Sizing.fixed(18))
                 .child(
                         slotBuilder.apply(slot.index)
-                                .isBatched(false)
                                 .margins(Insets.of(1))
                 )
                 .child(toggleBtn);
