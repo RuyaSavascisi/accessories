@@ -33,9 +33,7 @@ public class Testccessories {
         TestItems.REGISTER.register(bus);
         bus.addListener(Testccessories::registerStuff);
         bus.addListener(TestItems::addToItemGroup);
-    }
 
-    public void commonInit(FMLCommonSetupEvent event) {
         AccessoriesNetworking.CHANNEL.registerClientboundDeferred(TestScreenPacket.class, TestScreenPacket.ENDEC);
     }
 

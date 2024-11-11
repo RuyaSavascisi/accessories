@@ -1,7 +1,7 @@
 package io.wispforest.testccessories.neoforge.accessories;
 
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.Accessory;
+import io.wispforest.accessories.api.AccessoryRegistry;
 import io.wispforest.accessories.api.slot.SlotReference;
 import io.wispforest.testccessories.neoforge.TestItems;
 import net.minecraft.core.component.DataComponents;
@@ -12,7 +12,7 @@ import net.minecraft.world.item.component.CustomData;
 public class WaterBreathingAccessory implements Accessory {
 
     public static void init() {
-        AccessoriesAPI.registerAccessory(TestItems.testItem1.get(), new WaterBreathingAccessory());
+        AccessoryRegistry.register(TestItems.testItem1.get(), new WaterBreathingAccessory());
     }
 
     public static final String REFILL_TIME_OUT_KEY = "RefillTimeout";

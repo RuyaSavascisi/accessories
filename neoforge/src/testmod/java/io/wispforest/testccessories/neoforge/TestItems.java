@@ -12,10 +12,10 @@ import java.util.function.Supplier;
 
 public class TestItems {
 
-    public static final DeferredRegister<Item> REGISTER = DeferredRegister.create(BuiltInRegistries.ITEM, Testccessories.MODID);
+    public static final DeferredRegister.Items REGISTER = DeferredRegister.createItems(Testccessories.MODID);
 
-    public static final Supplier<Item> testItem1 = REGISTER.register("test_item_1", () -> new Item(new Item.Properties().stacksTo(1).durability(64)));
-    public static final Supplier<Item> testItem2 = REGISTER.register("test_item_2", () -> new Item(new Item.Properties().stacksTo(1).durability(64)));
+    public static final Supplier<Item> testItem1 = REGISTER.registerItem("test_item_1", (prop) -> new Item(prop.stacksTo(1).durability(64)));
+    public static final Supplier<Item> testItem2 = REGISTER.registerItem("test_item_2", (prop) -> new Item(prop.stacksTo(1).durability(64)));
 
     public static void init(RegisterEvent.RegisterHelper<Item> helper){
         //for (var entry : REGISTER.getEntries()) helper.register(entry.getId(), entry.getHolder());

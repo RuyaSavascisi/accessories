@@ -1,7 +1,7 @@
 package io.wispforest.testccessories.neoforge;
 
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.slot.SlotBasedPredicate;
+import io.wispforest.accessories.api.slot.SlotPredicateRegistry;
 import io.wispforest.accessories.api.slot.SlotTypeReference;
 import io.wispforest.accessories.api.slot.UniqueSlotHandling;
 import net.minecraft.resources.ResourceLocation;
@@ -16,8 +16,8 @@ public class UniqueSlotTest implements UniqueSlotHandling.RegistrationCallback {
     public static final UniqueSlotTest INSTANCE = new UniqueSlotTest();
 
     private UniqueSlotTest(){
-        AccessoriesAPI.registerPredicate(slotPredicate1, SlotBasedPredicate.ofItem(item -> item.equals(TestItems.testItem1.get())));
-        AccessoriesAPI.registerPredicate(slotPredicate2, SlotBasedPredicate.ofItem(item -> item.equals(TestItems.testItem2.get())));
+        SlotPredicateRegistry.register(slotPredicate1, SlotBasedPredicate.ofItem(item -> item.equals(TestItems.testItem1.get())));
+        SlotPredicateRegistry.register(slotPredicate2, SlotBasedPredicate.ofItem(item -> item.equals(TestItems.testItem2.get())));
     }
 
     private static SlotTypeReference testSlot1Getter;

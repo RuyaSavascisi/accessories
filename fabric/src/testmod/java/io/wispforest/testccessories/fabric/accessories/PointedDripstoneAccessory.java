@@ -2,7 +2,6 @@ package io.wispforest.testccessories.fabric.accessories;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.Accessory;
 import io.wispforest.accessories.api.AccessoryRegistry;
 import io.wispforest.accessories.api.attributes.AccessoryAttributeBuilder;
@@ -22,7 +21,6 @@ import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -39,7 +37,7 @@ public class PointedDripstoneAccessory implements Accessory {
     }
 
     public static void init() {
-        AccessoryRegistry.registerAccessory(Items.POINTED_DRIPSTONE, new PointedDripstoneAccessory());
+        AccessoryRegistry.register(Items.POINTED_DRIPSTONE, new PointedDripstoneAccessory());
     }
 
     @Override

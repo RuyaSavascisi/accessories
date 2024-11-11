@@ -1,7 +1,6 @@
 package io.wispforest.testccessories.fabric.accessories;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.Accessory;
 import io.wispforest.accessories.api.AccessoryRegistry;
@@ -23,7 +22,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -36,7 +34,7 @@ public class AppleAccessory implements Accessory {
     }
 
     public static void init(){
-        AccessoryRegistry.registerAccessory(Items.APPLE, new AppleAccessory());
+        AccessoryRegistry.register(Items.APPLE, new AppleAccessory());
     }
 
     @Override

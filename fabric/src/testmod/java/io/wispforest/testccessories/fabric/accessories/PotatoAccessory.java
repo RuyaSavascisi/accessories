@@ -1,7 +1,6 @@
 package io.wispforest.testccessories.fabric.accessories;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.Accessory;
 import io.wispforest.accessories.api.AccessoryRegistry;
 import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
@@ -14,7 +13,6 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -26,7 +24,7 @@ public class PotatoAccessory implements Accessory {
     }
 
     public static void init(){
-        AccessoryRegistry.registerAccessory(Items.POTATO, new PotatoAccessory());
+        AccessoryRegistry.register(Items.POTATO, new PotatoAccessory());
     }
 
     @Environment(EnvType.CLIENT)
