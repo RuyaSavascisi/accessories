@@ -26,6 +26,7 @@ import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -61,37 +62,6 @@ public class AccessoriesInternalsImpl {
         livingEntity.setAttached(AccessoriesFabric.HOLDER_ATTACHMENT_TYPE, holder);
     }
 
-    public static final AtomicReference<Map<ResourceKey<?>, Map<ResourceLocation, Supplier<List<Holder<?>>>>>> LOADED_TAGS = new AtomicReference<>();
-
-    public static void setTags(List<Registry.PendingTags<?>> tags) {
-        Map<ResourceKey<?>, Map<ResourceLocation, Supplier<List<Holder<?>>>>> tagMap = new IdentityHashMap<>();
-
-        for (Registry.PendingTags<?> registryTags : tags) {
-            tagMap.put(registryTags.key(), registryTags.lookup().listTags().collect(Collectors.toMap(holder -> holder.key().location(), holder -> () -> (List<Holder<?>>) (Object) holder.stream().toList())));
-        }
-
-        if (LOADED_TAGS.getAndSet(tagMap) != null) {
-            throw new IllegalStateException("Tags already captured, this should not happen");
-        }
-    }
-
-    public static <T> Optional<Collection<Holder<T>>> getHolder(TagKey<T> tagKey){
-        var tags = LOADED_TAGS.get().get(tagKey.registry());
-
-        if(tags == null) return Optional.empty();
-
-        var holders = tags.get(tagKey.location());
-
-        if(holders == null) return Optional.empty();
-
-        var converted = holders.get()
-                .stream()
-                .map(holder -> (Holder<T>) holder)
-                .collect(Collectors.toUnmodifiableSet());
-
-        return Optional.of(converted);
-    }
-
     //--
 
     public static void giveItemToPlayer(ServerPlayer player, ItemStack stack) {
@@ -103,7 +73,7 @@ public class AccessoriesInternalsImpl {
         }
     }
 
-    public static boolean isValidOnConditions(JsonObject object, String dataType, ResourceLocation key, @Nullable RegistryOps.RegistryInfoLookup registryInfo) {
+    public static boolean isValidOnConditions(JsonObject object, String dataType, ResourceLocation key, SimplePreparableReloadListener listener, @Nullable RegistryOps.RegistryInfoLookup registryInfo) {
         return ResourceConditionsImpl.applyResourceConditions(object, dataType, key, registryInfo);
     }
 

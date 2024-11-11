@@ -144,7 +144,7 @@ public class SlotTypeLoader extends ReplaceableJsonResourceReloadListener {
             var location = resourceEntry.getKey();
             var jsonObject = resourceEntry.getValue();
 
-            if(!AccessoriesInternals.isValidOnConditions(jsonObject, this.directory, location, null)) continue;
+            if(!AccessoriesInternals.isValidOnConditions(jsonObject, this.directory, location, this, null)) continue;
 
             var pathParts = location.getPath().split("/");
 

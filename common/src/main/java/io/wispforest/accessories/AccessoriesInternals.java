@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -63,17 +64,12 @@ public class AccessoriesInternals {
     //--
 
     @ExpectPlatform
-    public static <T> Optional<Collection<Holder<T>>> getHolder(TagKey<T> tagKey) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
     public static void giveItemToPlayer(ServerPlayer player, ItemStack stack) {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static boolean isValidOnConditions(JsonObject object, String dataType, ResourceLocation key, @Nullable RegistryOps.RegistryInfoLookup registryInfo) {
+    public static boolean isValidOnConditions(JsonObject object, String dataType, ResourceLocation key, SimplePreparableReloadListener listener, @Nullable RegistryOps.RegistryInfoLookup registryInfo) {
         throw new AssertionError();
     }
 

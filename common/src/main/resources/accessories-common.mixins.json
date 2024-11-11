@@ -68,7 +68,9 @@
     "owo.NbtDeserializerMixin",
     "ArmorSlotMixin",
     "DataPackContentsMixin",
-    "PatchedDataComponentMapMixin"
+    "PatchedDataComponentMapMixin",
+    "ServerChunkLoadingManagerAccessor",
+    "EntityTrackerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

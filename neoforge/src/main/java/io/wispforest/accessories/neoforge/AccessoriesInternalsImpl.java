@@ -7,7 +7,7 @@ import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
-import io.wispforest.accessories.api.AccessoriesHolder;
+import io.wispforest.accessories.neoforge.mixin.ContextAwareReloadListenerAccessor;
 import io.wispforest.owo.serialization.RegistriesAttribute;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
 import io.wispforest.accessories.menu.AccessoriesMenuData;
@@ -23,8 +23,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
@@ -59,20 +61,16 @@ public class AccessoriesInternalsImpl {
         return !FMLLoader.isProduction();
     }
 
-    public static AccessoriesHolder getHolder(LivingEntity livingEntity){
+    public static AccessoriesHolderImpl getHolder(LivingEntity livingEntity){
         return livingEntity.getData(AccessoriesForge.HOLDER_ATTACHMENT_TYPE);
     }
 
     public static void modifyHolder(LivingEntity livingEntity, UnaryOperator<AccessoriesHolderImpl> modifier){
-        var holder = (AccessoriesHolderImpl) getHolder(livingEntity);
+        var holder = getHolder(livingEntity);
 
         holder = modifier.apply(holder);
 
         livingEntity.setData(AccessoriesForge.HOLDER_ATTACHMENT_TYPE, holder);
-    }
-
-    public static <T> Optional<Collection<Holder<T>>> getHolder(TagKey<T> tagKey){
-        return currentContext.map(iContext -> iContext.getTag(tagKey));
     }
 
     private static Optional<ICondition.IContext> currentContext = Optional.empty();
@@ -87,12 +85,8 @@ public class AccessoriesInternalsImpl {
         ItemHandlerHelper.giveItemToPlayer(player, stack);
     }
 
-    public static boolean isValidOnConditions(JsonObject object, String dataType, ResourceLocation key, @Nullable HolderLookup.Provider registryLookup) {
-        DynamicOps<JsonElement> ops = JsonOps.INSTANCE;
-
-        if(registryLookup != null) ops = registryLookup.createSerializationContext(ops);
-
-        return ICondition.conditionsMatched(ops, object);
+    public static boolean isValidOnConditions(JsonObject object, String dataType, ResourceLocation key, SimplePreparableReloadListener listener, @Nullable RegistryOps.RegistryInfoLookup registryInfo) {
+        return ICondition.conditionsMatched(((ContextAwareReloadListenerAccessor) listener).accessories$makeConditionalOps(), object);
     }
 
     public static <T extends AbstractContainerMenu, D> MenuType<T> registerMenuType(ResourceLocation location, Endec<D> endec, TriFunction<Integer, Inventory, D, T> func) {

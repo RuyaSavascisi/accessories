@@ -69,9 +69,9 @@ public class AccessoriesClientFabric implements ClientModInitializer {
 
         BuiltInRegistries.ITEM.forEach(BuiltinAccessoryRenderers::onAddCallback);
 
-        RegistryEntryAddedCallback.event(BuiltInRegistries.ITEM).register((i, resourceLocation, item) -> {
-            BuiltinAccessoryRenderers.onAddCallback(item);
-        });
+//        RegistryEntryAddedCallback.event(BuiltInRegistries.ITEM).register((i, resourceLocation, item) -> {
+//            BuiltinAccessoryRenderers.onAddCallback(item);
+//        });
 
         AccessoriesClient.OPEN_SCREEN = KeyBindingHelper.registerKeyBinding(new KeyMapping(MODID + ".key.open_accessories_screen", GLFW.GLFW_KEY_H, MODID + ".key.category.accessories"));
 

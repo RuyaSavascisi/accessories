@@ -8,12 +8,11 @@ import io.wispforest.accessories.commands.AccessoriesCommands;
 import io.wispforest.accessories.data.EntitySlotLoader;
 import io.wispforest.accessories.data.SlotGroupLoader;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import io.wispforest.accessories.networking.client.InvalidateEntityCache;
+import io.wispforest.accessories.utils.InstanceEndec;
 import io.wispforest.owo.serialization.RegistriesAttribute;
 import io.wispforest.accessories.impl.AccessoriesCapabilityImpl;
 import io.wispforest.accessories.impl.AccessoriesEventHandler;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
-import io.wispforest.accessories.impl.InstanceEndec;
 import io.wispforest.accessories.menu.AccessoriesMenuTypes;
 import io.wispforest.accessories.networking.AccessoriesNetworking;
 import io.wispforest.endec.Endec;
@@ -32,6 +31,7 @@ import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -74,38 +74,31 @@ public class AccessoriesForge {
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final AttachmentType<AccessoriesHolderImpl> HOLDER_ATTACHMENT_TYPE;
+    public static final AttachmentType<AccessoriesHolderImpl> HOLDER_ATTACHMENT_TYPE = AttachmentType.builder(AccessoriesHolderImpl::of)
+            .serialize(new IAttachmentSerializer<>() {
+                private final Endec<AccessoriesHolderImpl> ENDEC = InstanceEndec.constructed(AccessoriesHolderImpl::new);
+
+                @Override
+                public AccessoriesHolderImpl read(IAttachmentHolder holder, Tag tag, HolderLookup.Provider provider) {
+                    return ENDEC.decodeFully(
+                            SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
+                            NbtDeserializer::of,
+                            tag);
+                }
+
+                @Override
+                @Nullable
+                public Tag write(AccessoriesHolderImpl object, HolderLookup.Provider provider) {
+                    return ENDEC.encodeFully(
+                            SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
+                            NbtSerializer::of,
+                            object);
+                }
+            })
+            .copyOnDeath()
+            .build();
 
     public static final EntityCapability<AccessoriesCapability, Void> CAPABILITY = EntityCapability.createVoid(Accessories.of("capability"), AccessoriesCapability.class);
-
-    static {
-        HOLDER_ATTACHMENT_TYPE = Registry.register(
-                NeoForgeRegistries.ATTACHMENT_TYPES,
-                Accessories.of("inventory_holder"),
-                AttachmentType.builder(AccessoriesHolderImpl::of)
-                        .serialize(new IAttachmentSerializer<>() {
-                            private final Endec<AccessoriesHolderImpl> ENDEC = InstanceEndec.constructed(AccessoriesHolderImpl::new);
-
-                            @Override
-                            public AccessoriesHolderImpl read(IAttachmentHolder holder, Tag tag, HolderLookup.Provider provider) {
-                                return ENDEC.decodeFully(
-                                        SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
-                                        NbtDeserializer::of,
-                                        tag);
-                            }
-
-                            @Override
-                            @Nullable
-                            public Tag write(AccessoriesHolderImpl object, HolderLookup.Provider provider) {
-                                return ENDEC.encodeFully(
-                                        SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
-                                        NbtSerializer::of,
-                                        object);
-                            }
-                        })
-                        .copyOnDeath()
-                        .build());
-    }
 
     public static IEventBus BUS;
 
@@ -169,6 +162,9 @@ public class AccessoriesForge {
         event.register(Registries.TRIGGER_TYPE, (helper) -> Accessories.registerCriteria());
         event.register(Registries.DATA_COMPONENT_TYPE, (helper) -> AccessoriesDataComponents.init());
         event.register(Registries.COMMAND_ARGUMENT_TYPE, (helper) -> AccessoriesCommands.registerCommandArgTypes());
+        event.register(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, (helper) -> {
+            Registry.register(NeoForgeRegistries.ATTACHMENT_TYPES, Accessories.of("inventory_holder"), HOLDER_ATTACHMENT_TYPE);
+        });
     }
 
     public void registerReloadListeners(AddReloadListenerEvent event){
@@ -214,11 +210,10 @@ public class AccessoriesForge {
     public void attemptEquipFromUse(PlayerInteractEvent.RightClickItem event){
         var resultHolder = AccessoriesEventHandler.attemptEquipFromUse(event.getEntity(), event.getHand());
 
-        if(!resultHolder.getResult().consumesAction()) return;
+        if(!(resultHolder instanceof InteractionResult.Success success)) return;
 
-        event.getEntity().setItemInHand(event.getHand(), resultHolder.getObject());
-
-        event.setCancellationResult(resultHolder.getResult());
+        event.getEntity().setItemInHand(event.getHand(), success.heldItemTransformedTo());
+        event.setCancellationResult(resultHolder);
     }
 
     public void attemptEquipOnEntity(PlayerInteractEvent.EntityInteract event) {

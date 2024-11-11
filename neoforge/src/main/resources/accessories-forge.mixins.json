@@ -5,11 +5,10 @@
   "minVersion": "0.8",
   "client": [
     "NeoForgeLoadingOverlayMixin",
-    "client.AbstractContainerScreenMixin",
-    "client.HumanoidArmorLayerMixin",
-    "client.LivingEntityRendererMixin"
+    "client.AbstractContainerScreenMixin"
   ],
   "mixins": [
+    "ContextAwareReloadListenerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -2,6 +2,7 @@ package io.wispforest.accessories.neoforge.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import io.wispforest.accessories.Accessories;
+import io.wispforest.accessories.api.client.BuiltinAccessoryRenderers;
 import io.wispforest.accessories.client.AccessoriesClient;
 import io.wispforest.accessories.client.AccessoriesRenderLayer;
 import io.wispforest.accessories.client.gui.AccessoriesScreenBase;
@@ -11,8 +12,9 @@ import io.wispforest.accessories.networking.AccessoriesNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -39,7 +41,6 @@ public class AccessoriesClientForge {
         eventBus.addListener(this::onInitializeClient);
         eventBus.addListener(this::initKeybindings);
         eventBus.addListener(this::addRenderLayer);
-        eventBus.addListener(this::registerShader);
         NeoForge.EVENT_BUS.addListener(this::onJoin);
 
         AccessoriesClient.initConfigStuff();
@@ -100,7 +101,7 @@ public class AccessoriesClientForge {
             try {
                 var renderer = event.getRenderer(entityType);
 
-                if (renderer instanceof LivingEntityRenderer<? extends LivingEntity, ?> livingEntityRenderer && livingEntityRenderer.getModel() instanceof HumanoidModel) {
+                if (renderer instanceof LivingEntityRenderer<? extends LivingEntity, ? extends LivingEntityRenderState, ?> livingEntityRenderer && livingEntityRenderer.getModel() instanceof HumanoidModel) {
                     livingEntityRenderer.addLayer(new AccessoriesRenderLayer(livingEntityRenderer));
                 }
             } catch (ClassCastException ignore) {}
@@ -109,21 +110,9 @@ public class AccessoriesClientForge {
         event.getSkins().forEach(model -> {
             var renderer = event.getSkin(model);
 
-            if (renderer instanceof LivingEntityRenderer<? extends LivingEntity, ?> livingEntityRenderer && livingEntityRenderer.getModel() instanceof HumanoidModel) {
+            if (renderer instanceof LivingEntityRenderer<? extends LivingEntity, ? extends LivingEntityRenderState, ?> livingEntityRenderer && livingEntityRenderer.getModel() instanceof HumanoidModel) {
                 livingEntityRenderer.addLayer(new AccessoriesRenderLayer(livingEntityRenderer));
             }
         });
-    }
-
-    public void registerShader(RegisterShadersEvent event) {
-        try {
-            event.registerShader(new ShaderInstance(
-                    event.getResourceProvider(),
-                    AccessoriesClient.BLIT_SHADER_ID,
-                    DefaultVertexFormat.BLIT_SCREEN
-            ), shaderInstance -> AccessoriesClient.BLIT_SHADER = shaderInstance);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
