@@ -1,13 +1,14 @@
 package io.wispforest.accessories.networking.server;
 
 import com.mojang.logging.LogUtils;
+import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import net.minecraft.world.entity.player.Player;
 import org.slf4j.Logger;
 
 public record NukeAccessories() {
 
-    public static final StructEndec<NukeAccessories> ENDEC = StructEndec.unit(new NukeAccessories());
+    public static final StructEndec<NukeAccessories> ENDEC = Endec.unit(new NukeAccessories());
 
     private static final Logger LOGGER = LogUtils.getLogger();
 

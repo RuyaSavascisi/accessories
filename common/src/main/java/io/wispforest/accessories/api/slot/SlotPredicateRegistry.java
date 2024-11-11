@@ -30,7 +30,7 @@ public class SlotPredicateRegistry {
 
     private static final Map<ResourceLocation, SlotBasedPredicate> PREDICATES = new HashMap<>();
 
-    public static void registerPredicate(ResourceLocation location, SlotBasedPredicate predicate) {
+    public static void register(ResourceLocation location, SlotBasedPredicate predicate) {
         if(PREDICATES.containsKey(location)) {
             LOGGER.warn("[AccessoriesAPI]: A SlotBasedPredicate attempted to be registered but a duplicate entry existed already! [Id: {}]", location);
 
@@ -164,17 +164,17 @@ public class SlotPredicateRegistry {
     }
 
     static {
-        registerPredicate(AccessoriesBaseData.ALL_PREDICATE_ID, (level, slotType, i, stack) -> TriState.TRUE);
-        registerPredicate(AccessoriesBaseData.NONE_PREDICATE_ID, (level, slotType, i, stack) -> TriState.FALSE);
-        registerPredicate(AccessoriesBaseData.TAG_PREDICATE_ID, (level, slotType, i, stack) -> {
+        register(AccessoriesBaseData.ALL_PREDICATE_ID, (level, slotType, i, stack) -> TriState.TRUE);
+        register(AccessoriesBaseData.NONE_PREDICATE_ID, (level, slotType, i, stack) -> TriState.FALSE);
+        register(AccessoriesBaseData.TAG_PREDICATE_ID, (level, slotType, i, stack) -> {
             return (stack.is(getSlotTag(slotType)) || stack.is(AccessoriesTags.ANY_TAG)) ? TriState.TRUE : TriState.DEFAULT;
         });
-        registerPredicate(AccessoriesBaseData.RELEVANT_PREDICATE_ID, (level, slotType, i, stack) -> {
+        register(AccessoriesBaseData.RELEVANT_PREDICATE_ID, (level, slotType, i, stack) -> {
             var bl = !AccessoryAttributeLogic.getAttributeModifiers(stack, null, slotType.name(), i).getAttributeModifiers(false).isEmpty();
 
             return bl ? TriState.TRUE : TriState.DEFAULT;
         });
-        registerPredicate(AccessoriesBaseData.COMPONENT_PREDICATE_ID, (level, slotType, index, stack) -> {
+        register(AccessoriesBaseData.COMPONENT_PREDICATE_ID, (level, slotType, index, stack) -> {
             if(stack.has(AccessoriesDataComponents.SLOT_VALIDATION)) {
                 var slotValidationData = stack.get(AccessoriesDataComponents.SLOT_VALIDATION);
                 var name = slotType.name();

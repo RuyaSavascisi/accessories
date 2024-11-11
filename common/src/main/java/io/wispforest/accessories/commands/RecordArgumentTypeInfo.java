@@ -3,6 +3,7 @@ package io.wispforest.accessories.commands;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.ArgumentType;
 import io.wispforest.accessories.utils.EndecUtils;
+import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.format.bytebuf.ByteBufDeserializer;
 import io.wispforest.endec.format.bytebuf.ByteBufSerializer;
@@ -17,7 +18,7 @@ import java.util.function.Function;
 public record RecordArgumentTypeInfo<A extends ArgumentType<?>, T>(StructEndec<T> endec, Function<A, T> toTemplate, BiFunction<CommandBuildContext, T, A> fromTemplate) implements ArgumentTypeInfo<A, RecordArgumentTypeInfo.RecordInfoTemplate<A, T>> {
 
     public static <A extends ArgumentType<?>> RecordArgumentTypeInfo<A, Void> of(Function<CommandBuildContext, A> argTypeConstructor) {
-        return new RecordArgumentTypeInfo<>(StructEndec.unit(() -> null), a -> null, (commandBuildContext, unused) -> argTypeConstructor.apply(commandBuildContext));
+        return new RecordArgumentTypeInfo<>(Endec.unit(() -> null), a -> null, (commandBuildContext, unused) -> argTypeConstructor.apply(commandBuildContext));
     }
 
     @Override

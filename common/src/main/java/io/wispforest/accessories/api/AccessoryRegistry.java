@@ -26,7 +26,7 @@ public class AccessoryRegistry {
     /**
      * Registers an accessory implementation for a given item.
      */
-    public static void registerAccessory(Item item, Accessory accessory) {
+    public static void register(Item item, Accessory accessory) {
         ACCESSORIES.put(item, accessory);
     }
 

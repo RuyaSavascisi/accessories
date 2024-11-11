@@ -50,8 +50,8 @@ public class VanillaItemPredicates {
     };
 
     public static void init() {
-        SlotPredicateRegistry.registerPredicate(Accessories.of("elytra_item"), ELYTRA_PREDICATE);
-        SlotPredicateRegistry.registerPredicate(Accessories.of("totem_item"), TOTEM_PREDICATE);
-        SlotPredicateRegistry.registerPredicate(Accessories.of("banner_item"), BANNER_PREDICATE);
+        SlotPredicateRegistry.register(Accessories.of("elytra_item"), ELYTRA_PREDICATE);
+        SlotPredicateRegistry.register(Accessories.of("totem_item"), TOTEM_PREDICATE);
+        SlotPredicateRegistry.register(Accessories.of("banner_item"), BANNER_PREDICATE);
     }
 }

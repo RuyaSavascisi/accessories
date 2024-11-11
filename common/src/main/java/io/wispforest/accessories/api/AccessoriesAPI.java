@@ -1,29 +1,12 @@
 package io.wispforest.accessories.api;
 
-import com.mojang.logging.LogUtils;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.attributes.AccessoryAttributeBuilder;
 import io.wispforest.accessories.api.attributes.AccessoryAttributeUtils;
-import io.wispforest.accessories.api.components.AccessoriesDataComponents;
-import io.wispforest.accessories.api.components.AccessoryItemAttributeModifiers;
-import io.wispforest.accessories.api.components.AccessoryStackSizeComponent;
-import io.wispforest.accessories.api.data.AccessoriesBaseData;
-import io.wispforest.accessories.api.data.AccessoriesTags;
-import io.wispforest.accessories.api.events.AdjustAttributeModifierCallback;
-import io.wispforest.accessories.api.events.CanEquipCallback;
-import io.wispforest.accessories.api.events.CanUnequipCallback;
 import io.wispforest.accessories.api.slot.*;
-import io.wispforest.accessories.data.EntitySlotLoader;
-import io.wispforest.accessories.data.SlotTypeLoader;
 import io.wispforest.accessories.impl.AccessoryAttributeLogic;
-import io.wispforest.accessories.impl.AccessoryNestUtils;
-import io.wispforest.accessories.networking.AccessoriesNetworking;
-import io.wispforest.accessories.networking.client.AccessoryBreak;
-import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -32,9 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 
 import java.util.*;
 
@@ -49,7 +30,7 @@ public class AccessoriesAPI {
      */
     @Deprecated(forRemoval = true)
     public static void registerAccessory(Item item, Accessory accessory) {
-        AccessoryRegistry.registerAccessory(item, accessory);
+        AccessoryRegistry.register(item, accessory);
     }
 
     /**
@@ -251,7 +232,7 @@ public class AccessoriesAPI {
 
     @Deprecated(forRemoval = true)
     public static void registerPredicate(ResourceLocation location, SlotBasedPredicate predicate) {
-        SlotPredicateRegistry.registerPredicate(location, predicate);
+        SlotPredicateRegistry.register(location, predicate);
     }
 
     @Deprecated(forRemoval = true)
