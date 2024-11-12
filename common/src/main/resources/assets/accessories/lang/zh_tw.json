@@ -344,7 +344,7 @@
 
   "text.config.accessories.category.screenOptions.hoveredOptions": "懸停選項",
   "text.config.accessories.category.screenOptions.hoveredOptions.tooltip": [
-    "當游標懸停在物品上時的渲染效果"
+    "當游標懸停在物品上時的繪製效果"
   ],
 
   "text.config.accessories.option.screenOptions.hoveredOptions.brightenHovered": "提高亮度",
