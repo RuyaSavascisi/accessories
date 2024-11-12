@@ -234,163 +234,153 @@
   "accessories.reset.group_filter": "重設組別過濾器",
 
 
-  "#comment": "Config Related Below",
+  "#comment": "以下與設定相關",
 
-  "text.config.accessories.title": "Accessories Config",
+  "text.config.accessories.title": "Accessories 設定",
 
-  "text.config.accessories.option.useExperimentalCaching": "Use Experimental Caching",
+  "text.config.accessories.option.useExperimentalCaching": "使用實驗性快取",
   "text.config.accessories.option.useExperimentalCaching.tooltip": [
-    "Attempts to cache various ItemStack lookups\n",
-    "to be more performant but may cause issues."
+    "嘗試快取各種物品堆疊查詢以提高效能，但可能會造成問題。"
   ],
 
-  "text.config.accessories.category.clientOptions": "Client Options",
+  "text.config.accessories.category.clientOptions": "客戶端選項",
   "text.config.accessories.category.clientOptions.tooltip": [
-    "Contains more generic client side options for rendering or player input"
+    "包含用於渲染或玩家輸入的更通用的客戶端選項"
   ],
 
-  "text.config.accessories.option.clientOptions.forceNullRenderReplacement": "Force Empty Render Replacement",
+  "text.config.accessories.option.clientOptions.forceNullRenderReplacement": "強制空渲染替換",
   "text.config.accessories.option.clientOptions.forceNullRenderReplacement.tooltip": [
-    "Forces any registered render found to be no\n",
-    "rendering to instead use default rendering."
+    "強制任何已註冊的渲染，若發現沒有渲染，就改用預設渲染。"
   ],
 
-  "text.config.accessories.option.clientOptions.disableEmptySlotScreenError": "Disable Empty Accessory Error",
+  "text.config.accessories.option.clientOptions.disableEmptySlotScreenError": "停用空飾品錯誤",
   "text.config.accessories.option.clientOptions.disableEmptySlotScreenError.tooltip": [
-    "Disables the error message displayed if the accessories\n",
-    "screen is opened and no used slots were found."
+    "停用在打開飾品介面且未找到使用過的飾品欄時所顯示的錯誤訊息。"
   ],
 
-  "text.config.accessories.option.clientOptions.showCosmeticAccessories": "Show Item Cosmetic Rendering",
+  "text.config.accessories.option.clientOptions.showCosmeticAccessories": "顯示物品外觀渲染",
   "text.config.accessories.option.clientOptions.showCosmeticAccessories.tooltip": [
-    "Enables/Disables the rendering of cosmetic item variants if equipped."
+    "啟用/停用外觀物品變體（如果已裝備）的渲染。"
   ],
 
-  "text.config.accessories.option.clientOptions.disabledDefaultRenders": "Disabled Default Rendering",
+  "text.config.accessories.option.clientOptions.disabledDefaultRenders": "停用預設渲染",
   "text.config.accessories.option.clientOptions.disabledDefaultRenders.tooltip": [
-    "Disables the included default renderer rendering of items if being used."
+    "如果正在使用，停用內建的預設渲染器渲染物品。"
   ],
 
-  "text.config.accessories.option.clientOptions.equipControl": "Quick Hand Equip Mode",
+  "text.config.accessories.option.clientOptions.equipControl": "快速手動裝備模式",
   "text.config.accessories.option.clientOptions.equipControl.tooltip": [
-    "Changes the mode used to quickly equip a stack from your hand."
+    "變更從您的手快速裝備物品的模式。"
   ],
 
-  "text.config.accessories.enum.playerEquipControl.must_crouch": "Requires Crouch",
-  "text.config.accessories.enum.playerEquipControl.must_not_crouch": "Without Crouch",
-  "text.config.accessories.enum.playerEquipControl.disabled": "Disabled",
+  "text.config.accessories.enum.playerEquipControl.must_crouch": "必須蹲下",
+  "text.config.accessories.enum.playerEquipControl.must_not_crouch": "不須蹲下",
+  "text.config.accessories.enum.playerEquipControl.disabled": "禁用",
 
-  "text.config.accessories.category.screenOptions": "Screen Options",
+  "text.config.accessories.category.screenOptions": "介面選項",
   "text.config.accessories.category.screenOptions.tooltip": [
-    "Contains all screen configuration options for all variants and injected button offset"
+    "包含所有變體的所有介面設定選項，以及注入的按鈕偏移量"
   ],
 
-  "text.config.accessories.option.screenOptions.selectedScreenType": "Selected Screen Type",
+  "text.config.accessories.option.screenOptions.selectedScreenType": "選取飾品欄介面類型",
   "text.config.accessories.option.screenOptions.selectedScreenType.tooltip": [
-    "Used to adjust what screen will be used, none will\n",
-    "bring a prompt for user selection."
+    "用於調整使用何種介面，否則會提示使用者選擇。"
   ],
 
-  "text.config.accessories.enum.screenType.none": "Undecided",
-  "text.config.accessories.enum.screenType.original": "Original",
-  "text.config.accessories.enum.screenType.experimental_v1": "Experimental",
+  "text.config.accessories.enum.screenType.none": "未決定",
+  "text.config.accessories.enum.screenType.original": "原始",
+  "text.config.accessories.enum.screenType.experimental_v1": "實驗性",
 
-  "text.config.accessories.option.screenOptions.showUnusedSlots": "Show Unused Slots",
-  "text.config.accessories.option.screenOptions.showUnusedSlots.tooltip": "Toggles filtering of unused slots",
+  "text.config.accessories.option.screenOptions.showUnusedSlots": "顯示未使用的飾品欄",
+  "text.config.accessories.option.screenOptions.showUnusedSlots.tooltip": "切換顯示未使用的飾品欄",
 
-  "text.config.accessories.option.screenOptions.allowSlotScrolling": "Allow Screen Slot Scrolling",
+  "text.config.accessories.option.screenOptions.allowSlotScrolling": "允許欄位介面滾動",
   "text.config.accessories.option.screenOptions.allowSlotScrolling.tooltip": [
-    "Useful if the given mod allows for scrolling stacks\n",
-    "leading to issues when going though accessories."
+    "如果有模組會影響滾動時的物品操作，會在瀏覽飾品時出現問題，則可以關閉此選項以解決問題。"
   ],
 
-  "text.config.accessories.option.screenOptions.showEquippedStackSlotType": "Show Equipped Stacks Slot Type",
+  "text.config.accessories.option.screenOptions.showEquippedStackSlotType": "顯示已裝備的飾品欄位類型",
   "text.config.accessories.option.screenOptions.showEquippedStackSlotType.tooltip": [
-    "Shows the given slot type that the given stack is equipped in within its tooltip."
+    "在物品提示中顯示已裝備的物品所在的飾品欄位類型。"
   ],
 
-  "text.config.accessories.option.screenOptions.entityLooksAtMouseCursor": "Make Entity follow the Mouse Cursor",
+  "text.config.accessories.option.screenOptions.entityLooksAtMouseCursor": "使實體朝向游標",
   "text.config.accessories.option.screenOptions.entityLooksAtMouseCursor.tooltip": [
-    "If enabled, makes the entity follow the mouse cursor\n",
-    "otherwise it allows for manual rotation of the entity."
+    "啟用時使背包中的實體模型看向滑鼠游標，反之當禁用時則允許手動旋轉實體模型。"
   ],
 
-  "text.config.accessories.option.screenOptions.allowSideBarCraftingGrid": "Allow Crafting Grid within Sidebar",
+  "text.config.accessories.option.screenOptions.allowSideBarCraftingGrid": "允許在側邊欄顯示合成欄",
   "text.config.accessories.option.screenOptions.allowSideBarCraftingGrid.tooltip": [
-    "If group filters are not present, it will attempt to put\n",
-    "the crafting grid within the sidebar instead down below."
+    "如果沒有群組篩選器，則會嘗試將合成欄顯示在側邊欄中，而非在下方。"
   ],
 
-  "text.config.accessories.section.button_offsets": "Injected Button Offsets",
+  "text.config.accessories.section.button_offsets": "注入的按鈕位移",
 
-  "text.config.accessories.option.screenOptions.inventoryButtonOffset": "Inventory Button Offset",
+  "text.config.accessories.option.screenOptions.inventoryButtonOffset": "玩家物品欄中按鈕的位移",
 
-  "text.config.accessories.option.screenOptions.inventoryButtonOffset.x": "X Offset",
-  "text.config.accessories.option.screenOptions.inventoryButtonOffset.y": "Y Offset",
+  "text.config.accessories.option.screenOptions.inventoryButtonOffset.x": "X 軸位移",
+  "text.config.accessories.option.screenOptions.inventoryButtonOffset.y": "Y 軸位移",
 
-  "text.config.accessories.option.screenOptions.creativeInventoryButtonOffset": "Creative Inventory Button Offset",
+  "text.config.accessories.option.screenOptions.creativeInventoryButtonOffset": "創造模式物品欄按鈕位移",
 
-  "text.config.accessories.option.screenOptions.creativeInventoryButtonOffset.x": "X Offset",
-  "text.config.accessories.option.screenOptions.creativeInventoryButtonOffset.y": "Y Offset",
+  "text.config.accessories.option.screenOptions.creativeInventoryButtonOffset.x": "X 軸位移",
+  "text.config.accessories.option.screenOptions.creativeInventoryButtonOffset.y": "Y 軸位移",
 
-  "text.config.accessories.section.experimental": "Experimental Screen",
+  "text.config.accessories.section.experimental": "實驗性設定畫面",
 
-  "text.config.accessories.option.screenOptions.isDarkMode": "Use Dark mode theme",
+  "text.config.accessories.option.screenOptions.isDarkMode": "使用黑暗模式",
   "text.config.accessories.option.screenOptions.isDarkMode.tooltip": [
-    "Changes the theming for the experimental screen to be dark mode."
+    "允許在實驗性設定中將畫面主題設為黑暗模式。"
   ],
 
-  "text.config.accessories.section.legacy": "Original Screen",
+  "text.config.accessories.section.legacy": "原始風格畫面",
 
-  "text.config.accessories.option.screenOptions.showGroupTabs": "Show quick seeking group tabs",
+  "text.config.accessories.option.screenOptions.showGroupTabs": "顯示快速尋找群組標籤",
   "text.config.accessories.option.screenOptions.showGroupTabs.tooltip": [
-    "Toggles the group tabs within the original screen to be shown or hidden."
+    "切換顯示或隱藏原始風格畫面的群組標籤。"
   ],
 
-  "text.config.accessories.section.hover": "Hovered Effects",
+  "text.config.accessories.section.hover": "懸停效果",
 
-  "text.config.accessories.category.screenOptions.hoveredOptions": "Hovered Options",
+  "text.config.accessories.category.screenOptions.hoveredOptions": "懸停選項",
   "text.config.accessories.category.screenOptions.hoveredOptions.tooltip": [
-    "Options to control the hovered entry rendering effects."
+    "當游標懸停在物品上時的渲染效果"
   ],
 
-  "text.config.accessories.option.screenOptions.hoveredOptions.brightenHovered": "Brighten Hovered",
-  "text.config.accessories.option.screenOptions.hoveredOptions.cycleBrightness": "Cycle Brightness",
+  "text.config.accessories.option.screenOptions.hoveredOptions.brightenHovered": "提高亮度",
+  "text.config.accessories.option.screenOptions.hoveredOptions.cycleBrightness": "循環閃爍",
 
-  "text.config.accessories.option.screenOptions.hoveredOptions.line": "Draw Line",
+  "text.config.accessories.option.screenOptions.hoveredOptions.line": "繪製線",
 
-  "text.config.accessories.option.screenOptions.hoveredOptions.clickbait": "Clickbait",
+  "text.config.accessories.option.screenOptions.hoveredOptions.clickbait": "點擊引導",
 
-  "text.config.accessories.category.screenOptions.unHoveredOptions": "UnHovered Options",
+  "text.config.accessories.category.screenOptions.unHoveredOptions": "未懸停選項",
   "text.config.accessories.category.screenOptions.unHoveredOptions.tooltip": [
-    "Options to control the non hovered entries rendering effects."
+    "游標未懸停在物品上的渲染效果"
   ],
 
-  "text.config.accessories.option.screenOptions.unHoveredOptions.renderUnHovered": "Render UnHovered",
-  "text.config.accessories.option.screenOptions.unHoveredOptions.darkenUnHovered": "Darken UnHovered",
-  "text.config.accessories.option.screenOptions.unHoveredOptions.darkenedBrightness": "Darkened Brightness",
-  "text.config.accessories.option.screenOptions.unHoveredOptions.darkenedOpacity": "Darkened Opacity",
+  "text.config.accessories.option.screenOptions.unHoveredOptions.renderUnHovered": "依然渲染未有游標懸停的物品",
+  "text.config.accessories.option.screenOptions.unHoveredOptions.darkenUnHovered": "降低物品亮度",
+  "text.config.accessories.option.screenOptions.unHoveredOptions.darkenedBrightness": "降低亮度",
+  "text.config.accessories.option.screenOptions.unHoveredOptions.darkenedOpacity": "降低不透明度",
 
-  "text.config.accessories.option.disabledDefaultRenders": "Disabled Default Renderers",
+  "text.config.accessories.option.disabledDefaultRenders": "禁用預設渲染器",
   "text.config.accessories.option.disabledDefaultRenders.tooltip": [
-    "Useful to disable default rendering for a given slot either\n",
-    "for specifically block or/and item renderings"
+    "停用指定飾品欄位的預設渲染，例如方塊或/和物品的渲染"
   ],
 
-  "text.config.accessories.option.clientOptions.disabledDefaultRenders.slotType": "Slot",
-  "text.config.accessories.option.clientOptions.disabledDefaultRenders.targetType": "Type",
+  "text.config.accessories.option.clientOptions.disabledDefaultRenders.slotType": "欄位",
+  "text.config.accessories.option.clientOptions.disabledDefaultRenders.targetType": "類型",
 
-  "text.config.accessories.enum.targetType.item": "Item",
-  "text.config.accessories.enum.targetType.block": "Block",
-  "text.config.accessories.enum.targetType.all": "All",
+  "text.config.accessories.enum.targetType.item": "物品",
+  "text.config.accessories.enum.targetType.block": "方塊",
+  "text.config.accessories.enum.targetType.all": "全部",
 
-  "text.config.accessories.option.modifiers": "Slot Amount Modifiers",
+  "text.config.accessories.option.modifiers": "修改飾品欄位數量",
   "text.config.accessories.option.modifiers.tooltip": [
-    "Useful to add offset values to a given slot type without\n",
-    "needing a datapack as it allows for both positive or\n",
-    "negative offset value."
+    "用於調整飾品欄位數量，可以輸入負數以減少欄位數量，亦可以輸入正數以增加欄位數量。"
   ],
 
-  "text.config.accessories.option.modifiers.slotType": "Slot",
-  "text.config.accessories.option.modifiers.amount": "Offset"
+  "text.config.accessories.option.modifiers.slotType": "欄位",
+  "text.config.accessories.option.modifiers.amount": "位移"
 }
