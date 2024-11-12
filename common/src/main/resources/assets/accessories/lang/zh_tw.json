@@ -294,7 +294,7 @@
   "text.config.accessories.option.screenOptions.showUnusedSlots": "顯示未使用的飾品欄",
   "text.config.accessories.option.screenOptions.showUnusedSlots.tooltip": "切換顯示未使用的飾品欄",
 
-  "text.config.accessories.option.screenOptions.allowSlotScrolling": "允許欄位介面滾動",
+  "text.config.accessories.option.screenOptions.allowSlotScrolling": "允許欄位介面捲動",
   "text.config.accessories.option.screenOptions.allowSlotScrolling.tooltip": [
     "如果有模組會影響滾動時的物品操作，會在瀏覽飾品時出現問題，則可以關閉此選項以解決問題。"
   ],
