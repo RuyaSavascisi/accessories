@@ -364,7 +364,7 @@
   "text.config.accessories.option.screenOptions.unHoveredOptions.darkenedBrightness": "降低亮度",
   "text.config.accessories.option.screenOptions.unHoveredOptions.darkenedOpacity": "降低不透明度",
 
-  "text.config.accessories.option.disabledDefaultRenders": "禁用預設渲染器",
+  "text.config.accessories.option.disabledDefaultRenders": "停用預設渲染器",
   "text.config.accessories.option.disabledDefaultRenders.tooltip": [
     "停用指定飾品欄位的預設渲染，例如方塊或/和物品的渲染"
   ],
