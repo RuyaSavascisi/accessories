@@ -263,7 +263,7 @@
     "啟用/停用外觀物品變體（如果已裝備）的渲染。"
   ],
 
-  "text.config.accessories.option.clientOptions.disabledDefaultRenders": "停用預設渲染",
+  "text.config.accessories.option.clientOptions.disabledDefaultRenders": "停用預設繪製",
   "text.config.accessories.option.clientOptions.disabledDefaultRenders.tooltip": [
     "如果正在使用，停用內建的預設渲染器渲染物品。"
   ],
