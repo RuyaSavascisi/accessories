@@ -95,7 +95,7 @@
     {"text": "[", "color": "gray"},
     {"text": "⏷", "color": "#953abd"},
     {"text": "]", "color": "gray"},
-    " 滾動"
+    " 捲動"
   ],
   "accessories.widget_type.scrollable.tooltip": "可滾動的飾品布局",
 
