@@ -400,6 +400,8 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
         var baseChildren = new ArrayList<io.wispforest.owo.ui.core.Component>();
 
+        var accessoriesComponent = createAccessoriesComponent();
+
         //--
 
         this.getMenu().slots.forEach(this::disableSlot);
@@ -650,8 +652,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
         baseChildren.add(armorAndEntityLayout);
 
-        var accessoriesComponent = createAccessoriesComponent();
-
         if(accessoriesComponent != null) {
             armorAndEntityLayout.child((this.mainWidgetPosition() ? 0 : 1), accessoriesComponent); //1,
         }
@@ -744,6 +744,8 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                 swapOrCreateSideBarComponent();
             }
         }
+
+        toggleCraftingGrid();
     }
 
     public void swapOrCreateSideBarComponent() {
@@ -976,7 +978,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     }
 
     private boolean sideBarCraftingSpot() {
-        return !this.showGroupFilters() && Accessories.config().screenOptions.allowSideBarCraftingGrid();
+        return !this.showGroupFilters() && Accessories.config().screenOptions.allowSideBarCraftingGrid() && this.topComponent != null;
     }
 
     private io.wispforest.owo.ui.core.Component createCraftingGrid() {
