@@ -260,7 +260,7 @@
 
   "text.config.accessories.option.clientOptions.showCosmeticAccessories": "顯示物品外觀繪製",
   "text.config.accessories.option.clientOptions.showCosmeticAccessories.tooltip": [
-    "啟用/停用外觀物品變體（如果已裝備）的渲染。"
+    "啟用/停用外觀物品變體（如果已裝備）的繪製。"
   ],
 
   "text.config.accessories.option.clientOptions.disabledDefaultRenders": "停用預設繪製",
