@@ -1,201 +1,220 @@
 {
-  "accessories.slot.tooltip.singular": "Slot: ",
-  "accessories.slot.tooltip.plural": "Slots: ",
-  "accessories.cosmetic_slot.tooltip.singular": "Cosmetic Slot: ",
-  "accessories.cosmetic_slot.tooltip.plural": "Cosmetic Slots: ",
-  "accessories.slot.any": "Any",
-  "accessories.slot.except": " except ",
-  "accessories.tooltip.attributes.any": "When Equipped:",
-  "accessories.tooltip.attributes.slot": "When Equipped in %s:",
-  "accessories.tooltip.currently_equipped_in": "Equipped in: ",
-  "accessories.slot.hat": "Hat",
-  "accessories.slot.face": "Face",
-  "accessories.slot.cape": "Cape",
-  "accessories.slot.necklace": "Necklace",
-  "accessories.slot.back": "Back",
-  "accessories.slot.hand": "Hand",
-  "accessories.slot.ring": "Ring",
-  "accessories.slot.wrist": "Wrist",
-  "accessories.slot.belt": "Belt",
-  "accessories.slot.anklet": "Anklet",
-  "accessories.slot.shoes": "Shoes",
-  "accessories.slot.charm": "Charm",
-  "accessories.slot.accessories.head": "Head",
-  "accessories.slot.accessories.chest": "Chest",
-  "accessories.slot.accessories.legs": "Legs",
-  "accessories.slot.accessories.feet": "Feet",
-  "accessories.slot.accessories.animal_body": "Body",
-  "accessories.slot_group.misc": "Misc",
-  "accessories.slot_group.head": "Head",
-  "accessories.slot_group.chest": "Chest",
-  "accessories.slot_group.arm": "Arms",
-  "accessories.slot_group.leg": "Legs",
-  "accessories.slot_group.feet": "Feet",
-  "accessories.slot_group.unsorted": "Unsorted",
-  "accessories.key.category.accessories": "Accessories",
-  "argument.livingEntities.nonLiving": "Only living entities may be affected by this command, but the provided selector includes non living entities",
+  "accessories.slot.tooltip.singular": "飾品欄：",
+  "accessories.slot.tooltip.plural": "飾品欄：",
+  "accessories.cosmetic_slot.tooltip.singular": "裝飾欄：",
+  "accessories.cosmetic_slot.tooltip.plural": "裝飾欄：",
+  "accessories.slot.any": "任何",
+  "accessories.slot.except": " 除了 ",
+  "accessories.tooltip.attributes.any": "裝備時：",
+  "accessories.tooltip.attributes.slot": "裝備在%s時：",
+  "accessories.tooltip.currently_equipped_in": "裝備於：",
+  "accessories.slot.hat": "帽子",
+  "accessories.slot.face": "面具",
+  "accessories.slot.cape": "披風",
+  "accessories.slot.necklace": "項鍊",
+  "accessories.slot.back": "背部",
+  "accessories.slot.hand": "手部",
+  "accessories.slot.ring": "戒指",
+  "accessories.slot.wrist": "手腕",
+  "accessories.slot.belt": "腰帶",
+  "accessories.slot.anklet": "腳環",
+  "accessories.slot.shoes": "鞋子",
+  "accessories.slot.charm": "護符",
+  "accessories.slot.accessories.head": "頭盔",
+  "accessories.slot.accessories.chest": "胸部",
+  "accessories.slot.accessories.legs": "腿部",
+  "accessories.slot.accessories.feet": "腳部",
+  "accessories.slot.accessories.animal_body": "身體",
+  "accessories.slot_group.misc": "其他",
+  "accessories.slot_group.head": "頭部",
+  "accessories.slot_group.chest": "胸部",
+  "accessories.slot_group.arm": "手臂",
+  "accessories.slot_group.leg": "腿部",
+  "accessories.slot_group.feet": "腳",
+  "accessories.slot_group.unsorted": "未分類",
+
+  "accessories.key.category.accessories": "飾品｜Accessories",
+  "argument.livingEntities.nonLiving": "只有活體（Living Entity）可能受此指令影響，但所提供的實體選擇器包括非活體",
 
   "#comment": "GUI Related Below",
 
-  "accessories.key.open_accessories_screen": "Open Accessories Screen",
-  "accessories.slot.cosmetics.toggle.show": "Show Cosmetic Slots",
-  "accessories.slot.cosmetics.toggle.hide": "Hide Cosmetic Slots",
-  "accessories.display.toggle.show": "Show Accessory",
-  "accessories.display.toggle.hide": "Hide Accessory",
-  "accessories.lines.toggle.show": "Show All Lines",
-  "accessories.lines.toggle.hide": "Hide All Lines",
-  "accessories.unused_slots.toggle.show": "Show Unused Slots",
-  "accessories.unused_slots.toggle.hide": "Hide Unused Slots",
-  "accessories.slot_cosmetics.toggle.enabled": "Show Accessories Slots",
-  "accessories.slot_cosmetics.toggle.disabled": "Show Cosmetic Slots",
+  "accessories.key.open_accessories_screen": "開啟飾品欄",
+
+  "accessories.slot.cosmetics.toggle.show": "顯示裝飾欄",
+  "accessories.slot.cosmetics.toggle.hide": "隱藏裝飾欄",
+
+  "accessories.display.toggle.show": "顯示飾品",
+  "accessories.display.toggle.hide": "隱藏飾品",
+
+  "accessories.lines.toggle.show": "顯示所有行",
+  "accessories.lines.toggle.hide": "隱藏所有行",
+
+  "accessories.unused_slots.toggle.show": "顯示未使用的飾品欄",
+  "accessories.unused_slots.toggle.hide": "隱藏未使用的飾品欄",
+
+  "accessories.slot_cosmetics.toggle.enabled": "顯示飾品飾品欄",
+  "accessories.slot_cosmetics.toggle.disabled": "顯示裝飾品飾品欄",
+
   "accessories.advanced_options.toggle.enabled": "❤",
+  "accessories.advanced_options.toggle.enabled.tooltip": "隱藏額外飾品介面設定",
   "accessories.advanced_options.toggle.disabled": "⚗",
-  "accessories.advanced_options.toggle.enabled.tooltip": "Hide Extra Screen configuration options",
-  "accessories.advanced_options.toggle.disabled.tooltip": "Show Extra Screen configuration options",
-  "accessories.unused_slots.label": "Unused Slots:",
+  "accessories.advanced_options.toggle.disabled.tooltip": "顯示額外飾品介面設定",
+
+  "accessories.unused_slots.label": "未使用的飾品欄：",
   "accessories.unused_slots.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "✔", "color": "#28FFBF"},
     {"text": "]", "color": "gray"},
-    " Shown"
+    "顯示"
   ],
+  "accessories.unused_slots.toggle.enabled.tooltip": "隱藏所有未使用的飾品欄",
   "accessories.unused_slots.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "❌", "color": "#EB1D36"},
     {"text": "]", "color": "gray"},
-    " Hidden"
+    "隱藏"
   ],
-  "accessories.unused_slots.toggle.enabled.tooltip": "Hide all Unused Slots",
-  "accessories.unused_slots.toggle.disabled.tooltip": "Show all Unused Slots",
-  "accessories.column_amount_slider.label": "Column Amount:",
-  "accessories.column_amount_slider.tooltip": "Slider used to adjust Column amount for Accessories Layout",
-  "accessories.widget_type.label": "Widget Variant:",
+  "accessories.unused_slots.toggle.disabled.tooltip": "顯示所有未使用的飾品欄",
+
+  "accessories.column_amount_slider.label": "欄數：",
+  "accessories.column_amount_slider.tooltip": "用於調整飾品佈局欄數的滑桿",
+
+  "accessories.widget_type.label": "飾品介面變體：",
   "accessories.widget_type.paginated": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "☰", "color": "#347ecf"},
     {"text": "]", "color": "gray"},
-    " Paginated"
+    " 分頁"
   ],
-  "accessories.widget_type.paginated.tooltip": "A Paginated Layout for Accessories Slots",
+  "accessories.widget_type.paginated.tooltip": "有欄列的飾品布局",
   "accessories.widget_type.scrollable": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "⏷", "color": "#953abd"},
     {"text": "]", "color": "gray"},
-    " Scrollable"
+    " 滾動"
   ],
-  "accessories.main_widget_position.label": "Widget Position:",
+  "accessories.widget_type.scrollable.tooltip": "可滾動的飾品布局",
+
+  "accessories.main_widget_position.label": "飾品介面按鈕位置：",
   "accessories.main_widget_position.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "←", "color": "#32a852"},
     {"text": "]", "color": "gray"},
-    " Left"
+    " 左"
   ],
+  "accessories.main_widget_position.toggle.enabled.tooltip": "移動飾品欄按鈕到右側",
   "accessories.main_widget_position.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "→", "color": "#32a852"},
     {"text": "]", "color": "gray"},
-    " Right"
+    " 右"
   ],
-  "accessories.main_widget_position.toggle.enabled.tooltip": "Move Accessories Widget to the Right",
-  "accessories.main_widget_position.toggle.disabled.tooltip": "Move Accessories Widget to the Left",
-  "accessories.group_filter.label": "Group Filters:",
+  "accessories.main_widget_position.toggle.disabled.tooltip": "移動飾品欄按鈕到左側",
+
+  "accessories.group_filter.label": "組別過濾器：",
   "accessories.group_filter.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "✔", "color": "#28FFBF"},
     {"text": "]", "color": "gray"},
-    " Shown"
+    " 顯示"
   ],
+  "accessories.group_filter.toggle.enabled.tooltip": "隱藏組別過濾器按鈕",
   "accessories.group_filter.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "❌", "color": "#EB1D36"},
     {"text": "]", "color": "gray"},
-    " Hidden"
+    " 隱藏"
   ],
-  "accessories.group_filter.toggle.enabled.tooltip": "Hide group filter widget",
-  "accessories.group_filter.toggle.disabled.tooltip": "Show group filter widget",
-  "accessories.side_widget_position.label": "Side Position:",
+  "accessories.group_filter.toggle.disabled.tooltip": "顯示組別過濾器按鈕",
+
+  "accessories.side_widget_position.label": "邊界位置：",
   "accessories.side_widget_position.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "()", "color": "#32a852"},
     {"text": "]", "color": "gray"},
-    " Together"
+    " 合併"
   ],
+  "accessories.side_widget_position.toggle.enabled.tooltip": "將側邊小工具移到與配件小工具在一起",
   "accessories.side_widget_position.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "||", "color": "#32a852"},
     {"text": "]", "color": "gray"},
-    " Separate"
+    " 分離"
   ],
-  "accessories.side_widget_position.toggle.enabled.tooltip": "Move Side Widget to be with the Accessories Widget",
-  "accessories.side_widget_position.toggle.disabled.tooltip": "Move Side widget to be opposite to Accessories Widget",
-  "accessories.dark_mode_toggle.label": "Theme Mode:",
+  "accessories.side_widget_position.toggle.disabled.tooltip": "將側邊小工具移到配件小工具的對面",
+
+  "accessories.dark_mode_toggle.label": "主題：",
   "accessories.dark_mode_toggle.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "☽", "color": "#3d29c2"},
     {"text": "]", "color": "gray"},
-    " Dark"
+    " 暗色"
   ],
+  "accessories.dark_mode_toggle.toggle.enabled.tooltip": "切換到亮色主題",
   "accessories.dark_mode_toggle.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "☀", "color": "#bffa9b"},
     {"text": "]", "color": "gray"},
-    " Light"
+    " 亮色"
   ],
-  "accessories.dark_mode_toggle.toggle.enabled.tooltip": "Change theme to Light Mode",
-  "accessories.dark_mode_toggle.toggle.disabled.tooltip": "Change theme to Dark Mode",
-  "accessories.show_equipped_stack_slot_type.label": "Equipped Type:",
+  "accessories.dark_mode_toggle.toggle.disabled.tooltip": "切換到暗色主題",
+
+  "accessories.show_equipped_stack_slot_type.label": "已裝備的飾品欄類型：",
   "accessories.show_equipped_stack_slot_type.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "✔", "color": "#28FFBF"},
     {"text": "]", "color": "gray"},
-    " Shown"
+    " 顯示"
   ],
+  "accessories.show_equipped_stack_slot_type.toggle.enabled.tooltip": "隱藏已裝備的飾品欄類型",
   "accessories.show_equipped_stack_slot_type.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "❌", "color": "#EB1D36"},
     {"text": "]", "color": "gray"},
-    " Hidden"
+    " 隱藏"
   ],
-  "accessories.show_equipped_stack_slot_type.toggle.enabled.tooltip": "Hide equipped stack Slot type",
-  "accessories.show_equipped_stack_slot_type.toggle.disabled.tooltip": "Show equipped stack Slot type",
-  "accessories.entity_look_at_cursor.label": "Look at Mouse:",
+  "accessories.show_equipped_stack_slot_type.toggle.disabled.tooltip": "顯示已裝備的飾品欄類型",
+
+  "accessories.entity_look_at_cursor.label": "看向游標：",
   "accessories.entity_look_at_cursor.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "✔", "color": "#28FFBF"},
     {"text": "]", "color": "gray"},
-    " Enabled"
+    " 啟用"
   ],
+  "accessories.entity_look_at_cursor.toggle.enabled.tooltip": "禁止玩家模型看向游標",
   "accessories.entity_look_at_cursor.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
     {"text": "❌", "color": "#EB1D36"},
     {"text": "]", "color": "gray"},
-    " Disabled"
+    " 禁用"
   ],
-  "accessories.entity_look_at_cursor.toggle.enabled.tooltip": "Disable looking at cursor",
-  "accessories.entity_look_at_cursor.toggle.disabled.tooltip": "Enable looking at cursor",
-  "accessories.lines.toggle.enabled.tooltip": "Hide all Line Rendering",
-  "accessories.lines.toggle.disabled.tooltip": "Show all Line Rendering",
+  "accessories.entity_look_at_cursor.toggle.disabled.tooltip": "啟用玩家模型看向游標",
+
+  "accessories.lines.toggle.enabled.tooltip": "隱藏所有行",
+  "accessories.lines.toggle.disabled.tooltip": "顯示所有行",
+  
   "accessories.crafting_grid.toggle.enabled": "☒",
+  "accessories.crafting_grid.toggle.enabled.tooltip": "隱藏背包合成欄",
   "accessories.crafting_grid.toggle.disabled": "☐",
-  "accessories.crafting_grid.toggle.enabled.tooltip": "Hide the small crafting grid",
-  "accessories.crafting_grid.toggle.disabled.tooltip": "Show the small crafting grid",
-  "accessories.widget_type.scrollable.tooltip": "A Scrollable Layout for Accessories Slots",
+  "accessories.crafting_grid.toggle.disabled.tooltip": "隱藏背包合成欄",
+  
   "accessories.selection_screen.message": [
     "Below is a set of screen options that you \n",
     "can choose from depending on the style of \n",
@@ -204,11 +223,16 @@
     "Accessories Config if the given option is not \n",
     "to your liking."
   ],
-  "accessories.unique_slots.toggle.show": "Show Unique Slots",
-  "accessories.unique_slots.toggle.hide": "Hide Unique Slots",
-  "accessories.back.screen": "To Previous Screen",
-  "accessories.open.screen": "Open Accessories Screen",
-  "accessories.reset.group_filter": "Reset Group Filters",
+
+  "accessories.unique_slots.toggle.show": "顯示獨特槽位",
+  "accessories.unique_slots.toggle.hide": "隱藏獨特槽位",
+  
+  "accessories.back.screen": "返回上次介面",
+
+  "accessories.open.screen": "開啟飾品介面",
+  
+  "accessories.reset.group_filter": "重設組別過濾器",
+
 
   "#comment": "Config Related Below",
 
