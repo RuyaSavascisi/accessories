@@ -255,7 +255,7 @@
 
   "text.config.accessories.option.clientOptions.disableEmptySlotScreenError": "停用空飾品錯誤",
   "text.config.accessories.option.clientOptions.disableEmptySlotScreenError.tooltip": [
-    "停用在打開飾品介面且未找到使用過的飾品欄時所顯示的錯誤訊息。"
+    "停用在開啟飾品介面且未找到使用過的飾品欄時顯示的錯誤訊息。"
   ],
 
   "text.config.accessories.option.clientOptions.showCosmeticAccessories": "顯示物品外觀渲染",
