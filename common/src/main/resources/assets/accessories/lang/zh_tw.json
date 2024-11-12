@@ -133,7 +133,7 @@
     {"text": "]", "color": "gray"},
     " 隱藏"
   ],
-  "accessories.group_filter.toggle.disabled.tooltip": "顯示群組過濾器按鈕",
+  "accessories.group_filter.toggle.disabled.tooltip": "顯示群組篩選器按鈕",
 
   "accessories.side_widget_position.label": "邊界位置：",
   "accessories.side_widget_position.toggle.enabled": [
