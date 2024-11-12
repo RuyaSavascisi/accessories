@@ -203,7 +203,7 @@
     {"text": "[", "color": "gray"},
     {"text": "❌", "color": "#EB1D36"},
     {"text": "]", "color": "gray"},
-    " 禁用"
+    " 停用"
   ],
   "accessories.entity_look_at_cursor.toggle.disabled.tooltip": "啟用玩家模型看向游標",
 
