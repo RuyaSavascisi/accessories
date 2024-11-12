@@ -250,7 +250,7 @@
 
   "text.config.accessories.option.clientOptions.forceNullRenderReplacement": "強制空繪製替換",
   "text.config.accessories.option.clientOptions.forceNullRenderReplacement.tooltip": [
-    "強制任何已註冊的渲染，若發現沒有渲染，就改用預設渲染。"
+    "強制任何已登錄的繪製，若發現沒有繪製，就改用預設繪製。"
   ],
 
   "text.config.accessories.option.clientOptions.disableEmptySlotScreenError": "停用空飾品錯誤",
