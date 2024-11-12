@@ -245,7 +245,7 @@
 
   "text.config.accessories.category.clientOptions": "用戶端選項",
   "text.config.accessories.category.clientOptions.tooltip": [
-    "包含用於渲染或玩家輸入的更通用的客戶端選項"
+    "包含更多通用的用戶端選項，用於繪製或玩家輸入"
   ],
 
   "text.config.accessories.option.clientOptions.forceNullRenderReplacement": "強制空渲染替換",
