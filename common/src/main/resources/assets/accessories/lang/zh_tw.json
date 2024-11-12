@@ -125,7 +125,7 @@
     {"text": "]", "color": "gray"},
     " 顯示"
   ],
-  "accessories.group_filter.toggle.enabled.tooltip": "隱藏群組過濾器按鈕",
+  "accessories.group_filter.toggle.enabled.tooltip": "隱藏群組篩選器按鈕",
   "accessories.group_filter.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
