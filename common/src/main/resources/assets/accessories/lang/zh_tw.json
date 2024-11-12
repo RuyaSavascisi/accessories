@@ -117,7 +117,7 @@
   ],
   "accessories.main_widget_position.toggle.disabled.tooltip": "移動飾品欄按鈕到左側",
 
-  "accessories.group_filter.label": "組別過濾器：",
+  "accessories.group_filter.label": "群組過濾器：",
   "accessories.group_filter.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
@@ -125,7 +125,7 @@
     {"text": "]", "color": "gray"},
     " 顯示"
   ],
-  "accessories.group_filter.toggle.enabled.tooltip": "隱藏組別過濾器按鈕",
+  "accessories.group_filter.toggle.enabled.tooltip": "隱藏群組過濾器按鈕",
   "accessories.group_filter.toggle.disabled": [
     "",
     {"text": "[", "color": "gray"},
@@ -133,7 +133,7 @@
     {"text": "]", "color": "gray"},
     " 隱藏"
   ],
-  "accessories.group_filter.toggle.disabled.tooltip": "顯示組別過濾器按鈕",
+  "accessories.group_filter.toggle.disabled.tooltip": "顯示群組過濾器按鈕",
 
   "accessories.side_widget_position.label": "邊界位置：",
   "accessories.side_widget_position.toggle.enabled": [
@@ -231,7 +231,7 @@
 
   "accessories.open.screen": "開啟飾品介面",
   
-  "accessories.reset.group_filter": "重設組別過濾器",
+  "accessories.reset.group_filter": "重設群組過濾器",
 
 
   "#comment": "以下與設定相關",
