@@ -243,7 +243,7 @@
     "嘗試快取各種物品堆疊查詢以提高效能，但可能會造成問題。"
   ],
 
-  "text.config.accessories.category.clientOptions": "客戶端選項",
+  "text.config.accessories.category.clientOptions": "用戶端選項",
   "text.config.accessories.category.clientOptions.tooltip": [
     "包含用於渲染或玩家輸入的更通用的客戶端選項"
   ],
