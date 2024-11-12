@@ -117,7 +117,7 @@
   ],
   "accessories.main_widget_position.toggle.disabled.tooltip": "移動飾品欄按鈕到左側",
 
-  "accessories.group_filter.label": "群組過濾器：",
+  "accessories.group_filter.label": "群組篩選器：",
   "accessories.group_filter.toggle.enabled": [
     "",
     {"text": "[", "color": "gray"},
