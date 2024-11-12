@@ -248,7 +248,7 @@
     "包含更多通用的用戶端選項，用於繪製或玩家輸入"
   ],
 
-  "text.config.accessories.option.clientOptions.forceNullRenderReplacement": "強制空渲染替換",
+  "text.config.accessories.option.clientOptions.forceNullRenderReplacement": "強制空繪製替換",
   "text.config.accessories.option.clientOptions.forceNullRenderReplacement.tooltip": [
     "強制任何已註冊的渲染，若發現沒有渲染，就改用預設渲染。"
   ],
