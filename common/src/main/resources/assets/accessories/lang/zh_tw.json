@@ -366,7 +366,7 @@
 
   "text.config.accessories.option.disabledDefaultRenders": "停用預設渲染器",
   "text.config.accessories.option.disabledDefaultRenders.tooltip": [
-    "停用指定飾品欄位的預設渲染，例如方塊或/和物品的渲染"
+    "停用指定飾品欄位的預設繪製，例如方塊或/和物品的繪製"
   ],
 
   "text.config.accessories.option.clientOptions.disabledDefaultRenders.slotType": "欄位",
