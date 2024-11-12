@@ -275,7 +275,7 @@
 
   "text.config.accessories.enum.playerEquipControl.must_crouch": "必須蹲下",
   "text.config.accessories.enum.playerEquipControl.must_not_crouch": "不須蹲下",
-  "text.config.accessories.enum.playerEquipControl.disabled": "禁用",
+  "text.config.accessories.enum.playerEquipControl.disabled": "停用",
 
   "text.config.accessories.category.screenOptions": "介面選項",
   "text.config.accessories.category.screenOptions.tooltip": [
