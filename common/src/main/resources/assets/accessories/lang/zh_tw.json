@@ -97,7 +97,7 @@
     {"text": "]", "color": "gray"},
     " 捲動"
   ],
-  "accessories.widget_type.scrollable.tooltip": "可滾動的飾品布局",
+  "accessories.widget_type.scrollable.tooltip": "可捲動的飾品佈局",
 
   "accessories.main_widget_position.label": "飾品介面按鈕位置：",
   "accessories.main_widget_position.toggle.enabled": [
