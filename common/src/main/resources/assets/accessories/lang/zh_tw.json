@@ -265,7 +265,7 @@
 
   "text.config.accessories.option.clientOptions.disabledDefaultRenders": "停用預設繪製",
   "text.config.accessories.option.clientOptions.disabledDefaultRenders.tooltip": [
-    "如果正在使用，停用內建的預設渲染器渲染物品。"
+    "如果正在使用，停用內建的預設渲染器繪製物品。"
   ],
 
   "text.config.accessories.option.clientOptions.equipControl": "快速手動裝備模式",
@@ -306,7 +306,7 @@
 
   "text.config.accessories.option.screenOptions.entityLooksAtMouseCursor": "使實體朝向游標",
   "text.config.accessories.option.screenOptions.entityLooksAtMouseCursor.tooltip": [
-    "啟用時使背包中的實體模型看向滑鼠游標，反之當禁用時則允許手動旋轉實體模型。"
+    "啟用時使背包中的實體模型看向滑鼠游標，反之當停用時則允許手動旋轉實體模型。"
   ],
 
   "text.config.accessories.option.screenOptions.allowSideBarCraftingGrid": "允許在側邊欄顯示合成欄",
@@ -356,10 +356,10 @@
 
   "text.config.accessories.category.screenOptions.unHoveredOptions": "未懸停選項",
   "text.config.accessories.category.screenOptions.unHoveredOptions.tooltip": [
-    "游標未懸停在物品上的渲染效果"
+    "游標未懸停在物品上的繪製效果"
   ],
 
-  "text.config.accessories.option.screenOptions.unHoveredOptions.renderUnHovered": "依然渲染未有游標懸停的物品",
+  "text.config.accessories.option.screenOptions.unHoveredOptions.renderUnHovered": "依然繪製未有游標懸停的物品",
   "text.config.accessories.option.screenOptions.unHoveredOptions.darkenUnHovered": "降低物品亮度",
   "text.config.accessories.option.screenOptions.unHoveredOptions.darkenedBrightness": "降低亮度",
   "text.config.accessories.option.screenOptions.unHoveredOptions.darkenedOpacity": "降低不透明度",
