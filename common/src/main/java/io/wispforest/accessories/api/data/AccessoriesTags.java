@@ -53,10 +53,10 @@ public class AccessoriesTags {
     public static final TagKey<EntityType<?>> MODIFIABLE_ENTITY_WHITELIST = entityTag("modifiable_entity_accessories_whitelist");
 
     /**
-     * Tag used to allow the given {@link Enchantment}'s within the tag to be redirected to a
-     * Accessory {@link ItemStack} when iterated
+     * Tag used to disallow the given {@link Enchantment}'s within the tag to be
+     * redirected to an Accessory {@link ItemStack} when iterated
      */
-    public static final TagKey<Enchantment> VALID_FOR_REDIRECTION = of(Registries.ENCHANTMENT, "valid_for_redirection");
+    public static final TagKey<Enchantment> INVALID_FOR_REDIRECTION = of(Registries.ENCHANTMENT, "invalid_for_redirection");
 
     public static TagKey<Item> itemTag(String path) {
         return of(Registries.ITEM, path);
