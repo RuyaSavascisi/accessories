@@ -1,0 +1,5 @@
+{
+  "net/minecraft/world/entity/LivingEntity": [
+    "io/wispforest/accessories/pond/AccessoriesAPIAccess"
+  ]
+}
