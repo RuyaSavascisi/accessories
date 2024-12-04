@@ -6,6 +6,7 @@
   "icon": "accessories:gui/slot/necklace",
   "validators": [
     "accessories:tag",
-    "accessories:component"
+    "accessories:component",
+    "accessories:attribute"
   ]
 }

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface EntityBasedPredicate extends SlotBasedPredicate {
 
-    TriState isValid(Level level, @Nullable LivingEntity entity, SlotType slotType, int slot, ItemStack stack);
+    TriState isValid(Level level, @Nullable LivingEntity entity, SlotType slotType, int index, ItemStack stack);
 
     @Override
     default TriState isValid(Level level, SlotType slotType, int slot, ItemStack stack) {

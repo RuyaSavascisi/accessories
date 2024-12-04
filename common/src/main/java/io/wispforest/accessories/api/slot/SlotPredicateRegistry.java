@@ -169,11 +169,11 @@ public class SlotPredicateRegistry {
         register(AccessoriesBaseData.TAG_PREDICATE_ID, (level, slotType, i, stack) -> {
             return (stack.is(getSlotTag(slotType)) || stack.is(AccessoriesTags.ANY_TAG)) ? TriState.TRUE : TriState.DEFAULT;
         });
-        register(AccessoriesBaseData.RELEVANT_PREDICATE_ID, (level, slotType, i, stack) -> {
-            var bl = !AccessoryAttributeLogic.getAttributeModifiers(stack, null, slotType.name(), i).getAttributeModifiers(false).isEmpty();
+        register(AccessoriesBaseData.ATTRIBUTE_PREDICATE_ID, SlotBasedPredicate.withEntity((level, entity, slotType, index, stack) -> {
+            var bl = !AccessoryAttributeLogic.getAttributeModifiers(stack, entity, slotType.name(), index).getAttributeModifiers(false).isEmpty();
 
             return bl ? TriState.TRUE : TriState.DEFAULT;
-        });
+        }));
         register(AccessoriesBaseData.COMPONENT_PREDICATE_ID, (level, slotType, index, stack) -> {
             if(stack.has(AccessoriesDataComponents.SLOT_VALIDATION)) {
                 var slotValidationData = stack.get(AccessoriesDataComponents.SLOT_VALIDATION);

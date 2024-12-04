@@ -17,11 +17,11 @@ public interface SlotBasedPredicate {
      *
      * @param level    The current level for the predicate
      * @param slotType The given slot type being checked
-     * @param slot     The given index being referenced
+     * @param index     The given index being referenced
      * @param stack    The stack being checked
      * @return Whether the stack can be equipped into the given slot
      */
-    TriState isValid(Level level, SlotType slotType, int slot, ItemStack stack);
+    TriState isValid(Level level, SlotType slotType, int index, ItemStack stack);
 
     /**
      * @return Predicate that checks solely using the passed stacks item

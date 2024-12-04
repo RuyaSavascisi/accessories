@@ -7,6 +7,7 @@
   "validators": [
     "accessories:tag",
     "accessories:component",
+    "accessories:attribute",
     "accessories:totem_item"
   ]
 }

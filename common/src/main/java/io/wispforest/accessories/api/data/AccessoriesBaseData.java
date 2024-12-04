@@ -30,6 +30,6 @@ public class AccessoriesBaseData {
     public static final ResourceLocation ALL_PREDICATE_ID = Accessories.of("all");
     public static final ResourceLocation NONE_PREDICATE_ID = Accessories.of("none");
     public static final ResourceLocation TAG_PREDICATE_ID = Accessories.of("tag");
-    public static final ResourceLocation RELEVANT_PREDICATE_ID = Accessories.of("relevant");
+    public static final ResourceLocation ATTRIBUTE_PREDICATE_ID = Accessories.of("attribute");
     public static final ResourceLocation COMPONENT_PREDICATE_ID = Accessories.of("component");
 }
