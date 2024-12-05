@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.neoforge.mixin.ContextAwareReloadListenerAccessor;
 import io.wispforest.owo.serialization.RegistriesAttribute;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
@@ -57,10 +58,6 @@ import java.util.function.UnaryOperator;
 
 public class AccessoriesInternalsImpl {
 
-    public static boolean isDevelopmentEnv() {
-        return !FMLLoader.isProduction();
-    }
-
     public static AccessoriesHolderImpl getHolder(LivingEntity livingEntity){
         return livingEntity.getData(AccessoriesForge.HOLDER_ATTACHMENT_TYPE);
     }
@@ -73,10 +70,16 @@ public class AccessoriesInternalsImpl {
         livingEntity.setData(AccessoriesForge.HOLDER_ATTACHMENT_TYPE, holder);
     }
 
-    private static Optional<ICondition.IContext> currentContext = Optional.empty();
+    public static AccessoriesPlayerOptions getPlayerOptions(Player player) {
+        return player.getData(AccessoriesForge.PLAYER_OPTIONS_ATTACHMENT_TYPE);
+    }
 
-    public static void setContext(@Nullable ICondition.IContext context){
-        currentContext = Optional.ofNullable(context);
+    public static void modifyPlayerOptions(Player player, UnaryOperator<AccessoriesPlayerOptions> modifier) {
+        var options = getPlayerOptions(player);
+
+        options = modifier.apply(options);
+
+        player.setData(AccessoriesForge.PLAYER_OPTIONS_ATTACHMENT_TYPE, options);
     }
 
     //--

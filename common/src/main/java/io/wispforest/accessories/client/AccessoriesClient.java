@@ -6,7 +6,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import io.wispforest.accessories.Accessories;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import io.wispforest.accessories.client.gui.ScreenVariantSelectionScreen;
@@ -17,12 +16,12 @@ import io.wispforest.accessories.compat.config.client.Structured;
 import io.wispforest.accessories.compat.config.client.components.StructListOptionContainer;
 import io.wispforest.accessories.compat.config.client.components.StructOptionContainer;
 import io.wispforest.accessories.data.EntitySlotLoader;
-import io.wispforest.accessories.impl.AccessoriesHolderImpl;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.menu.AccessoriesMenuVariant;
 import io.wispforest.accessories.mixin.owo.ConfigWrapperAccessor;
 import io.wispforest.accessories.networking.AccessoriesNetworking;
-import io.wispforest.accessories.networking.holder.HolderProperty;
-import io.wispforest.accessories.networking.holder.SyncHolderChange;
+import io.wispforest.accessories.networking.holder.PlayerOption;
+import io.wispforest.accessories.networking.holder.SyncOptionChange;
 import io.wispforest.accessories.networking.server.ScreenOpen;
 import io.wispforest.owo.config.ui.ConfigScreenProviders;
 import io.wispforest.owo.config.ui.OptionComponentFactory;
@@ -137,7 +136,7 @@ public class AccessoriesClient {
             attemptAction(holder -> {
                 if(holder.equipControl() == value) return;
 
-                AccessoriesNetworking.sendToServer(SyncHolderChange.of(HolderProperty.EQUIP_CONTROL, value));
+                AccessoriesNetworking.sendToServer(SyncOptionChange.of(PlayerOption.EQUIP_CONTROL, value));
             });
         });
 
@@ -145,7 +144,7 @@ public class AccessoriesClient {
             attemptAction(holder -> {
                 if(holder.showUnusedSlots() == value) return;
 
-                AccessoriesNetworking.sendToServer(SyncHolderChange.of(HolderProperty.UNUSED_PROP, value));
+                AccessoriesNetworking.sendToServer(SyncOptionChange.of(PlayerOption.UNUSED_PROP, value));
             });
         });
     }
@@ -173,14 +172,14 @@ public class AccessoriesClient {
         initLayer();
     }
 
-    private static void attemptAction(Consumer<AccessoriesHolderImpl> consumer) {
+    private static void attemptAction(Consumer<AccessoriesPlayerOptions> consumer) {
         var currentPlayer = Minecraft.getInstance().player;
 
         if (currentPlayer == null || Minecraft.getInstance().level == null) return;
 
-        var holder = AccessoriesHolderImpl.getHolder(currentPlayer);
+        var options = AccessoriesPlayerOptions.getOptions(currentPlayer);
 
-        if (holder != null) consumer.accept(holder);
+        if (options != null) consumer.accept(options);
     }
 
     public static void initalConfigDataSync() {
@@ -188,20 +187,20 @@ public class AccessoriesClient {
 
         if(currentPlayer == null || Minecraft.getInstance().level == null) return;
 
-        var holder = AccessoriesHolderImpl.getHolder(currentPlayer);
+        var options = AccessoriesPlayerOptions.getOptions(currentPlayer);
 
-        if(holder == null) return;
+        if(options == null) return;
 
         var equipControl = Accessories.config().clientOptions.equipControl();
 
-        if(holder.equipControl() != equipControl) {
-            AccessoriesNetworking.sendToServer(SyncHolderChange.of(HolderProperty.EQUIP_CONTROL, equipControl));
+        if(options.equipControl() != equipControl) {
+            AccessoriesNetworking.sendToServer(SyncOptionChange.of(PlayerOption.EQUIP_CONTROL, equipControl));
         }
 
         var showUnusedSlots = Accessories.config().screenOptions.showUnusedSlots();
 
-        if(holder.showUnusedSlots() != showUnusedSlots) {
-            AccessoriesNetworking.sendToServer(SyncHolderChange.of(HolderProperty.UNUSED_PROP, showUnusedSlots));
+        if(options.showUnusedSlots() != showUnusedSlots) {
+            AccessoriesNetworking.sendToServer(SyncOptionChange.of(PlayerOption.UNUSED_PROP, showUnusedSlots));
         }
     }
 
@@ -235,11 +234,9 @@ public class AccessoriesClient {
         } else {
             var slots = AccessoriesCapability.getUsedSlotsFor(player);
 
-            var holder = AccessoriesHolderImpl.getHolder(player);
+            var options = AccessoriesPlayerOptions.getOptions(player);
 
-            if(holder == null) return false;
-
-            if(slots.isEmpty() && !holder.showUnusedSlots() && !displayUnusedSlotWarning && !Accessories.config().clientOptions.disableEmptySlotScreenError()) {
+            if(slots.isEmpty() && !options.showUnusedSlots() && !displayUnusedSlotWarning && !Accessories.config().clientOptions.disableEmptySlotScreenError()) {
                 player.displayClientMessage(Component.literal("[Accessories]: No Used Slots found by any mod directly, the screen will show empty unless a item is found to implement slots!"), false);
 
                 displayUnusedSlotWarning = true;

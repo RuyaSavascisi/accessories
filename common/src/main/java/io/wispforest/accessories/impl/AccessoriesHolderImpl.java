@@ -13,13 +13,13 @@ import io.wispforest.accessories.utils.InstanceEndec;
 import io.wispforest.owo.serialization.RegistriesAttribute;
 import io.wispforest.owo.serialization.format.nbt.NbtEndec;
 import io.wispforest.accessories.utils.EndecUtils;
-import io.wispforest.endec.Endec;
 import io.wispforest.endec.SerializationAttribute;
 import io.wispforest.endec.SerializationContext;
 import io.wispforest.endec.impl.KeyedEndec;
 import io.wispforest.endec.util.MapCarrier;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.util.*;
+import static io.wispforest.accessories.impl.AccessoriesPlayerOptions.*;
 
 @ApiStatus.Internal
 public class AccessoriesHolderImpl implements InstanceEndec {
@@ -39,29 +40,8 @@ public class AccessoriesHolderImpl implements InstanceEndec {
     private final Map<String, AccessoriesContainer> slotContainers = new LinkedHashMap<>();
 
     public final List<ItemStack> invalidStacks = new ArrayList<>();
+
     protected final Map<AccessoriesContainer, Boolean> containersRequiringUpdates = new HashMap<>();
-
-    //-- Logical Stuff
-
-    private PlayerEquipControl equipControl = PlayerEquipControl.MUST_NOT_CROUCH;
-
-    //--
-
-    //-- Rendering Stuff
-
-    private boolean showAdvancedOptions = false;
-
-    private boolean showUnusedSlots = false;
-
-    private boolean showCosmetics = false;
-
-    private int columnAmount = 1;
-    private int widgetType = 2;
-    private boolean showGroupFilter = false;
-    private boolean mainWidgetPosition = true;
-    private boolean sideWidgetPosition = false;
-
-    private boolean showCraftingGrid = false;
 
     // --
 
@@ -137,134 +117,6 @@ public class AccessoriesHolderImpl implements InstanceEndec {
     @Nullable
     public AccessoriesHolderLookupCache getLookupCache() {
         return Accessories.config().useExperimentalCaching() ? this.lookupCache : null;
-    }
-
-    //--
-
-    public PlayerEquipControl equipControl() {
-        return equipControl;
-    }
-
-    public AccessoriesHolderImpl equipControl(PlayerEquipControl value) {
-        this.equipControl = value;
-
-        return this;
-    }
-
-    //--
-
-    public boolean showUnusedSlots() {
-        return this.showUnusedSlots;
-    }
-
-    public AccessoriesHolderImpl showUnusedSlots(boolean value) {
-        this.showUnusedSlots = value;
-
-        return this;
-    }
-
-    public boolean cosmeticsShown() {
-        return this.showCosmetics;
-    }
-
-    public AccessoriesHolderImpl cosmeticsShown(boolean value) {
-        this.showCosmetics = value;
-
-        return this;
-    }
-
-    public int columnAmount() {
-        return Math.max(columnAmount, 1);
-    }
-
-    public AccessoriesHolderImpl columnAmount(int value) {
-        this.columnAmount = value;
-
-        return this;
-    }
-
-    public int widgetType() {
-        return Math.max(widgetType, 1);
-    }
-
-    public AccessoriesHolderImpl widgetType(int value) {
-        this.widgetType = value;
-
-        return this;
-    }
-
-    public boolean mainWidgetPosition() {
-        return this.mainWidgetPosition;
-    }
-
-    public AccessoriesHolderImpl mainWidgetPosition(boolean value) {
-        this.mainWidgetPosition = value;
-
-        return this;
-    }
-
-    public boolean showAdvancedOptions() {
-        return this.showAdvancedOptions;
-    }
-
-    public AccessoriesHolderImpl showAdvancedOptions(boolean value) {
-        this.showAdvancedOptions = value;
-
-        return this;
-    }
-
-    public boolean showGroupFilter() {
-        return this.showGroupFilter;
-    }
-
-    public AccessoriesHolderImpl showGroupFilter(boolean value) {
-        this.showGroupFilter = value;
-
-        return this;
-    }
-
-    private boolean isGroupFiltersOpen = true;
-
-    public boolean isGroupFiltersOpen() {
-        return isGroupFiltersOpen;
-    }
-
-    public AccessoriesHolderImpl isGroupFiltersOpen(boolean value) {
-        this.isGroupFiltersOpen = value;
-
-        return this;
-    }
-
-    private Set<String> filteredGroups = Set.of();
-
-    public Set<String> filteredGroups() {
-        return filteredGroups;
-    }
-
-    public AccessoriesHolderImpl filteredGroups(Set<String> value) {
-        this.filteredGroups = value;
-
-        return this;
-    }
-
-    public boolean sideWidgetPosition() {
-        return this.sideWidgetPosition;
-    }
-
-    public AccessoriesHolderImpl sideWidgetPosition(boolean value) {
-        this.sideWidgetPosition = value;
-
-        return this;
-    }
-
-    public boolean showCraftingGrid() {
-        return this.showCraftingGrid;
-    }
-
-    public AccessoriesHolderImpl showCraftingGrid(boolean value) {
-        this.showCraftingGrid = value;
-
-        return this;
     }
 
     //--
@@ -360,43 +212,11 @@ public class AccessoriesHolderImpl implements InstanceEndec {
                 return containerMap;
             }).keyed("accessories_containers", HashMap::new);
 
-    private static final KeyedEndec<PlayerEquipControl> EQUIP_CONTROL_KEY = Endec.forEnum(PlayerEquipControl.class).keyed("equip_control", PlayerEquipControl.MUST_CROUCH);
-
-    private static final KeyedEndec<Boolean> SHOW_UNUSED_SLOTS_KEY = Endec.BOOLEAN.keyed("show_unused_slots", false);
-    private static final KeyedEndec<Boolean> SHOW_COSMETICS_KEY = Endec.BOOLEAN.keyed("show_cosmetics", false);
-
-    private static final KeyedEndec<Integer> COLUMN_AMOUNT_KEY = Endec.INT.keyed("column_amount", 1);
-    private static final KeyedEndec<Integer> WIDGET_TYPE_KEY = Endec.INT.keyed("widget_type", 2);
-    private static final KeyedEndec<Boolean> MAIN_WIDGET_POSITION = Endec.BOOLEAN.keyed("main_widget_position", true);
-    private static final KeyedEndec<Boolean> SIDE_WIDGET_POSITION = Endec.BOOLEAN.keyed("side_widget_position", false);
-
-    private static final KeyedEndec<Boolean> SHOW_GROUP_FILTER = Endec.BOOLEAN.keyed("show_group_filter", false);
-    private static final KeyedEndec<Boolean> IS_GROUP_FILTERS_OPEN_KEY = Endec.BOOLEAN.keyed("is_group_filter_open", false);
-    private static final KeyedEndec<Set<String>> FILTERED_GROUPS_KEY = Endec.STRING.setOf().keyed("filtered_groups", HashSet::new);
-
-    private static final KeyedEndec<Boolean> SHOW_CRAFTING_GRID = Endec.BOOLEAN.keyed("cosmetics_shown", false);
-
     @Override
     public void write(MapCarrier carrier, SerializationContext ctx) {
         if(slotContainers.isEmpty()) return;
 
         carrier.put(ctx, CONTAINERS_KEY, this.slotContainers);
-
-        carrier.put(ctx, EQUIP_CONTROL_KEY, this.equipControl);
-
-        carrier.put(ctx, COLUMN_AMOUNT_KEY, this.columnAmount);
-        carrier.put(ctx, WIDGET_TYPE_KEY, this.widgetType);
-        carrier.put(ctx, MAIN_WIDGET_POSITION, this.mainWidgetPosition);
-        carrier.put(ctx, SIDE_WIDGET_POSITION, this.sideWidgetPosition);
-
-        carrier.put(ctx, SHOW_COSMETICS_KEY, this.showCosmetics);
-        carrier.put(ctx, SHOW_UNUSED_SLOTS_KEY, this.showUnusedSlots);
-
-        carrier.put(ctx, SHOW_GROUP_FILTER, this.showGroupFilter);
-        carrier.put(ctx, IS_GROUP_FILTERS_OPEN_KEY, this.isGroupFiltersOpen);
-        carrier.put(ctx, FILTERED_GROUPS_KEY, this.filteredGroups);
-
-        carrier.put(ctx, SHOW_CRAFTING_GRID, this.showCraftingGrid);
     }
 
     public void read(LivingEntity entity, MapCarrier carrier, SerializationContext ctx) {
@@ -417,21 +237,37 @@ public class AccessoriesHolderImpl implements InstanceEndec {
 
         carrier.getWithErrors(ctx.withAttributes(new ContainersAttribute(this.slotContainers), new InvalidStacksAttribute(this.invalidStacks)), CONTAINERS_KEY);
 
-        this.equipControl = carrier.get(ctx, EQUIP_CONTROL_KEY);
+        // TODO: REMOVE WITHIN THE FUTURE WHEN A GOOD AMOUNT OF TIME TO TRANSITION HAS OCCURRED
+        if (entity instanceof ServerPlayer player) {
+            var equipControl = carrier.get(ctx, EQUIP_CONTROL_KEY);
 
-        this.columnAmount = carrier.get(ctx, COLUMN_AMOUNT_KEY);
-        this.widgetType = carrier.get(ctx, WIDGET_TYPE_KEY);
-        this.mainWidgetPosition = carrier.get(ctx, MAIN_WIDGET_POSITION);
-        this.sideWidgetPosition = carrier.get(ctx, SIDE_WIDGET_POSITION);
+            var columnAmount = carrier.get(ctx, COLUMN_AMOUNT_KEY);
+            var widgetType = carrier.get(ctx, WIDGET_TYPE_KEY);
+            var mainWidgetPosition = carrier.get(ctx, MAIN_WIDGET_POSITION);
+            var sideWidgetPosition = carrier.get(ctx, SIDE_WIDGET_POSITION);
 
-        this.showCosmetics = carrier.get(ctx, SHOW_COSMETICS_KEY);
-        this.showUnusedSlots = carrier.get(ctx, SHOW_UNUSED_SLOTS_KEY);
+            var showCosmetics = carrier.get(ctx, SHOW_COSMETICS_KEY);
+            var showUnusedSlots = carrier.get(ctx, SHOW_UNUSED_SLOTS_KEY);
 
-        this.showGroupFilter = carrier.get(ctx, SHOW_GROUP_FILTER);
-        this.isGroupFiltersOpen = carrier.get(ctx, IS_GROUP_FILTERS_OPEN_KEY);
-        this.filteredGroups = carrier.get(ctx, FILTERED_GROUPS_KEY);
+            var showGroupFilter = carrier.get(ctx, SHOW_GROUP_FILTER);
+            var isGroupFiltersOpen = carrier.get(ctx, IS_GROUP_FILTERS_OPEN_KEY);
+            var filteredGroups = carrier.get(ctx, FILTERED_GROUPS_KEY);
 
-        this.showCraftingGrid = carrier.get(ctx, SHOW_CRAFTING_GRID);
+            var showCraftingGrid = carrier.get(ctx, SHOW_CRAFTING_GRID);
+
+            AccessoriesPlayerOptions.getOptions(player)
+                    .equipControl(equipControl)
+                    .columnAmount(columnAmount)
+                    .widgetType(widgetType)
+                    .mainWidgetPosition(mainWidgetPosition)
+                    .sideWidgetPosition(sideWidgetPosition)
+                    .showCosmetics(showCosmetics)
+                    .showUnusedSlots(showUnusedSlots)
+                    .showGroupFilter(showGroupFilter)
+                    .isGroupFiltersOpen(isGroupFiltersOpen)
+                    .filteredGroups(filteredGroups)
+                    .showCraftingGrid(showCraftingGrid);
+        }
 
         capability.clearCachedSlotModifiers();
 
@@ -447,26 +283,6 @@ public class AccessoriesHolderImpl implements InstanceEndec {
         this.loadedFromTag = true;
 
         this.carrier = carrier;
-    }
-
-    @Deprecated(forRemoval = true)
-    public boolean showUniqueSlots() {
-        return false;
-    }
-
-    @Deprecated(forRemoval = true)
-    public AccessoriesHolderImpl showUniqueSlots(boolean value) {
-        return this;
-    }
-
-    @Deprecated(forRemoval = true)
-    public boolean linesShown() {
-        return false;
-    }
-
-    @Deprecated(forRemoval = true)
-    public AccessoriesHolderImpl linesShown(boolean value) {
-        return this;
     }
 
     private record ContainersAttribute(Map<String, AccessoriesContainer> slotContainers) implements SerializationAttribute.Instance {

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.ArgumentType;
 
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.menu.AccessoriesMenuData;
 import io.wispforest.accessories.menu.AccessoriesMenuVariant;
 import io.wispforest.accessories.mixin.ItemStackAccessor;
@@ -60,6 +61,18 @@ public class AccessoriesInternalsImpl {
         holder = modifier.apply(holder);
 
         livingEntity.setAttached(AccessoriesFabric.HOLDER_ATTACHMENT_TYPE, holder);
+    }
+
+    public static AccessoriesPlayerOptions getPlayerOptions(Player player) {
+        return player.getAttachedOrCreate(AccessoriesFabric.PLAYER_OPTIONS_ATTACHMENT_TYPE);
+    }
+
+    public static void modifyPlayerOptions(Player player, UnaryOperator<AccessoriesPlayerOptions> modifier) {
+        var options = getPlayerOptions(player);
+
+        options = modifier.apply(options);
+
+        player.setAttached(AccessoriesFabric.PLAYER_OPTIONS_ATTACHMENT_TYPE, options);
     }
 
     //--

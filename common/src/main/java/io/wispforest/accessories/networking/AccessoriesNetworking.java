@@ -3,7 +3,7 @@ package io.wispforest.accessories.networking;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.mixin.ServerChunkLoadingManagerAccessor;
 import io.wispforest.accessories.networking.client.*;
-import io.wispforest.accessories.networking.holder.SyncHolderChange;
+import io.wispforest.accessories.networking.holder.SyncOptionChange;
 import io.wispforest.accessories.networking.server.MenuScroll;
 import io.wispforest.accessories.networking.server.NukeAccessories;
 import io.wispforest.accessories.networking.server.ScreenOpen;
@@ -34,7 +34,7 @@ public class AccessoriesNetworking {
         CHANNEL.registerServerbound(SyncCosmeticToggle.class, SyncCosmeticToggle.ENDEC, serverHandler(SyncCosmeticToggle::handlePacket));
 
         CHANNEL.registerServerbound(MenuScroll.class, MenuScroll.ENDEC, serverHandler(MenuScroll::handlePacket));
-        CHANNEL.registerServerbound(SyncHolderChange.class, SyncHolderChange.ENDEC, serverHandler(SyncHolderChange::handlePacket));
+        CHANNEL.registerServerbound(SyncOptionChange.class, SyncOptionChange.ENDEC, serverHandler(SyncOptionChange::handlePacket));
 
         //--
 
@@ -45,7 +45,7 @@ public class AccessoriesNetworking {
         CHANNEL.registerClientboundDeferred(InvalidateEntityCache.class, InvalidateEntityCache.ENDEC);
 
         CHANNEL.registerClientboundDeferred(MenuScroll.class, MenuScroll.ENDEC);
-        CHANNEL.registerClientboundDeferred(SyncHolderChange.class, SyncHolderChange.ENDEC);
+        CHANNEL.registerClientboundDeferred(SyncOptionChange.class, SyncOptionChange.ENDEC);
     }
 
     @Environment(EnvType.CLIENT)
@@ -57,7 +57,7 @@ public class AccessoriesNetworking {
         CHANNEL.registerClientbound(InvalidateEntityCache.class, InvalidateEntityCache.ENDEC, clientHandler(InvalidateEntityCache::handlePacket));
 
         CHANNEL.registerClientbound(MenuScroll.class, MenuScroll.ENDEC, clientHandler(MenuScroll::handlePacket));
-        CHANNEL.registerClientbound(SyncHolderChange.class, SyncHolderChange.ENDEC, clientHandler(SyncHolderChange::handlePacket));
+        CHANNEL.registerClientbound(SyncOptionChange.class, SyncOptionChange.ENDEC, clientHandler(SyncOptionChange::handlePacket));
     }
 
     @Environment(EnvType.CLIENT)

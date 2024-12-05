@@ -215,6 +215,27 @@ public interface AccessoryNest extends Accessory {
     //--
 
     @Override
+    default void onBreak(ItemStack stack, SlotReference reference) {
+        attemptConsumer(stack, reference, map -> map.forEach((entryRef, accessory) -> accessory.onBreak(entryRef.stack(), entryRef.reference())));
+    }
+
+    @Override
+    default boolean canEquipFromUse(ItemStack stack) {
+        return attemptFunction(stack, null, (Map<ItemStack, Accessory> map) -> {
+            for (var entry : map.entrySet()) {
+                if(!entry.getValue().canEquipFromUse(entry.getKey())) return false;
+            }
+
+            return true;
+        }, true);
+    }
+
+    @Override
+    default void onEquipFromUse(ItemStack stack, SlotReference reference) {
+        attemptConsumer(stack, reference, map -> map.forEach((entryRef, accessory) -> accessory.onEquipFromUse(entryRef.stack(), entryRef.reference())));
+    }
+
+    @Override
     default void tick(ItemStack stack, SlotReference reference) {
         attemptConsumer(stack, reference, map -> map.forEach((entryRef, accessory) -> accessory.tick(entryRef.stack(), entryRef.reference())));
     }

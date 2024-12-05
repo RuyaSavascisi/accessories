@@ -8,6 +8,7 @@ import io.wispforest.accessories.api.menu.AccessoriesBasedSlot;
 import io.wispforest.accessories.api.slot.*;
 import io.wispforest.accessories.data.SlotGroupLoader;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.menu.*;
 import io.wispforest.accessories.menu.networking.ToggledSlots;
 import io.wispforest.owo.client.screens.SlotGenerator;
@@ -318,7 +319,7 @@ public class AccessoriesExperimentalMenu extends AccessoriesMenuBase {
     }
 
     public boolean areUnusedSlotsShown() {
-        return Optional.ofNullable(AccessoriesHolderImpl.getHolder(owner)).map(AccessoriesHolderImpl::showUnusedSlots).orElse(false);
+        return AccessoriesPlayerOptions.getOptions(owner).showUnusedSlots();
     }
 
     @Override

@@ -9,6 +9,7 @@ import io.wispforest.accessories.data.EntitySlotLoader;
 import io.wispforest.accessories.impl.AccessoriesCapabilityImpl;
 import io.wispforest.accessories.impl.AccessoriesEventHandler;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.utils.InstanceEndec;
 import io.wispforest.accessories.menu.AccessoriesMenuTypes;
 import io.wispforest.accessories.networking.AccessoriesNetworking;
@@ -35,6 +36,7 @@ import net.minecraft.world.item.Item;
 public class AccessoriesFabric implements ModInitializer {
 
     public static final AttachmentType<AccessoriesHolderImpl> HOLDER_ATTACHMENT_TYPE;
+    public static final AttachmentType<AccessoriesPlayerOptions> PLAYER_OPTIONS_ATTACHMENT_TYPE;
 
     public static final EntityApiLookup<AccessoriesCapability, Void> CAPABILITY = EntityApiLookup.get(Accessories.of("capability"), AccessoriesCapability.class, Void.class);
 
@@ -44,6 +46,12 @@ public class AccessoriesFabric implements ModInitializer {
                 .persistent(CodecUtils.toCodec(InstanceEndec.constructed(AccessoriesHolderImpl::new)))
                 .copyOnDeath()
                 .buildAndRegister(Accessories.of("inventory_holder"));
+
+        PLAYER_OPTIONS_ATTACHMENT_TYPE = AttachmentRegistry.<AccessoriesPlayerOptions>builder()
+                .initializer(AccessoriesPlayerOptions::new)
+                .persistent(CodecUtils.toCodec(InstanceEndec.constructed(AccessoriesPlayerOptions::new)))
+                .copyOnDeath()
+                .buildAndRegister(Accessories.of("player_options"));
     }
 
     @Override

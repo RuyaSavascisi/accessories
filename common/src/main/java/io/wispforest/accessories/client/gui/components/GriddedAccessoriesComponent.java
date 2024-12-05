@@ -3,6 +3,7 @@ package io.wispforest.accessories.client.gui.components;
 import io.wispforest.accessories.api.menu.AccessoriesBasedSlot;
 import io.wispforest.accessories.client.gui.AccessoriesExperimentalScreen;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.owo.ui.component.ButtonComponent;
 import io.wispforest.owo.ui.component.Components;
 import io.wispforest.owo.ui.container.Containers;
@@ -66,7 +67,7 @@ public class GriddedAccessoriesComponent extends FlowLayout implements Accessori
 
         var gridSize = 6;
 
-        var maxColumnCount = AccessoriesHolderImpl.getHolder(menu.owner()).columnAmount();
+        var maxColumnCount = AccessoriesPlayerOptions.getOptions(menu.owner()).columnAmount();
         var maxRowCount = gridSize;
 
         var totalRowCount = (int) Math.ceil((slots.size() / 2f) / maxColumnCount);

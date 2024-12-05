@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.ArgumentType;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.menu.AccessoriesMenuVariant;
 import io.wispforest.endec.Endec;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
@@ -58,6 +59,16 @@ public class AccessoriesInternals {
 
     @ExpectPlatform
     public static void modifyHolder(LivingEntity livingEntity, UnaryOperator<AccessoriesHolderImpl> modifier) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static AccessoriesPlayerOptions getPlayerOptions(Player player) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void modifyPlayerOptions(Player player, UnaryOperator<AccessoriesPlayerOptions> modifier) {
         throw new AssertionError();
     }
 

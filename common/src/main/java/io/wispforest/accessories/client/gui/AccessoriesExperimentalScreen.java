@@ -1,9 +1,9 @@
 package io.wispforest.accessories.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.logging.LogUtils;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.menu.AccessoriesBasedSlot;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.impl.slot.ExtraSlotTypeProperties;
 import io.wispforest.accessories.api.slot.SlotGroup;
 import io.wispforest.accessories.api.slot.UniqueSlotHandling;
@@ -12,18 +12,14 @@ import io.wispforest.accessories.client.GuiGraphicsUtils;
 import io.wispforest.accessories.client.gui.components.*;
 import io.wispforest.accessories.data.SlotGroupLoader;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import io.wispforest.accessories.impl.AccessoriesHolderImpl;
-import io.wispforest.accessories.menu.AccessoriesArmorSlot;
 import io.wispforest.accessories.menu.AccessoriesInternalSlot;
 import io.wispforest.accessories.menu.ArmorSlotTypes;
-import io.wispforest.accessories.menu.SlotTypeAccessible;
 import io.wispforest.accessories.menu.networking.ToggledSlots;
 import io.wispforest.accessories.menu.variants.AccessoriesExperimentalMenu;
-import io.wispforest.accessories.mixin.client.AbstractContainerScreenAccessor;
 import io.wispforest.accessories.mixin.client.owo.DiscreteSliderComponentAccessor;
 import io.wispforest.accessories.networking.AccessoriesNetworking;
-import io.wispforest.accessories.networking.holder.HolderProperty;
-import io.wispforest.accessories.networking.holder.SyncHolderChange;
+import io.wispforest.accessories.networking.holder.PlayerOption;
+import io.wispforest.accessories.networking.holder.SyncOptionChange;
 import io.wispforest.accessories.pond.ContainerScreenExtension;
 import io.wispforest.owo.mixin.ui.SlotAccessor;
 import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
@@ -33,16 +29,12 @@ import io.wispforest.owo.ui.component.DiscreteSliderComponent;
 import io.wispforest.owo.ui.container.*;
 import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.util.ScissorStack;
-import io.wispforest.owo.util.pond.OwoSlotExtension;
 import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -54,9 +46,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3d;
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL11;
 import org.slf4j.Logger;
-import oshi.util.tuples.Triplet;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -208,7 +198,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                 .collect(Collectors.toSet());
 
         AccessoriesNetworking
-                .sendToServer(SyncHolderChange.of(HolderProperty.FILTERED_GROUPS, selectedGroups));
+                .sendToServer(SyncOptionChange.of(PlayerOption.FILTERED_GROUPS, selectedGroups));
 
         super.onClose();
     }
@@ -409,7 +399,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
         var menu = this.getMenu();
 
         SlotGroupLoader.getValidGroups(this.getMenu().targetEntityDefaulted()).keySet().stream()
-                .filter(group -> this.getHolderValue(AccessoriesHolderImpl::filteredGroups, Set.of(), "filteredGroups").contains(group.name()))
+                .filter(group -> this.getHolderValue(AccessoriesPlayerOptions::filteredGroups, Set.of(), "filteredGroups").contains(group.name()))
                 .forEach(menu::addSelectedGroup);
 
         //--
@@ -448,7 +438,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                                         .child(
                                                 Components.button(createToggleTooltip("crafting_grid", false, this.showCraftingGrid()), btn -> {
                                                             AccessoriesNetworking
-                                                                    .sendToServer(SyncHolderChange.of(HolderProperty.CRAFTING_GRID_PROP, this.menu.owner(), bl -> !bl));
+                                                                    .sendToServer(SyncOptionChange.of(PlayerOption.CRAFTING_GRID_PROP, this.menu.owner(), bl -> !bl));
 
                                                             this.showCraftingGrid(!this.showCraftingGrid());
 
@@ -900,7 +890,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                 .configure((ExtendedCollapsibleContainer component) -> {
                     component.onToggled().subscribe(b -> {
                         AccessoriesNetworking
-                                .sendToServer(SyncHolderChange.of(HolderProperty.GROUP_FILTER_OPEN_PROP, b));
+                                .sendToServer(SyncOptionChange.of(PlayerOption.GROUP_FILTER_OPEN_PROP, b));
 
                         this.isGroupFiltersOpen(b);
                     });
@@ -1012,7 +1002,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
         baseOptionPanel.child(
                 createConfigComponent("unused_slots",
                         this::showUnusedSlots,
-                        bl -> AccessoriesNetworking.sendToServer(SyncHolderChange.of(HolderProperty.UNUSED_PROP, bl))
+                        bl -> AccessoriesNetworking.sendToServer(SyncOptionChange.of(PlayerOption.UNUSED_PROP, bl))
                 ).margins(Insets.bottom(3)),
                 0, 0);
 
@@ -1023,7 +1013,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                                 .configure((DiscreteSliderComponent slider) -> {
                                     slider.onChanged().subscribe(value -> {
                                         AccessoriesNetworking
-                                                .sendToServer(SyncHolderChange.of(HolderProperty.COLUMN_AMOUNT_PROP, (int) value));
+                                                .sendToServer(SyncOptionChange.of(PlayerOption.COLUMN_AMOUNT_PROP, (int) value));
 
                                         this.columnAmount((int) value);
 
@@ -1052,7 +1042,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                                             if(newWidget > 2) newWidget = 1;
 
                                             AccessoriesNetworking
-                                                    .sendToServer(SyncHolderChange.of(HolderProperty.WIDGET_TYPE_PROP, newWidget));
+                                                    .sendToServer(SyncOptionChange.of(PlayerOption.WIDGET_TYPE_PROP, newWidget));
 
                                             this.widgetType(newWidget);
 
@@ -1070,7 +1060,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                         this::mainWidgetPosition,
                         bl -> {
                             AccessoriesNetworking
-                                    .sendToServer(SyncHolderChange.of(HolderProperty.MAIN_WIDGET_POSITION_PROP, bl));
+                                    .sendToServer(SyncOptionChange.of(PlayerOption.MAIN_WIDGET_POSITION_PROP, bl));
 
                             this.mainWidgetPosition(bl);
 
@@ -1084,7 +1074,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                 createConfigComponent("group_filter",
                         this::showGroupFilters,
                         bl -> {
-                            AccessoriesNetworking.sendToServer(SyncHolderChange.of(HolderProperty.GROUP_FILTER_PROP, bl));
+                            AccessoriesNetworking.sendToServer(SyncOptionChange.of(PlayerOption.GROUP_FILTER_PROP, bl));
 
                             this.showGroupFilters(bl);
 
@@ -1112,7 +1102,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                         this::sideWidgetPosition,
                         bl -> {
                             AccessoriesNetworking
-                                    .sendToServer(SyncHolderChange.of(HolderProperty.SIDE_WIDGET_POSITION_PROP, bl));
+                                    .sendToServer(SyncOptionChange.of(PlayerOption.SIDE_WIDGET_POSITION_PROP, bl));
 
                             this.sideWidgetPosition(bl);
 
@@ -1296,8 +1286,8 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
     //--
 
-    private <T> T getHolderValue(Function<AccessoriesHolderImpl, T> getter, T defaultValue, String valueType) {
-        return Optional.ofNullable(AccessoriesHolderImpl.getHolder(this.menu.owner()))
+    private <T> T getHolderValue(Function<AccessoriesPlayerOptions, T> getter, T defaultValue, String valueType) {
+        return Optional.ofNullable(AccessoriesPlayerOptions.getOptions(this.menu.owner()))
                 .map(getter)
                 .orElseGet(() -> {
                     LOGGER.warn("[AccessoriesScreen] Unable to get the given holder value '{}' for the given owner: {}", valueType, this.menu.owner().getName());
@@ -1306,8 +1296,8 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                 });
     }
 
-    private <T> void setHolderValue(BiFunction<AccessoriesHolderImpl, T, AccessoriesHolderImpl> setter, T value, String valueType) {
-        var holder = AccessoriesHolderImpl.getHolder(this.menu.owner());
+    private <T> void setHolderValue(BiFunction<AccessoriesPlayerOptions, T, AccessoriesPlayerOptions> setter, T value, String valueType) {
+        var holder = AccessoriesPlayerOptions.getOptions(this.menu.owner());
 
         if(holder == null) {
             LOGGER.warn("[AccessoriesScreen] Unable to set the given holder value '{}' for the given owner: {}", valueType, this.menu.owner().getName());
@@ -1319,74 +1309,74 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     }
 
     private int widgetType() {
-        return this.getHolderValue(AccessoriesHolderImpl::widgetType, 1, "widgetType");
+        return this.getHolderValue(AccessoriesPlayerOptions::widgetType, 1, "widgetType");
     }
 
     private void widgetType(int type) {
-        this.setHolderValue(AccessoriesHolderImpl::widgetType, type, "widgetType");
+        this.setHolderValue(AccessoriesPlayerOptions::widgetType, type, "widgetType");
     }
 
     private int columnAmount() {
-        return this.getHolderValue(AccessoriesHolderImpl::columnAmount, 1, "columnAmount");
+        return this.getHolderValue(AccessoriesPlayerOptions::columnAmount, 1, "columnAmount");
     }
 
     private void columnAmount(int type) {
-        this.setHolderValue(AccessoriesHolderImpl::columnAmount, type, "columnAmount");
+        this.setHolderValue(AccessoriesPlayerOptions::columnAmount, type, "columnAmount");
     }
 
     public boolean mainWidgetPosition() {
-        return this.getHolderValue(AccessoriesHolderImpl::mainWidgetPosition, false, "mainWidgetPosition");
+        return this.getHolderValue(AccessoriesPlayerOptions::mainWidgetPosition, false, "mainWidgetPosition");
     }
 
     private void mainWidgetPosition(boolean value) {
-        this.setHolderValue(AccessoriesHolderImpl::mainWidgetPosition, value, "mainWidgetPosition");
+        this.setHolderValue(AccessoriesPlayerOptions::mainWidgetPosition, value, "mainWidgetPosition");
     }
 
     public boolean showGroupFilters() {
-        return this.getHolderValue(AccessoriesHolderImpl::showGroupFilter, false, "showGroupFilter");
+        return this.getHolderValue(AccessoriesPlayerOptions::showGroupFilter, false, "showGroupFilter");
     }
 
     private void showGroupFilters(boolean value) {
-        this.setHolderValue(AccessoriesHolderImpl::showGroupFilter, value, "showGroupFilter");
+        this.setHolderValue(AccessoriesPlayerOptions::showGroupFilter, value, "showGroupFilter");
     }
 
     public boolean isGroupFiltersOpen() {
-        return this.getHolderValue(AccessoriesHolderImpl::isGroupFiltersOpen, false, "isGroupFiltersOpen");
+        return this.getHolderValue(AccessoriesPlayerOptions::isGroupFiltersOpen, false, "isGroupFiltersOpen");
     }
 
     private void isGroupFiltersOpen(boolean value) {
-        this.setHolderValue(AccessoriesHolderImpl::isGroupFiltersOpen, value, "isGroupFiltersOpen");
+        this.setHolderValue(AccessoriesPlayerOptions::isGroupFiltersOpen, value, "isGroupFiltersOpen");
     }
 
     private boolean showUnusedSlots() {
-        return this.getHolderValue(AccessoriesHolderImpl::showUnusedSlots, false, "showUnusedSlots");
+        return this.getHolderValue(AccessoriesPlayerOptions::showUnusedSlots, false, "showUnusedSlots");
     }
 
     private void showUnusedSlots(boolean value) {
-        this.setHolderValue(AccessoriesHolderImpl::showUnusedSlots, value, "showUnusedSlots");
+        this.setHolderValue(AccessoriesPlayerOptions::showUnusedSlots, value, "showUnusedSlots");
     }
 
     private boolean showAdvancedOptions() {
-        return this.getHolderValue(AccessoriesHolderImpl::showAdvancedOptions, false, "showAdvancedOptions");
+        return this.getHolderValue(AccessoriesPlayerOptions::showAdvancedOptions, false, "showAdvancedOptions");
     }
 
     private void showAdvancedOptions(boolean value) {
-        this.setHolderValue(AccessoriesHolderImpl::showAdvancedOptions, value, "showAdvancedOptions");
+        this.setHolderValue(AccessoriesPlayerOptions::showAdvancedOptions, value, "showAdvancedOptions");
     }
 
     private boolean sideWidgetPosition() {
-        return this.getHolderValue(AccessoriesHolderImpl::sideWidgetPosition, false, "sideWidgetPosition");
+        return this.getHolderValue(AccessoriesPlayerOptions::sideWidgetPosition, false, "sideWidgetPosition");
     }
 
     private void sideWidgetPosition(boolean value) {
-        this.setHolderValue(AccessoriesHolderImpl::sideWidgetPosition, value, "sideWidgetPosition");
+        this.setHolderValue(AccessoriesPlayerOptions::sideWidgetPosition, value, "sideWidgetPosition");
     }
 
     public boolean showCraftingGrid() {
-        return this.getHolderValue(AccessoriesHolderImpl::showCraftingGrid, false, "showCraftingGrid");
+        return this.getHolderValue(AccessoriesPlayerOptions::showCraftingGrid, false, "showCraftingGrid");
     }
 
     public void showCraftingGrid(boolean value) {
-        this.setHolderValue(AccessoriesHolderImpl::showCraftingGrid, value, "showCraftingGrid");
+        this.setHolderValue(AccessoriesPlayerOptions::showCraftingGrid, value, "showCraftingGrid");
     }
 }

@@ -8,7 +8,11 @@ import io.wispforest.accessories.commands.AccessoriesCommands;
 import io.wispforest.accessories.data.EntitySlotLoader;
 import io.wispforest.accessories.data.SlotGroupLoader;
 import io.wispforest.accessories.data.SlotTypeLoader;
+import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.utils.InstanceEndec;
+import io.wispforest.endec.Deserializer;
+import io.wispforest.endec.Serializer;
+import io.wispforest.owo.serialization.CodecUtils;
 import io.wispforest.owo.serialization.RegistriesAttribute;
 import io.wispforest.accessories.impl.AccessoriesCapabilityImpl;
 import io.wispforest.accessories.impl.AccessoriesEventHandler;
@@ -75,26 +79,12 @@ public class AccessoriesForge {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public static final AttachmentType<AccessoriesHolderImpl> HOLDER_ATTACHMENT_TYPE = AttachmentType.builder(AccessoriesHolderImpl::of)
-            .serialize(new IAttachmentSerializer<>() {
-                private final Endec<AccessoriesHolderImpl> ENDEC = InstanceEndec.constructed(AccessoriesHolderImpl::new);
+            .serialize(CodecUtils.toCodec(InstanceEndec.constructed(AccessoriesHolderImpl::new)))
+            .copyOnDeath()
+            .build();
 
-                @Override
-                public AccessoriesHolderImpl read(IAttachmentHolder holder, Tag tag, HolderLookup.Provider provider) {
-                    return ENDEC.decodeFully(
-                            SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
-                            NbtDeserializer::of,
-                            tag);
-                }
-
-                @Override
-                @Nullable
-                public Tag write(AccessoriesHolderImpl object, HolderLookup.Provider provider) {
-                    return ENDEC.encodeFully(
-                            SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
-                            NbtSerializer::of,
-                            object);
-                }
-            })
+    public static final AttachmentType<AccessoriesPlayerOptions> PLAYER_OPTIONS_ATTACHMENT_TYPE = AttachmentType.builder(AccessoriesPlayerOptions::new)
+            .serialize(CodecUtils.toCodec(InstanceEndec.constructed(AccessoriesPlayerOptions::new)))
             .copyOnDeath()
             .build();
 
@@ -164,13 +154,12 @@ public class AccessoriesForge {
         event.register(Registries.COMMAND_ARGUMENT_TYPE, (helper) -> AccessoriesCommands.registerCommandArgTypes());
         event.register(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, (helper) -> {
             Registry.register(NeoForgeRegistries.ATTACHMENT_TYPES, Accessories.of("inventory_holder"), HOLDER_ATTACHMENT_TYPE);
+            Registry.register(NeoForgeRegistries.ATTACHMENT_TYPES, Accessories.of("player_options"), PLAYER_OPTIONS_ATTACHMENT_TYPE);
         });
     }
 
     public void registerReloadListeners(AddReloadListenerEvent event){
         intermediateRegisterListeners(event::addListener);
-
-        AccessoriesInternalsImpl.setContext(event.getConditionContext());
     }
 
     // This exists as a way to register things within the TCLayer without depending on NeoForge to do this within a mixin
@@ -183,8 +172,6 @@ public class AccessoriesForge {
             @Override protected Void prepare(ResourceManager resourceManager, ProfilerFiller profiler) { return null; }
             @Override protected void apply(Void object, ResourceManager resourceManager, ProfilerFiller profiler) {
                 AccessoriesEventHandler.dataReloadOccurred = true;
-
-                AccessoriesInternalsImpl.setContext(null);
             }
         });
     }

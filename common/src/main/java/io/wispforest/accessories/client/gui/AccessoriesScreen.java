@@ -10,8 +10,8 @@ import io.wispforest.accessories.impl.slot.SlotGroupImpl;
 import io.wispforest.accessories.menu.AccessoriesInternalSlot;
 import io.wispforest.accessories.menu.variants.AccessoriesMenu;
 import io.wispforest.accessories.networking.AccessoriesNetworking;
-import io.wispforest.accessories.networking.holder.HolderProperty;
-import io.wispforest.accessories.networking.holder.SyncHolderChange;
+import io.wispforest.accessories.networking.holder.PlayerOption;
+import io.wispforest.accessories.networking.holder.SyncOptionChange;
 import io.wispforest.accessories.networking.server.MenuScroll;
 import io.wispforest.accessories.pond.ContainerScreenExtension;
 import it.unimi.dsi.fastutil.Pair;
@@ -499,7 +499,7 @@ public class AccessoriesScreen extends AbstractContainerScreen<AccessoriesMenu> 
         this.cosmeticToggleButton = this.addRenderableWidget(
                 Button.builder(Component.empty(), (btn) -> {
                             AccessoriesNetworking
-                                    .sendToServer(SyncHolderChange.of(HolderProperty.COSMETIC_PROP, this.getMenu().owner(), bl -> !bl));
+                                    .sendToServer(SyncOptionChange.of(PlayerOption.COSMETIC_PROP, this.getMenu().owner(), bl -> !bl));
                         })
                         .tooltip(cosmeticsToggleTooltip(cosmeticsOpen))
                         .bounds(this.leftPos - 27 + (cosmeticsOpen ? -20 : 0), this.topPos + 7, (cosmeticsOpen ? 38 : 18), 6)
@@ -510,7 +510,7 @@ public class AccessoriesScreen extends AbstractContainerScreen<AccessoriesMenu> 
         this.unusedSlotsToggleButton = this.addRenderableWidget(
                 Button.builder(Component.empty(), (btn) -> {
                             AccessoriesNetworking
-                                    .sendToServer(SyncHolderChange.of(HolderProperty.UNUSED_PROP, this.getMenu().owner(), bl -> !bl));
+                                    .sendToServer(SyncOptionChange.of(PlayerOption.UNUSED_PROP, this.getMenu().owner(), bl -> !bl));
                         })
                         .tooltip(unusedSlotsToggleButton(this.menu.areUnusedSlotsShown()))
                         .bounds(this.leftPos + 154, btnOffset, 12, 12)
