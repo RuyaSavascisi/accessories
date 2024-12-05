@@ -17,6 +17,7 @@ import io.wispforest.accessories.data.EntitySlotLoader;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import io.wispforest.accessories.endec.NbtMapCarrier;
 import io.wispforest.accessories.impl.slot.ExtraSlotTypeProperties;
+import io.wispforest.accessories.networking.client.SyncPlayerOptions;
 import io.wispforest.owo.serialization.RegistriesAttribute;
 import io.wispforest.accessories.menu.variants.AccessoriesMenuBase;
 import io.wispforest.accessories.networking.AccessoriesNetworking;
@@ -206,6 +207,8 @@ public class AccessoriesEventHandler {
             AccessoriesHolderImpl.getHolder(capability).write(carrier, SerializationContext.attributes(RegistriesAttribute.of(player.level().registryAccess())));
 
             AccessoriesNetworking.sendToPlayer(player, new SyncEntireContainer(capability.entity().getId(), carrier));
+
+            AccessoriesNetworking.sendToPlayer(player, new SyncPlayerOptions(AccessoriesPlayerOptions.getOptions(player)));
 
             if (player.containerMenu instanceof AccessoriesMenuBase base) {
                 Accessories.openAccessoriesMenu(player, base.menuVariant(), base.targetEntity());

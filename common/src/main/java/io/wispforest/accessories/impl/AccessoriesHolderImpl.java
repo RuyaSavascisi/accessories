@@ -28,6 +28,8 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
 import java.util.*;
+import java.util.function.BiConsumer;
+
 import static io.wispforest.accessories.impl.AccessoriesPlayerOptions.*;
 
 @ApiStatus.Internal
@@ -239,34 +241,23 @@ public class AccessoriesHolderImpl implements InstanceEndec {
 
         // TODO: REMOVE WITHIN THE FUTURE WHEN A GOOD AMOUNT OF TIME TO TRANSITION HAS OCCURRED
         if (entity instanceof ServerPlayer player) {
-            var equipControl = carrier.get(ctx, EQUIP_CONTROL_KEY);
+            var options = AccessoriesPlayerOptions.getOptions(player);
 
-            var columnAmount = carrier.get(ctx, COLUMN_AMOUNT_KEY);
-            var widgetType = carrier.get(ctx, WIDGET_TYPE_KEY);
-            var mainWidgetPosition = carrier.get(ctx, MAIN_WIDGET_POSITION);
-            var sideWidgetPosition = carrier.get(ctx, SIDE_WIDGET_POSITION);
+            setIfPresent(carrier, options, EQUIP_CONTROL_KEY, AccessoriesPlayerOptions::equipControl);
 
-            var showCosmetics = carrier.get(ctx, SHOW_COSMETICS_KEY);
-            var showUnusedSlots = carrier.get(ctx, SHOW_UNUSED_SLOTS_KEY);
+            setIfPresent(carrier, options, COLUMN_AMOUNT_KEY, AccessoriesPlayerOptions::columnAmount);
+            setIfPresent(carrier, options, WIDGET_TYPE_KEY, AccessoriesPlayerOptions::widgetType);
+            setIfPresent(carrier, options, MAIN_WIDGET_POSITION, AccessoriesPlayerOptions::mainWidgetPosition);
+            setIfPresent(carrier, options, SIDE_WIDGET_POSITION, AccessoriesPlayerOptions::sideWidgetPosition);
 
-            var showGroupFilter = carrier.get(ctx, SHOW_GROUP_FILTER);
-            var isGroupFiltersOpen = carrier.get(ctx, IS_GROUP_FILTERS_OPEN_KEY);
-            var filteredGroups = carrier.get(ctx, FILTERED_GROUPS_KEY);
+            setIfPresent(carrier, options, SHOW_COSMETICS_KEY, AccessoriesPlayerOptions::showCosmetics);
+            setIfPresent(carrier, options, SHOW_UNUSED_SLOTS_KEY, AccessoriesPlayerOptions::showUnusedSlots);
 
-            var showCraftingGrid = carrier.get(ctx, SHOW_CRAFTING_GRID);
+            setIfPresent(carrier, options, SHOW_GROUP_FILTER, AccessoriesPlayerOptions::showGroupFilter);
+            setIfPresent(carrier, options, IS_GROUP_FILTERS_OPEN_KEY, AccessoriesPlayerOptions::isGroupFiltersOpen);
+            setIfPresent(carrier, options, FILTERED_GROUPS_KEY, AccessoriesPlayerOptions::filteredGroups);
 
-            AccessoriesPlayerOptions.getOptions(player)
-                    .equipControl(equipControl)
-                    .columnAmount(columnAmount)
-                    .widgetType(widgetType)
-                    .mainWidgetPosition(mainWidgetPosition)
-                    .sideWidgetPosition(sideWidgetPosition)
-                    .showCosmetics(showCosmetics)
-                    .showUnusedSlots(showUnusedSlots)
-                    .showGroupFilter(showGroupFilter)
-                    .isGroupFiltersOpen(isGroupFiltersOpen)
-                    .filteredGroups(filteredGroups)
-                    .showCraftingGrid(showCraftingGrid);
+            setIfPresent(carrier, options, SHOW_CRAFTING_GRID, AccessoriesPlayerOptions::showCraftingGrid);
         }
 
         capability.clearCachedSlotModifiers();
@@ -276,6 +267,12 @@ public class AccessoriesHolderImpl implements InstanceEndec {
         var cache = this.getLookupCache();
 
         if (cache != null) cache.clearCache();
+    }
+
+    private static <F> void setIfPresent(MapCarrier carrier, AccessoriesPlayerOptions options, KeyedEndec<F> keyedEndec, BiConsumer<AccessoriesPlayerOptions, F> consumer) {
+        if (carrier.has(keyedEndec)) {
+            consumer.accept(options, carrier.get(keyedEndec));
+        }
     }
 
     @Override

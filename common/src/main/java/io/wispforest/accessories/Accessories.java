@@ -1,6 +1,5 @@
 package io.wispforest.accessories;
 
-import blue.endless.jankson.JsonElement;
 import io.wispforest.accessories.api.data.AccessoriesTags;
 import io.wispforest.accessories.api.events.AllowEntityModificationCallback;
 import io.wispforest.accessories.criteria.AccessoryChangedCriterion;
@@ -8,12 +7,9 @@ import io.wispforest.accessories.impl.VanillaItemPredicates;
 import io.wispforest.accessories.menu.AccessoriesMenuVariant;
 import io.wispforest.accessories.menu.ArmorSlotTypes;
 import io.wispforest.accessories.mixin.CriteriaTriggersAccessor;
-import io.wispforest.accessories.mixin.owo.ConfigWrapperAccessor;
 import io.wispforest.accessories.networking.AccessoriesNetworking;
 import io.wispforest.accessories.networking.client.ScreenVariantPing;
 import io.wispforest.accessories.utils.EndecUtils;
-import io.wispforest.endec.format.jankson.JanksonDeserializer;
-import io.wispforest.endec.format.jankson.JanksonSerializer;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
