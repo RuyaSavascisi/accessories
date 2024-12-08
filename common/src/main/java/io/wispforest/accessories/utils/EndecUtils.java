@@ -1,6 +1,7 @@
 package io.wispforest.accessories.utils;
 
 import io.wispforest.accessories.endec.NbtMapCarrier;
+import io.wispforest.endec.impl.BuiltInEndecs;
 import io.wispforest.owo.serialization.format.nbt.NbtEndec;
 import io.wispforest.endec.*;
 import io.wispforest.endec.impl.StructEndecBuilder;
@@ -30,9 +31,9 @@ public class EndecUtils {
             (x, y) -> new Vector2i((int) (long) x, (int) (long) y)
     );
 
-    public static final Endec<Vector3f> VECTOR_3_F_ENDEC = EndecUtils.vectorEndec("Vector3f", Endec.FLOAT, Vector3f::new, Vector3f::x, Vector3f::y, Vector3f::z);
+    public static final Endec<Vector3f> VECTOR_3_F_ENDEC = BuiltInEndecs.vectorEndec("Vector3f", Endec.FLOAT, Vector3f::new, Vector3f::x, Vector3f::y, Vector3f::z);
 
-    public static final Endec<Quaternionf> QUATERNIONF_COMPONENTS = EndecUtils.vectorEndec("QuaternionfComponents", Endec.FLOAT, Quaternionf::new, Quaternionf::x, Quaternionf::y, Quaternionf::z, Quaternionf::w);
+    public static final Endec<Quaternionf> QUATERNIONF_COMPONENTS = BuiltInEndecs.vectorEndec("QuaternionfComponents", Endec.FLOAT, Quaternionf::new, Quaternionf::x, Quaternionf::y, Quaternionf::z, Quaternionf::w);
 
     public static final StructEndec<AxisAngle4f> AXISANGLE4F = StructEndecBuilder.of(
             Endec.FLOAT.xmap(degrees -> (float) Math.toRadians(degrees), (radians) -> (float) Math.toDegrees(radians)).fieldOf("angle", axisAngle4f -> axisAngle4f.angle),
@@ -60,24 +61,6 @@ public class EndecUtils {
 
                 return floats;
             });
-
-    public static <C, V> Endec<V> vectorEndec(String name, Endec<C> componentEndec, StructEndecBuilder.Function3<C, C, C, V> constructor, Function<V, C> xGetter, Function<V, C> yGetter, Function<V, C> zGetter) {
-        return componentEndec.listOf().validate(ints -> {
-            if (ints.size() != 3) throw new IllegalStateException(name + " array must have three elements");
-        }).xmap(
-                components -> constructor.apply(components.get(0), components.get(1), components.get(2)),
-                vector -> List.of(xGetter.apply(vector), yGetter.apply(vector), zGetter.apply(vector))
-        );
-    }
-
-    public static <C, V> Endec<V> vectorEndec(String name, Endec<C> componentEndec, StructEndecBuilder.Function4<C, C, C, C, V> constructor, Function<V, C> xGetter, Function<V, C> yGetter, Function<V, C> zGetter, Function<V, C> wGetter) {
-        return componentEndec.listOf().validate(ints -> {
-            if (ints.size() != 4) throw new IllegalStateException(name + " array must have four elements");
-        }).xmap(
-                components -> constructor.apply(components.get(0), components.get(1), components.get(2), components.get(3)),
-                vector -> List.of(xGetter.apply(vector), yGetter.apply(vector), zGetter.apply(vector), wGetter.apply(vector))
-        );
-    }
 
     public static void dfuKeysCarrier(MapCarrier carrier, Map<String, String> changedKeys) {
         CompoundTag compoundTag;

@@ -11,12 +11,7 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.Experimental
 public interface OnTotemActivate {
 
-    OnTotemActivate DEFAULT_BEHAVIOR = new OnTotemActivate() {
-        @Override
-        public @Nullable DeathProtection onActivation(DeathProtection currentProtection, SlotReference slotReference, ItemStack triggeredStack, DamageSource damageSource) {
-            return currentProtection;
-        }
-    };
+    OnTotemActivate DEFAULT_BEHAVIOR = (currentProtection, slotReference, triggeredStack, damageSource) -> currentProtection;
 
     @Nullable DeathProtection onActivation(DeathProtection currentProtection, SlotReference slotReference, ItemStack triggeredStack, DamageSource damageSource);
 }

@@ -8,13 +8,10 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Experimental
 public interface OnTotemConsumption {
 
-    OnTotemConsumption DEFAULT_BEHAVIOR = new OnTotemConsumption() {
-        @Override
-        public ItemStack onConsumption(SlotReference slotReference, ItemStack currentStack, DamageSource damageSource) {
-            currentStack.shrink(1);
+    OnTotemConsumption DEFAULT_BEHAVIOR = (slotReference, currentStack, damageSource) -> {
+        currentStack.shrink(1);
 
-            return currentStack;
-        }
+        return currentStack;
     };
 
     ItemStack onConsumption(SlotReference slotReference, ItemStack currentStack, DamageSource damageSource);
