@@ -98,12 +98,6 @@ public class AccessoriesInternalsImpl {
         }));
     }
 
-    public static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>, I extends ArgumentTypeInfo<A, T>> I registerCommandArgumentType(ResourceLocation location, Class<A> clazz, I info) {
-        ArgumentTypeInfos.registerByClass(clazz, info);
-
-        return Registry.register(BuiltInRegistries.COMMAND_ARGUMENT_TYPE, location, info);
-    }
-
     public static void openAccessoriesMenu(Player player, AccessoriesMenuVariant variant, @Nullable LivingEntity targetEntity, @Nullable ItemStack carriedStack) {
         player.openMenu(
                 new SimpleMenuProvider((i, inventory, arg2) -> {

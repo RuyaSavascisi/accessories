@@ -90,11 +90,6 @@ public class AccessoriesInternals {
     }
 
     @ExpectPlatform
-    public static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>, I extends ArgumentTypeInfo<A, T>> I registerCommandArgumentType(ResourceLocation location, Class<A> clazz, I info) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
     public static void openAccessoriesMenu(Player player, AccessoriesMenuVariant variant, @Nullable LivingEntity targetEntity, @Nullable ItemStack carriedStack) {
         throw new AssertionError();
     }

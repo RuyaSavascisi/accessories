@@ -1,10 +1,13 @@
 package io.wispforest.accessories.neoforge;
 
+import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.logging.LogUtils;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.components.AccessoriesDataComponents;
 import io.wispforest.accessories.commands.AccessoriesCommands;
+import io.wispforest.accessories.commands.CommandBuilderHelper;
+import io.wispforest.accessories.commands.RecordArgumentTypeInfo;
 import io.wispforest.accessories.data.EntitySlotLoader;
 import io.wispforest.accessories.data.SlotGroupLoader;
 import io.wispforest.accessories.data.SlotTypeLoader;
@@ -23,6 +26,7 @@ import io.wispforest.endec.Endec;
 import io.wispforest.endec.SerializationContext;
 import io.wispforest.owo.serialization.format.nbt.NbtDeserializer;
 import io.wispforest.owo.serialization.format.nbt.NbtSerializer;
+import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -30,6 +34,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.Tag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -144,14 +149,21 @@ public class AccessoriesForge {
     }
 
     public void registerCommands(RegisterCommandsEvent event) {
-        AccessoriesCommands.registerCommands(event.getDispatcher(), event.getBuildContext());
+        AccessoriesCommands.INSTANCE.registerCommands(event.getDispatcher(), event.getBuildContext());
     }
 
     public void registerStuff(RegisterEvent event){
         event.register(Registries.MENU, (helper) -> AccessoriesMenuTypes.registerMenuType());
         event.register(Registries.TRIGGER_TYPE, (helper) -> Accessories.registerCriteria());
         event.register(Registries.DATA_COMPONENT_TYPE, (helper) -> AccessoriesDataComponents.init());
-        event.register(Registries.COMMAND_ARGUMENT_TYPE, (helper) -> AccessoriesCommands.registerCommandArgTypes());
+        event.register(Registries.COMMAND_ARGUMENT_TYPE, (helper) -> AccessoriesCommands.INSTANCE.registerArgumentTypes(new CommandBuilderHelper.ArgumentRegistration() {
+            @Override
+            public <A extends ArgumentType<?>, T> RecordArgumentTypeInfo<A, T> register(ResourceLocation location, Class<A> clazz, RecordArgumentTypeInfo<A, T> info) {
+                helper.register(location, ArgumentTypeInfos.registerByClass(clazz, info));
+
+                return info;
+            }
+        }));
         event.register(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, (helper) -> {
             Registry.register(NeoForgeRegistries.ATTACHMENT_TYPES, Accessories.of("inventory_holder"), HOLDER_ATTACHMENT_TYPE);
             Registry.register(NeoForgeRegistries.ATTACHMENT_TYPES, Accessories.of("player_options"), PLAYER_OPTIONS_ATTACHMENT_TYPE);

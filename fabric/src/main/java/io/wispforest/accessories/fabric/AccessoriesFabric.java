@@ -1,10 +1,13 @@
 package io.wispforest.accessories.fabric;
 
+import com.mojang.brigadier.arguments.ArgumentType;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.DataLoaderBase;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.components.AccessoriesDataComponents;
 import io.wispforest.accessories.commands.AccessoriesCommands;
+import io.wispforest.accessories.commands.CommandBuilderHelper;
+import io.wispforest.accessories.commands.RecordArgumentTypeInfo;
 import io.wispforest.accessories.data.EntitySlotLoader;
 import io.wispforest.accessories.impl.AccessoriesCapabilityImpl;
 import io.wispforest.accessories.impl.AccessoriesEventHandler;
@@ -18,6 +21,7 @@ import io.wispforest.owo.serialization.CodecUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
+import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
@@ -29,6 +33,7 @@ import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.lookup.v1.entity.EntityApiLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
@@ -64,10 +69,17 @@ public class AccessoriesFabric implements ModInitializer {
 
         AccessoriesMenuTypes.registerMenuType();
         Accessories.registerCriteria();
-        AccessoriesCommands.registerCommandArgTypes();
+        AccessoriesCommands.INSTANCE.registerArgumentTypes(new CommandBuilderHelper.ArgumentRegistration() {
+            @Override
+            public <A extends ArgumentType<?>, T> RecordArgumentTypeInfo<A, T> register(ResourceLocation location, Class<A> clazz, RecordArgumentTypeInfo<A, T> info) {
+                ArgumentTypeRegistry.registerArgumentType(location, clazz, info);
+
+                return info;
+            }
+        });
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            AccessoriesCommands.registerCommands(dispatcher, registryAccess);
+            AccessoriesCommands.INSTANCE.registerCommands(dispatcher, registryAccess);
         });
 
         UseItemCallback.EVENT.register((player, level, hand) -> {

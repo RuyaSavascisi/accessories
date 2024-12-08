@@ -94,12 +94,6 @@ public class AccessoriesInternalsImpl {
         return Registry.register(BuiltInRegistries.MENU, location, new ExtendedScreenHandlerType<>(func::apply, CodecUtils.toPacketCodec(endec)));
     }
 
-    public static <A extends ArgumentType<?>, T extends ArgumentTypeInfo.Template<A>, I extends ArgumentTypeInfo<A, T>> I registerCommandArgumentType(ResourceLocation location, Class<A> clazz, I info) {
-        ArgumentTypeRegistry.registerArgumentType(location, clazz, info);
-
-        return info;
-    }
-
     public static void openAccessoriesMenu(Player player, AccessoriesMenuVariant variant, @Nullable LivingEntity targetEntity, @Nullable ItemStack carriedStack) {
         player.openMenu(new ExtendedScreenHandlerFactory<AccessoriesMenuData>() {
             @Override

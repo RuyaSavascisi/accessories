@@ -20,20 +20,13 @@ public final class SlotArgumentType implements ArgumentType<String> {
 
     public static String getSlot(CommandContext<CommandSourceStack> context, String name) {
         return context.getArgument(name, String.class);
-
     }
 
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {
         ResourceLocation arg = ResourceLocation.read(reader);
 
-        String slotName = "";
-
-        if(arg.getNamespace().equals("minecraft")) {
-            slotName = arg.getPath();
-        } else {
-            slotName = arg.toString();
-        }
+        String slotName = (arg.getNamespace().equals("minecraft")) ? arg.getPath() : arg.toString();
 
         if (slotName.equals("any")) return "any";
 
