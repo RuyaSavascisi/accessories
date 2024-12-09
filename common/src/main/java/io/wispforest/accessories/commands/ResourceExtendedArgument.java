@@ -70,11 +70,9 @@ public class ResourceExtendedArgument<T> implements ArgumentType<Holder<T>> {
         return new ResourceExtendedArgument<>(context, Registries.ATTRIBUTE, location -> {
             String possibleSlotName;
 
-            if (location.getNamespace().equals(Accessories.MODID)) {
-                possibleSlotName = location.getPath();
-            } else {
-                possibleSlotName = location.toString();
-            }
+            if (!location.getNamespace().equals(Accessories.MODID)) return null;
+
+            possibleSlotName = location.getPath().replace("/", ":");
 
             var slotType = SlotTypeLoader.INSTANCE.getSlotTypes(false).get(possibleSlotName);
 
@@ -83,7 +81,7 @@ public class ResourceExtendedArgument<T> implements ArgumentType<Holder<T>> {
             return SlotTypeLoader.INSTANCE.getSlotTypes(false).values()
                     .stream()
                     .map(SlotType::name)
-                    .map(s -> s.contains(":") ? ResourceLocation.parse(s) : Accessories.of(s));
+                    .map(s -> Accessories.of(s.replace(":", "/")));
         });
     }
 

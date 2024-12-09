@@ -44,6 +44,7 @@ public class AccessoriesNetworking {
         CHANNEL.registerClientboundDeferred(SyncPlayerOptions.class, SyncPlayerOptions.ENDEC);
         CHANNEL.registerClientboundDeferred(AccessoryBreak.class, AccessoryBreak.ENDEC);
         CHANNEL.registerClientboundDeferred(InvalidateEntityCache.class, InvalidateEntityCache.ENDEC);
+        CHANNEL.registerClientboundDeferred(ScreenVariantPing.class, ScreenVariantPing.ENDEC);
 
         CHANNEL.registerClientboundDeferred(MenuScroll.class, MenuScroll.ENDEC);
         CHANNEL.registerClientboundDeferred(SyncOptionChange.class, SyncOptionChange.ENDEC);
@@ -57,6 +58,7 @@ public class AccessoriesNetworking {
         CHANNEL.registerClientbound(SyncPlayerOptions.class, SyncPlayerOptions.ENDEC, clientHandler(SyncPlayerOptions::handlePacket));
         CHANNEL.registerClientbound(AccessoryBreak.class, AccessoryBreak.ENDEC, clientHandler(AccessoryBreak::handlePacket));
         CHANNEL.registerClientbound(InvalidateEntityCache.class, InvalidateEntityCache.ENDEC, clientHandler(InvalidateEntityCache::handlePacket));
+        CHANNEL.registerClientbound(ScreenVariantPing.class, ScreenVariantPing.ENDEC, clientHandler(ScreenVariantPing::handlePacket));
 
         CHANNEL.registerClientbound(MenuScroll.class, MenuScroll.ENDEC, clientHandler(MenuScroll::handlePacket));
         CHANNEL.registerClientbound(SyncOptionChange.class, SyncOptionChange.ENDEC, clientHandler(SyncOptionChange::handlePacket));

@@ -74,7 +74,7 @@ public class Accessories {
     }
 
     public static void openAccessoriesMenu(Player player, AccessoriesMenuVariant variant, @Nullable LivingEntity targetEntity, @Nullable ItemStack carriedStack) {
-        if(targetEntity != null) {
+        if(targetEntity != null && !player.equals(targetEntity)) {
             var result = AllowEntityModificationCallback.EVENT.invoker().allowModifications(targetEntity, player, null);
 
             if(!result.orElse(false)) return;

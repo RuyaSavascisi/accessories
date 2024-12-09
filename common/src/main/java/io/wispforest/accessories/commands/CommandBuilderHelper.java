@@ -1,11 +1,16 @@
 package io.wispforest.accessories.commands;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import it.unimi.dsi.fastutil.Pair;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -19,12 +24,15 @@ public abstract class CommandBuilderHelper {
 
     public Map<String, LiteralArgumentBuilder<CommandSourceStack>> baseCommandPart = new LinkedHashMap<>();
 
-    public Map<Key, LiteralArgumentBuilder<CommandSourceStack>> commandParts = new LinkedHashMap<>();
+    public BiMap<Key, ArgumentBuilder> commandParts = HashBiMap.create();
 
     public void registerCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext context) {
         generateTrees(context);
 
         this.baseCommandPart.forEach((string, builder) -> dispatcher.register(builder));
+
+        this.baseCommandPart.clear();
+        this.commandParts.clear();
     }
 
     protected abstract void generateTrees(CommandBuildContext context);
@@ -37,35 +45,64 @@ public abstract class CommandBuilderHelper {
         return new CommandArgumentHolder<>(name, type, getter);
     }
 
-    public LiteralArgumentBuilder<CommandSourceStack> getOrCreateNode(String key, CommandArgumentHolder<?> ...argumentsParts) {
-        return getOrCreateNode(key.split("/"));
+    public <T extends ArgumentBuilder<CommandSourceStack, T>> ArgumentBuilder<CommandSourceStack, T> getOrCreateNode(String key, CommandArgumentHolder<?> ...argumentsParts) {
+        var baseBuilder = getOrCreateNode(key.split("/"));
+
+        RequiredArgumentBuilder<CommandSourceStack, ?> outerArg = null;
+
+        RequiredArgumentBuilder<CommandSourceStack, ?> currentArg = null;
+
+        var args = new ArrayList<Pair<String, RequiredArgumentBuilder<CommandSourceStack, ?>>>();
+
+        for (var arg : Lists.reverse(List.of(argumentsParts))) {
+            if (currentArg == null) {
+                currentArg = arg.builder();
+                outerArg = currentArg;
+            } else {
+                currentArg = arg.builder().then(currentArg);
+            }
+
+            args.add(Pair.of(arg.name(), currentArg));
+        }
+
+        for (var pair : Lists.reverse(args)) {
+            key = key + "/" + pair.first();
+
+            var argKey = new Key(key);
+
+            this.commandParts.put(argKey, pair.second());
+        }
+
+        baseBuilder.then(currentArg);
+
+        return (ArgumentBuilder<CommandSourceStack, T>) outerArg;
     }
 
-    public LiteralArgumentBuilder<CommandSourceStack> getOrCreateNode(String key) {
-        return getOrCreateNode(key.split("/"));
+    public <T extends ArgumentBuilder<CommandSourceStack, T>> ArgumentBuilder<CommandSourceStack, T> getOrCreateNode(String key) {
+        return getOrCreateNode(new Key(key));
     }
 
-    public LiteralArgumentBuilder<CommandSourceStack> getOrCreateNode(String ...keyParts) {
-        var key = new Key(keyParts);
-
-        return getOrCreateNode(key);
+    public <T extends ArgumentBuilder<CommandSourceStack, T>> ArgumentBuilder<CommandSourceStack, T> getOrCreateNode(String ...keyParts) {
+        return getOrCreateNode(new Key(keyParts));
     }
 
-    public LiteralArgumentBuilder<CommandSourceStack> getOrCreateNode(Key key) {
+    public <T extends ArgumentBuilder<CommandSourceStack, T>> ArgumentBuilder<CommandSourceStack, T> getOrCreateNode(Key key) {
         if (commandParts.containsKey(key)) return commandParts.get(key);
 
-        LiteralArgumentBuilder<CommandSourceStack> builder;
+        ArgumentBuilder<CommandSourceStack, T> builder;
 
         var parentKey = key.parent();
 
         if (parentKey == null) {
-            builder = Commands.literal(key.topPath());
+            var baseBuilder =  Commands.literal(key.topPath());
 
-            this.baseCommandPart.put(key.topPath(), builder);
+            this.baseCommandPart.put(key.topPath(), baseBuilder);
+
+            builder = (ArgumentBuilder<CommandSourceStack, T>) baseBuilder;
         } else {
             var parentBuilder = getOrCreateNode(parentKey);
 
-            builder = Commands.literal(key.topPath());
+            builder = (ArgumentBuilder<CommandSourceStack, T>) Commands.literal(key.topPath());
 
             parentBuilder.then(builder);
         }
@@ -75,59 +112,87 @@ public abstract class CommandBuilderHelper {
         return builder;
     }
 
+    public <T extends ArgumentBuilder<CommandSourceStack, T>> void updateParent(ArgumentBuilder builder) {
+        var key = this.commandParts.inverse().get(builder);
+
+        var parentKey = key.parent();
+
+        if (parentKey == null) return;
+
+        var parentBuilder = this.commandParts.get(parentKey);
+
+        parentBuilder.then(builder);
+
+        updateParent(parentBuilder);
+    }
+
     //--
 
-    public <T1> LiteralArgumentBuilder<CommandSourceStack> optionalArgExectution(LiteralArgumentBuilder<CommandSourceStack> builder, CommandArgumentHolder<T1> arg1, CommandFunction1<@Nullable T1> commandExecution) {
-        return builder.then(
-                arg1.builder().executes((ctx) -> {
-                    return commandExecution.execute(ctx, arg1.getArgument(ctx));
-                })
-        ).executes(ctx -> {
-            return commandExecution.execute(ctx, null);
-        });
+    public <T1> void optionalArgExectution(String key, CommandArgumentHolder<T1> arg1, CommandFunction1<@Nullable T1> commandExecution) {
+        optionalArgExectution(new Key(key), arg1, commandExecution);
     }
 
-    public <T1> LiteralArgumentBuilder<CommandSourceStack> requiredArgExectution(LiteralArgumentBuilder<CommandSourceStack> builder, CommandArgumentHolder<T1> arg1, CommandFunction1<T1> commandExecution) {
-        return builder.then(
-                arg1.builder().executes((ctx) -> {
-                    return commandExecution.execute(ctx, arg1.getArgument(ctx));
-                })
+    public <T1> void optionalArgExectution(Key key, CommandArgumentHolder<T1> arg1, CommandFunction1<@Nullable T1> commandExecution) {
+        updateParent(
+                this.getOrCreateNode(key)
+                        .then(arg1.builder().executes((ctx) -> commandExecution.execute(ctx, arg1.getArgument(ctx))))
+                        .executes(ctx -> commandExecution.execute(ctx, null))
         );
     }
 
-    public <T1, T2> LiteralArgumentBuilder<CommandSourceStack> requiredArgExectution(LiteralArgumentBuilder<CommandSourceStack> builder, CommandArgumentHolder<T1> arg1, CommandArgumentHolder<T2> arg2, CommandFunction2<T1, T2> commandExecution) {
-        return builder.then(
-                arg1.builder().then(
-                        arg2.builder().executes((ctx) -> {
-                            return commandExecution.execute(ctx, arg1.getArgument(ctx), arg2.getArgument(ctx));
-                        })
-                )
+    public <T1> void requiredArgExectution(String key, CommandArgumentHolder<T1> arg1, CommandFunction1<T1> commandExecution) {
+        requiredArgExectution(new Key(key), arg1, commandExecution);
+    }
+
+    public <T1> void requiredArgExectution(Key key, CommandArgumentHolder<T1> arg1, CommandFunction1<T1> commandExecution) {
+        updateParent(
+                this.getOrCreateNode(key).then(arg1.builder().executes((ctx) -> commandExecution.execute(ctx, arg1.getArgument(ctx))))
         );
     }
 
-    public <T1, T2, T3> LiteralArgumentBuilder<CommandSourceStack> requiredArgExectution(LiteralArgumentBuilder<CommandSourceStack> builder, CommandArgumentHolder<T1> arg1, CommandArgumentHolder<T2> arg2, CommandArgumentHolder<T3> arg3, CommandFunction3<T1, T2, T3> commandExecution) {
-        return builder.then(
-                arg1.builder().then(
-                        arg2.builder().then(
-                                arg3.builder().executes((ctx) -> {
-                                    return commandExecution.execute(ctx, arg1.getArgument(ctx), arg2.getArgument(ctx), arg3.getArgument(ctx));
-                                })
-                        )
-                )
+    public <T1, T2> void requiredArgExectution(String key, CommandArgumentHolder<T1> arg1, CommandArgumentHolder<T2> arg2, CommandFunction2<T1, T2> commandExecution) {
+        requiredArgExectution(new Key(key), arg1, arg2, commandExecution);
+    }
+
+    public <T1, T2> void requiredArgExectution(Key key, CommandArgumentHolder<T1> arg1, CommandArgumentHolder<T2> arg2, CommandFunction2<T1, T2> commandExecution) {
+        updateParent(
+                this.getOrCreateNode(key).then(arg1.builder().then(arg2.builder().executes((ctx) -> commandExecution.execute(ctx, arg1.getArgument(ctx), arg2.getArgument(ctx)))))
         );
     }
 
-    public LiteralArgumentBuilder<CommandSourceStack> requiredExectutionBranched(LiteralArgumentBuilder<CommandSourceStack> builder, List<String> literalBranches, CommandFunction1<String> commandExecution) {
+    public <T1, T2, T3> void requiredArgExectution(String key, CommandArgumentHolder<T1> arg1, CommandArgumentHolder<T2> arg2, CommandArgumentHolder<T3> arg3, CommandFunction3<T1, T2, T3> commandExecution) {
+        requiredArgExectution(new Key(key), arg1, arg2, arg3, commandExecution);
+    }
+
+    public <T1, T2, T3> void requiredArgExectution(Key key, CommandArgumentHolder<T1> arg1, CommandArgumentHolder<T2> arg2, CommandArgumentHolder<T3> arg3, CommandFunction3<T1, T2, T3> commandExecution) {
+        updateParent(
+                this.getOrCreateNode(key).then(arg1.builder().then(arg2.builder().then(arg3.builder().executes((ctx) -> commandExecution.execute(ctx, arg1.getArgument(ctx), arg2.getArgument(ctx), arg3.getArgument(ctx))))))
+        );
+    }
+
+    public void requiredExectutionBranched(String key, List<String> literalBranches, CommandFunction1<String> commandExecution) {
+        requiredExectutionBranched(new Key(key), literalBranches, commandExecution);
+    }
+
+    public void requiredExectutionBranched(Key key, List<String> literalBranches, CommandFunction1<String> commandExecution) {
+        var builder = this.getOrCreateNode(key);
+
         for (var branch : literalBranches) {
             builder.then(
                     Commands.literal(branch).executes((ctx) -> commandExecution.execute(ctx, branch))
             );
         }
 
-        return builder;
+        updateParent(builder);
     }
 
-    public <T1> LiteralArgumentBuilder<CommandSourceStack> requiredArgExectutionBranched(LiteralArgumentBuilder<CommandSourceStack> builder, List<String> literalBranches, CommandArgumentHolder<T1> arg1, CommandFunction2<String, T1> commandExecution) {
+    public <T1> void requiredArgExectutionBranched(String key, List<String> literalBranches, CommandArgumentHolder<T1> arg1, CommandFunction2<String, T1> commandExecution) {
+        requiredArgExectutionBranched(new Key(key), literalBranches, arg1, commandExecution);
+    }
+
+    public <T1> void requiredArgExectutionBranched(Key key, List<String> literalBranches, CommandArgumentHolder<T1> arg1, CommandFunction2<String, T1> commandExecution) {
+        var builder = this.getOrCreateNode(key);
+
         for (var branch : literalBranches) {
             builder.then(
                     Commands.literal(branch)
@@ -139,7 +204,7 @@ public abstract class CommandBuilderHelper {
             );
         }
 
-        return builder;
+        updateParent(builder);
     }
 
     //--

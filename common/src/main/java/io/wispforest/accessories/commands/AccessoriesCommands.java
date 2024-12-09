@@ -64,7 +64,7 @@ public class AccessoriesCommands extends CommandBuilderHelper {
         getOrCreateNode("accessories").requires(stack -> stack.hasPermission(Commands.LEVEL_GAMEMASTERS));
 
         optionalArgExectution(
-                getOrCreateNode("accessories/edit"),
+                "accessories/edit",
                 argumentHolder("entity", EntityArgument.entity(), AccessoriesCommands::getOrThrowLivingEntity),
                 (ctx, livingEntity) -> {
                     Accessories.askPlayerForVariant(ctx.getSource().getPlayerOrException(), livingEntity);
@@ -75,7 +75,7 @@ public class AccessoriesCommands extends CommandBuilderHelper {
         //--
 
         requiredArgExectution(
-                getOrCreateNode("accessories/nest"),
+                "accessories/nest",
                 argumentHolder("item", ItemArgument.item(context), (ctx, name) -> ItemArgument.getItem(ctx, name).createItemStack(1, false)),
                 (ctx, innerStack) -> {
                     var player = ctx.getSource().getPlayerOrException();
@@ -94,14 +94,14 @@ public class AccessoriesCommands extends CommandBuilderHelper {
         var slotGroupings = List.of("valid", "invalid");
 
         requiredArgExectutionBranched(
-                getOrCreateNode("accessories/slot/add"),
+                "accessories/slot/add",
                 slotGroupings,
                 slotArgument,
                 (ctx, branch, slot) -> adjustSlotValidationOnStack(Objects.equals(branch, "valid"), true, slot, ctx)
         );
 
         requiredArgExectutionBranched(
-                getOrCreateNode("accessories/slot/remove"),
+                "accessories/slot/remove",
                 slotGroupings,
                 slotArgument,
                 (ctx, branch, slot) -> adjustSlotValidationOnStack(Objects.equals(branch, "valid"), false, slot, ctx)
@@ -110,7 +110,7 @@ public class AccessoriesCommands extends CommandBuilderHelper {
         //--
 
         requiredArgExectution(
-                getOrCreateNode("accessories/slot/stack-sizing/useStackSize"),
+                "accessories/stack-sizing/useStackSize",
                 argumentHolder("value", BoolArgumentType.bool(), (ctx, name) -> ctx.getArgument(name, Boolean.class)),
                 (ctx, bl) -> {
                     var player = ctx.getSource().getPlayerOrException();
@@ -124,7 +124,7 @@ public class AccessoriesCommands extends CommandBuilderHelper {
         );
 
         requiredArgExectution(
-                getOrCreateNode("accessories/slot/stack-sizing"),
+                "accessories/stack-sizing",
                 argumentHolder("size", IntegerArgumentType.integer(), (ctx, name) -> ctx.getArgument(name, Integer.class)),
                 (ctx, size) -> {
                     var player = ctx.getSource().getPlayerOrException();
@@ -154,22 +154,24 @@ public class AccessoriesCommands extends CommandBuilderHelper {
                 .then(createAddLiteral("add_multiplied_base"))
                 .then(createAddLiteral("add_multiplied_total"));
 
+        updateParent(modifierAdd);
+
         requiredArgExectution(
-                getOrCreateNode("accessories/attribute/modifier/remove"),
+                "accessories/attribute/modifier/remove",
                 attributeArg,
                 idArg,
                 AccessoriesCommands::removeModifier
         );
 
         requiredArgExectution(
-                getOrCreateNode("accessories/attribute/modifier/get"),
+                "accessories/attribute/modifier/get",
                 attributeArg,
                 idArg,
                 (ctx, attributeHolder, location) -> getAttributeModifier(ctx, attributeArg.getArgument(ctx), idArg.getArgument(ctx), 1.0)
         );
 
         requiredArgExectution(
-                getOrCreateNode("accessories/attribute/modifier/get"),
+                "accessories/attribute/modifier/get",
                 attributeArg,
                 idArg,
                 argumentHolder("scale", DoubleArgumentType.doubleArg(), DoubleArgumentType::getDouble),
@@ -181,7 +183,7 @@ public class AccessoriesCommands extends CommandBuilderHelper {
         var logFailureType = new DynamicCommandExceptionType(branch -> Component.literal("Unable to locate the given logging for the following command branch: " + branch));
 
         requiredExectutionBranched(
-                getOrCreateNode("accessories/log"),
+                "accessories/log",
                 List.of("slots", "groups", "entity_bindings"),
                 (ctx, branch) -> {
                     switch (branch) {
@@ -213,8 +215,6 @@ public class AccessoriesCommands extends CommandBuilderHelper {
                     return 1;
                 }
         );
-
-
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> createAddLiteral(String literal) {

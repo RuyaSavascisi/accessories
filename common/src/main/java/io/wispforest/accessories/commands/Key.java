@@ -10,8 +10,12 @@ import java.util.Objects;
 public final class Key {
     private final List<String> path;
 
+    public Key(String key) {
+        this(key.split("/"));
+    }
+
     public Key(String... keyParts) {
-        this.path = List.of(keyParts);
+        this(List.of(keyParts));
     }
 
     public Key(List<String> keyParts) {
