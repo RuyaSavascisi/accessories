@@ -82,7 +82,7 @@ public abstract class ReplaceableJsonResourceReloadListener extends SimplePrepar
             var value = decoder.apply(element);
 
             if(value == null) {
-                logger.warn("Unable to parse " + name + " as it is not a valid ResourceLocation! [Location: " + location + ", Value: " + element.getAsString() + "]");
+                logger.warn("Unable to parse " + name + " as it is could not be decoded! [Location: " + location + ", Value: " + element.getAsString() + "]");
                 continue;
             }
 

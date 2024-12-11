@@ -158,7 +158,7 @@ public class EntitySlotLoader extends ReplaceableJsonResourceReloadListener {
 
             var entityElements = this.safeHelper(GsonHelper::getAsJsonArray, jsonObject, "entities", new JsonArray(), location);
 
-            this.<Void>decodeJsonArray(entityElements, "entity", location, element -> {
+            this.<Object>decodeJsonArray(entityElements, "entity", location, element -> {
                 var string = element.getAsString();
 
                 if(string.contains("#")){
@@ -179,7 +179,7 @@ public class EntitySlotLoader extends ReplaceableJsonResourceReloadListener {
                             });
                 }
 
-                return null;
+                return List.of();
             }, unused -> {});
         }
 
