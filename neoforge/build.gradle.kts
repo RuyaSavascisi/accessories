@@ -48,7 +48,7 @@ dependencies {
     neoForge("net.neoforged:neoforge:${rootProject.property("neoforge_version")}")
 
     "common"(project(":common", "namedElements")) { this.setTransitive(false) }
-    "shadowCommon"(project(":common", "transformProductionFabric")) { this.setTransitive(false) }
+    "shadowCommon"(project(":common", "transformProductionNeoForge")) { this.setTransitive(false) }
 
     //--
 

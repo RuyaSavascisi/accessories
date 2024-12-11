@@ -79,7 +79,7 @@ java {
 
             data[cfg.name] = publishArtifact
 
-            if (!publishArtifact.isEmpty()) this.removeAll(publishArtifact);
+            if (publishArtifact.isNotEmpty()) this.removeAll(publishArtifact);
         }
     }
 
