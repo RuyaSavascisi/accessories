@@ -62,7 +62,7 @@
     "accessories-fabric.mixins.json",
     "accessories-common.mixins.json"
   ],
-  "accessWidener": "accessories-fabric.accesswidener",
+  "accessWidener": "accessories.accesswidener",
   "depends": {
     "fabric": ">=0.92.0",
     "minecraft": ">=1.21",
