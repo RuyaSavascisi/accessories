@@ -1,7 +1,6 @@
 package io.wispforest.accessories.menu.variants;
 
 import com.mojang.datafixers.util.Pair;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.api.menu.AccessoriesBasedSlot;
@@ -11,6 +10,7 @@ import io.wispforest.accessories.impl.AccessoriesHolderImpl;
 import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.menu.*;
 import io.wispforest.accessories.menu.networking.ToggledSlots;
+import io.wispforest.accessories.mixin.client.HorseInventoryMenuAccessor;
 import io.wispforest.owo.client.screens.SlotGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -18,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.Llama;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.HorseInventoryMenu;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -77,8 +78,8 @@ public class AccessoriesExperimentalMenu extends AccessoriesMenuBase {
             }
 
             @Override
-            public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-                return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+            public ResourceLocation getNoItemIcon() {
+                return InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD;
             }
         });
 
@@ -87,7 +88,7 @@ public class AccessoriesExperimentalMenu extends AccessoriesMenuBase {
         if(saddleInv != null) {
             this.includeSaddle = true;
 
-            var iconPath = targetEntity instanceof Llama ? "container/horse/llama_armor_slot" : "container/horse/saddle_slot" ;
+            ResourceLocation iconPath = targetEntity instanceof Llama ? HorseInventoryMenuAccessor.accessories$LLAMA_ARMOR_SLOT_SPRITE() : HorseInventoryMenuAccessor.accessories$SADDLE_SLOT_SPRITE();
 
             this.addSlot(
                     new Slot(saddleInv, 0, -300, -300){
@@ -97,8 +98,8 @@ public class AccessoriesExperimentalMenu extends AccessoriesMenuBase {
                         }
 
                         @Override
-                        public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-                            return Pair.of(ArmorSlotTypes.SPRITE_ATLAS_LOCATION, ResourceLocation.withDefaultNamespace(iconPath));
+                        public ResourceLocation getNoItemIcon() {
+                            return iconPath;
                         }
                     }
             );
@@ -164,21 +165,14 @@ public class AccessoriesExperimentalMenu extends AccessoriesMenuBase {
 
         if(armorContainer == null) return false;
 
-        var armorSlot = new AccessoriesArmorSlot(armorContainer, SlotAccessContainer.ofArmor(equipmentSlot, targetEntity), targetEntity, equipmentSlot, 0, -300, -300, location != null ? location.second() : null)
-                .setAtlasLocation(location != null ? location.first() : null); // 39 - i
+        var armorSlot = new AccessoriesArmorSlot(armorContainer, SlotAccessContainer.ofArmor(equipmentSlot, targetEntity), targetEntity, equipmentSlot, 0, -300, -300, location);
 
         this.addSlot(armorSlot);
 
         var cosmeticSlot = new AccessoriesInternalSlot(armorContainer, true, 0, -300, -300){
             @Override
-            public @Nullable Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-                if(location == null) return null;
-
-                var atlasLocation = location.first();
-
-                if(atlasLocation == null) atlasLocation = ResourceLocation.withDefaultNamespace("textures/atlas/blocks.png");
-
-                return Pair.of(atlasLocation, location.second());
+            public @Nullable ResourceLocation getNoItemIcon() {
+                return location;
             }
         };
 

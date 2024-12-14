@@ -6,5 +6,5 @@
     "cape",
     "back"
   ],
-  "icon": "accessories:gui/group/chest"
+  "icon": "accessories:container/slot/group/chest"
 }

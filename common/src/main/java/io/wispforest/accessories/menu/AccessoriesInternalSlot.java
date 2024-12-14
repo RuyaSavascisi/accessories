@@ -54,8 +54,8 @@ public class AccessoriesInternalSlot extends AccessoriesBasedSlot {
     }
 
     @Override
-    protected ResourceLocation icon() {
-        return (this.isCosmetic && useCosmeticIcon) ? Accessories.of("gui/slot/cosmetic") : super.icon();
+    public ResourceLocation getNoItemIcon() {
+        return (this.isCosmetic && useCosmeticIcon) ? Accessories.of("gui/slot/cosmetic") : super.getNoItemIcon();
     }
 
     public List<Component> getTooltipData() {

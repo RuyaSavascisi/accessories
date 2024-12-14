@@ -4,5 +4,5 @@
   "slots": [
     "belt"
   ],
-  "icon": "accessories:gui/group/leg"
+  "icon": "accessories:container/slot/group/leg"
 }

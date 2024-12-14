@@ -3,5 +3,5 @@
   "order": 10,
   "slots": [
   ],
-  "icon": "accessories:gui/group/unknown"
+  "icon": "accessories:container/slot/group/unknown"
 }

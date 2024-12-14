@@ -97,8 +97,8 @@ public abstract class LivingEntityMixin extends Entity implements AccessoriesAPI
     //--
 
     @Inject(method = "isLookingAtMe", at = @At("HEAD"), cancellable = true)
-    private void accessories$isGazeDisguised(LivingEntity livingEntity, double d, boolean bl, boolean bl2, Predicate<LivingEntity> predicate, DoubleSupplier[] doubleSuppliers, CallbackInfoReturnable<Boolean> cir) {
-        var state = ExtraEventHandler.isGazedBlocked(predicate == LivingEntity.PLAYER_NOT_WEARING_DISGUISE_ITEM, (LivingEntity) (Object) this, livingEntity);
+    private void accessories$isGazeDisguised(LivingEntity livingEntity, double tolerance, boolean scaleByDistance, boolean visual, double[] yValues, CallbackInfoReturnable<Boolean> cir) {
+        var state = ExtraEventHandler.isGazedBlocked((LivingEntity) (Object) this, livingEntity);
 
         if (state != TriState.DEFAULT) cir.setReturnValue(!state.get());
     }

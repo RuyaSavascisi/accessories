@@ -13,10 +13,10 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.EquipmentLayerRenderer;
 import net.minecraft.client.renderer.entity.layers.WingsLayer;
 import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
+import net.minecraft.client.resources.model.EquipmentClientInfo;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.equipment.EquipmentModel;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,13 +31,13 @@ public abstract class WingsLayerMixin<S extends HumanoidRenderState, M extends E
 
     @Override
     public void renderStack(ItemStack stack, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, S humanoidRenderState) {
-        var prevItem = humanoidRenderState.chestItem;
+        var prevItem = humanoidRenderState.chestEquipment;
 
-        humanoidRenderState.chestItem = stack;
+        humanoidRenderState.chestEquipment = stack;
 
         this.render(poseStack, multiBufferSource, i, humanoidRenderState, humanoidRenderState.yRot, humanoidRenderState.xRot);
 
-        humanoidRenderState.chestItem = prevItem;
+        humanoidRenderState.chestEquipment = prevItem;
     }
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/client/renderer/entity/state/HumanoidRenderState;FF)V",
@@ -50,10 +50,10 @@ public abstract class WingsLayerMixin<S extends HumanoidRenderState, M extends E
                 var gliderItem = capability.getFirstEquipped(stack1 -> {
                     var equippable = stack1.get(DataComponents.EQUIPPABLE);
 
-                    if (equippable != null && equippable.model().isPresent()) {
-                        var list = ((EquipmentLayerRendererAccessor) this.equipmentRenderer).accessories$equipmentModels()
-                                .get(equippable.model().get())
-                                .getLayers(EquipmentModel.LayerType.WINGS);
+                    if (equippable != null && equippable.assetId().isPresent()) {
+                        var list = ((EquipmentLayerRendererAccessor) this.equipmentRenderer).accessories$equipmentAssetManager()
+                                .get(equippable.assetId().get())
+                                .getLayers(EquipmentClientInfo.LayerType.WINGS);
 
                         return !list.isEmpty();
                     }

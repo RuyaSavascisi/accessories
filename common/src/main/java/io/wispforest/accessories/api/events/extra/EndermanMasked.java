@@ -14,12 +14,12 @@ import net.minecraft.world.item.ItemStack;
 public interface EndermanMasked {
 
     Event<EndermanMasked> EVENT = new WrappedEvent<>(IsGazeDisguised.EVENT, endermanMasked -> {
-        return (lookingEntity, isVanillaPredicate, stack, reference) -> {
+        return (lookingEntity, stack, reference) -> {
             if (!(lookingEntity instanceof EnderMan enderMan)) return TriState.DEFAULT;
 
             return endermanMasked.isEndermanMasked(enderMan, stack, reference);
         };
-    }, gazeEvent -> (enderMan, stack, reference) -> gazeEvent.invoker().isWearDisguise(enderMan, true, stack, reference));
+    }, gazeEvent -> (enderMan, stack, reference) -> gazeEvent.invoker().isWearDisguise(enderMan, stack, reference));
 
     /**
      * @param enderMan  The specific {@link EnderMan} for the given check

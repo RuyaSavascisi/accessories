@@ -38,7 +38,7 @@ dependencies {
 
     //--
 
-    modCompileOnly("software.bernie.geckolib:geckolib-fabric-1.21.1:${rootProject.property("geckolib_version")}")
+    modCompileOnly("software.bernie.geckolib:geckolib-fabric-${rootProject.property("geckolib_minecraft_version")}:${rootProject.property("geckolib_version")}")
 
     modCompileOnly("maven.modrinth:sodium:${rootProject.property("sodium_version")}-fabric")
 

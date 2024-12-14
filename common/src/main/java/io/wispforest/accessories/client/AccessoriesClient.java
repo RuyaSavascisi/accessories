@@ -294,17 +294,13 @@ public class AccessoriesClient {
                     .renderer((context, btn, delta) -> {
                         ButtonComponent.Renderer.VANILLA.draw(context, btn, delta);
 
-                        var groupIcon = Accessories.of("gui/group/misc");
-
-                        var textureAtlasSprite = Minecraft.getInstance()
-                                .getTextureAtlas(ResourceLocation.withDefaultNamespace("textures/atlas/gui.png"))
-                                .apply(groupIcon);
+                        var groupIcon = Accessories.of("container/slot/group/misc");
 
                         var color = Color.BLACK.interpolate(Color.WHITE, 0.4f);
 
                         context.push().translate(0, 0, 2);
 
-                        context.blitSprite(RenderType::guiTexturedOverlay, textureAtlasSprite, btn.x() + 2, btn.y() + 2, btn.horizontalSizing().get().value - 4, btn.verticalSizing().get().value - 4, color.argb());
+                        context.blitSprite(RenderType::guiTexturedOverlay, groupIcon, btn.x() + 2, btn.y() + 2, btn.horizontalSizing().get().value - 4, btn.verticalSizing().get().value - 4, color.argb());
 
                         context.pop();
                     })

@@ -5,5 +5,5 @@
     "hat",
     "face"
   ],
-  "icon": "accessories:gui/group/head"
+  "icon": "accessories:container/slot/group/head"
 }

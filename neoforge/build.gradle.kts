@@ -34,7 +34,7 @@ repositories {
     maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/") {
         content { includeGroup("software.bernie.geckolib") }
     }
-    //mavenLocal()
+    mavenLocal()
 }
 
 sourceSets {
@@ -67,7 +67,7 @@ dependencies {
 
     //--
 
-    modCompileOnly("software.bernie.geckolib:geckolib-neoforge-1.21.1:${rootProject.property("geckolib_version")}")
+    modCompileOnly("software.bernie.geckolib:geckolib-neoforge-${rootProject.property("geckolib_minecraft_version")}:${rootProject.property("geckolib_version")}")
 
     //modLocalRuntime("maven.modrinth:sodium:mc1.21-0.6.0-beta.2-neoforge")
 

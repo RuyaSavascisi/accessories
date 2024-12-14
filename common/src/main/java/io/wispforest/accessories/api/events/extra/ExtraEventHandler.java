@@ -5,6 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoryRegistry;
+import io.wispforest.accessories.api.data.AccessoriesTags;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -137,7 +138,9 @@ public class ExtraEventHandler {
             .weakKeys()
             .build(CacheLoader.from(() -> new HashMap<>()));
 
-    public static TriState isGazedBlocked(boolean vanillaPredicate, LivingEntity lookingEntity, LivingEntity targetEntity){
+    public static TriState isGazedBlocked(LivingEntity lookingEntity, LivingEntity targetEntity){
+        if (lookingEntity.getType().is(AccessoriesTags.GAZE_DISGUISED_BLACKLIST)) return TriState.DEFAULT;
+
         var cache = gazeDisguiseCache.getIfPresent(targetEntity.getId());
 
         if(cache != null && cache.containsKey(lookingEntity.getId())) return cache.get(lookingEntity.getId());
@@ -153,16 +156,16 @@ public class ExtraEventHandler {
                 var accessory = AccessoryRegistry.getAccessoryOrDefault(stack);
 
                 if(accessory instanceof IsGazeDisguised masked){
-                    state = masked.isWearDisguise(lookingEntity, vanillaPredicate, stack, reference);
+                    state = masked.isWearDisguise(lookingEntity, stack, reference);
 
                     if(state != TriState.DEFAULT) return state;
                 }
 
-                state = IsGazeDisguised.EVENT.invoker().isWearDisguise(lookingEntity, vanillaPredicate, stack, reference);
+                state = IsGazeDisguised.EVENT.invoker().isWearDisguise(lookingEntity, stack, reference);
 
                 if(state != TriState.DEFAULT) return state;
 
-                if (vanillaPredicate && stack.is(ItemTags.GAZE_DISGUISE_EQUIPMENT)) return TriState.TRUE;
+                if (stack.is(ItemTags.GAZE_DISGUISE_EQUIPMENT)) return TriState.TRUE;
             }
         }
 

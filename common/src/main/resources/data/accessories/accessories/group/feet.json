@@ -5,5 +5,5 @@
     "shoes",
     "anklet"
   ],
-  "icon": "accessories:gui/group/feet"
+  "icon": "accessories:container/slot/group/feet"
 }

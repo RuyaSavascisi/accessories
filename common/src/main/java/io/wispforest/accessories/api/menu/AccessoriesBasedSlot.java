@@ -1,6 +1,5 @@
 package io.wispforest.accessories.api.menu;
 
-import com.mojang.datafixers.util.Pair;
 import com.mojang.logging.LogUtils;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.AccessoriesContainer;
@@ -137,7 +136,8 @@ public class AccessoriesBasedSlot extends Slot implements SlotTypeAccessible {
         return AccessoryRegistry.canUnequip(this.getItem(), SlotReference.of(this.entity, this.accessoriesContainer.getSlotName(), this.getContainerSlot()));
     }
 
-    protected ResourceLocation icon(){
+    @Override
+    public ResourceLocation getNoItemIcon(){
         var slotType = this.accessoriesContainer.slotType();
 
         return slotType != null ? slotType.icon() : SlotType.EMPTY_SLOT_ICON;
@@ -153,14 +153,5 @@ public class AccessoriesBasedSlot extends Slot implements SlotTypeAccessible {
                 .append(Component.translatable(slotType.translation()).withStyle(ChatFormatting.BLUE)));
 
         return tooltipData;
-    }
-
-    @Nullable
-    @Override
-    public Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-        // Thanks to mojang you can not access the GUI atlas from this call and you must use Atlases from ModelManager.
-        // )::::::::::::::::::::::::::::::
-
-        return new Pair<>(ResourceLocation.withDefaultNamespace("textures/atlas/blocks.png"), icon());
     }
 }

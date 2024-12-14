@@ -62,7 +62,7 @@ dependencies {
 
     modCompileOnly(modLocalRuntime("com.terraformersmc:modmenu:${rootProject.property("modmenu_version")}")!!)
 
-    modCompileOnly("software.bernie.geckolib:geckolib-fabric-1.21.1:${rootProject.property("geckolib_version")}")
+    modCompileOnly("software.bernie.geckolib:geckolib-fabric-${rootProject.property("geckolib_minecraft_version")}:${rootProject.property("geckolib_version")}")
 
     //modLocalRuntime("maven.modrinth:ok-boomer:0.1.3+1.21")
     //modLocalRuntime("maven.modrinth:sodium:mc1.21-0.6.0-beta.2-fabric")
@@ -162,7 +162,7 @@ loom {
         }
     }
 
-    accessWidenerPath = project(":common").loom.accessWidenerPath
+    accessWidenerPath = file("src/main/resources/accessories-fabric.accesswidener")
 }
 
 tasks.shadowJar {

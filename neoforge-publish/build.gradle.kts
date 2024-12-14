@@ -20,6 +20,7 @@ repositories {
     maven("https://maven.nucleoid.xyz/")
     maven("https://maven.wispforest.io/releases")
     maven("https://maven.su5ed.dev/releases")
+    mavenLocal()
 }
 
 dependencies {

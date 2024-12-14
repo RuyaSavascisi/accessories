@@ -11,6 +11,7 @@ import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.BannerItem;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -27,8 +28,7 @@ public abstract class CustomHeadLayerMixin<S extends LivingEntityRenderState, M 
             "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/state/LivingEntityRenderState;FF)V" // Yarn
     })
     private void accessories$adjustHeadItem(PoseStack poseStack, MultiBufferSource multiBufferSource, int i, S livingEntityRenderState, float f, float g, Operation<Void> original) {
-        ItemStack prevStack = null;
-        BakedModel prevModel = null;
+        ItemStackRenderState prevState = null;
 
         if (livingEntityRenderState instanceof LivingEntityRenderStateExtension extension) {
             var livingEntity = extension.getEntity();
@@ -43,19 +43,20 @@ public abstract class CustomHeadLayerMixin<S extends LivingEntityRenderState, M 
 
                 if (ref != null) {
                     var stack = ref.stack();
+                    prevState = livingEntityRenderState.headItem;
 
-                    prevStack = livingEntityRenderState.headItem;
-                    prevModel = livingEntityRenderState.headItemModel;
+                    var alternativeRenderState = new ItemStackRenderState();
 
-                    livingEntityRenderState.headItem = stack;
-                    livingEntityRenderState.headItemModel = Minecraft.getInstance().getItemRenderer().resolveItemModel(stack, livingEntity, ItemDisplayContext.HEAD);
+                    Minecraft.getInstance().getItemModelResolver()
+                            .updateForLiving(alternativeRenderState, stack, ItemDisplayContext.HEAD, false, livingEntity);
+
+                    ((LivingEntityRenderStateAccessor) livingEntityRenderState).accessories$headItem(alternativeRenderState);
                 }
             }
         }
 
         original.call(poseStack, multiBufferSource, i, livingEntityRenderState, f, g);
 
-        if (prevStack != null) livingEntityRenderState.headItem = prevStack;
-        if (prevModel != null) livingEntityRenderState.headItemModel = prevModel;
+        if (prevState != null) ((LivingEntityRenderStateAccessor) livingEntityRenderState).accessories$headItem(prevState);
     }
 }

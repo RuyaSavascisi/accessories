@@ -38,6 +38,8 @@
     "client.owo.OwoReiPluginMixin",
     "client.owo.ScissorStackMixin",
     "client.owo.ScrollContainerMixin",
+    "client.LivingEntityRenderStateAccessor",
+    "client.HorseInventoryMenuAccessor",
     "sodium.MPOATVConstructingVertexConsumerMixin_SodiumImpl"
   ],
   "mixins": [
@@ -66,7 +68,6 @@
     "StriderMixin",
     "owo.ConfigWrapperAccessor",
     "owo.NbtDeserializerMixin",
-    "ArmorSlotMixin",
     "DataPackContentsMixin",
     "PatchedDataComponentMapMixin",
     "ServerChunkLoadingManagerAccessor",

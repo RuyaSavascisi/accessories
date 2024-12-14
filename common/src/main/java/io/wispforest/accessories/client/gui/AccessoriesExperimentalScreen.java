@@ -781,8 +781,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                 }).renderer((context, button, delta) -> {
                     ComponentUtils.getButtonRenderer().draw(context, button, delta);
 
-                    var textureAtlasSprite = this.minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-                            .apply(!showCosmeticState() ? Accessories.of("gui/slot/cosmetic") : Accessories.of("gui/slot/charm"));
+                    var textureSprite = !showCosmeticState() ? Accessories.of("container/slot/cosmetic") : Accessories.of("container/slot/charm");
 
                     var color = (!showCosmeticState() ? Color.WHITE.interpolate(Color.BLACK, 0.3f) : Color.BLACK);
 
@@ -791,10 +790,10 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                     var blue = color.blue();
 
                     if(!showCosmeticState()) {
-                        GuiGraphicsUtils.drawWithSpectrum(context, button.x() + 2, button.y() + 2, 0, 16, 16, textureAtlasSprite, 1f);
-                        context.blitSprite(RenderType::guiTextured, textureAtlasSprite, button.x() + 2, button.y() + 2, 16, 16, new Color(red, green, blue, 0.4f).argb());
+                        GuiGraphicsUtils.drawWithSpectrum(context, button.x() + 2, button.y() + 2, 0, 16, 16, textureSprite, 1f);
+                        context.blitSprite(RenderType::guiTextured, textureSprite, button.x() + 2, button.y() + 2, 16, 16, new Color(red, green, blue, 0.4f).argb());
                     } else {
-                        context.blitSprite(RenderType::guiTextured, textureAtlasSprite, button.x() + 2, button.y() + 2, 16, 16, new Color(red, green, blue, 0.9f).argb());
+                        context.blitSprite(RenderType::guiTextured, textureSprite, button.x() + 2, button.y() + 2, 16, 16, new Color(red, green, blue, 0.9f).argb());
                     }
                 }).sizing(Sizing.fixed(20))
                 .tooltip(createToggleTooltip("slot_cosmetics", false, showCosmeticState()));

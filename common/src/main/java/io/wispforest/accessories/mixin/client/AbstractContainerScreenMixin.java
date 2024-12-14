@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import io.wispforest.accessories.pond.ContainerScreenExtension;
 import io.wispforest.owo.ui.base.BaseOwoHandledScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderType;
@@ -42,8 +43,10 @@ public abstract class AbstractContainerScreenMixin implements ContainerScreenExt
         if(result != null && !result) ci.cancel();
     }
 
-    @WrapOperation(method = "renderSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/client/renderer/texture/TextureAtlasSprite;IIII)V"))
-    private void accessories$adjustFor18x18(GuiGraphics instance, Function<ResourceLocation, RenderType> function, TextureAtlasSprite textureAtlasSprite, int x, int y, int width, int height, Operation<Void> original) {
+    @WrapOperation(method = "renderSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Ljava/util/function/Function;Lnet/minecraft/resources/ResourceLocation;IIII)V"))
+    private void accessories$adjustFor18x18(GuiGraphics instance, Function<ResourceLocation, RenderType> function, ResourceLocation texture, int x, int y, int width, int height, Operation<Void> original) {
+        var textureAtlasSprite = Minecraft.getInstance().getGuiSprites().getSprite(texture);
+
         var is18x18 = textureAtlasSprite.contents().width() == 18 && textureAtlasSprite.contents().height() == 18;
 
         if(is18x18) {
@@ -54,6 +57,6 @@ public abstract class AbstractContainerScreenMixin implements ContainerScreenExt
             y = y - 1;
         }
 
-        original.call(instance, function, textureAtlasSprite, x, y, width, height);
+        original.call(instance, function, texture, x, y, width, height);
     }
 }

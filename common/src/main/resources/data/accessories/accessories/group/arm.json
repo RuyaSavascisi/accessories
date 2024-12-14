@@ -6,5 +6,5 @@
     "ring",
     "wrist"
   ],
-  "icon": "accessories:gui/group/arm"
+  "icon": "accessories:container/slot/group/arm"
 }

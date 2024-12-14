@@ -5,6 +5,7 @@ import io.wispforest.accessories.api.Accessory;
 import io.wispforest.accessories.api.slot.*;
 import it.unimi.dsi.fastutil.Pair;
 import net.fabricmc.fabric.api.util.TriState;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.animal.horse.Llama;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,10 +25,10 @@ public class ArmorSlotTypes implements UniqueSlotHandling.RegistrationCallback {
     private static final Accessory armorAccessory = new Accessory() {};
 
     public static final Map<EquipmentSlot, ResourceLocation> TEXTURE_EMPTY_SLOTS = Map.of(
-            EquipmentSlot.FEET, ResourceLocation.withDefaultNamespace("item/empty_armor_slot_boots"),
-            EquipmentSlot.LEGS, ResourceLocation.withDefaultNamespace("item/empty_armor_slot_leggings"),
-            EquipmentSlot.CHEST, ResourceLocation.withDefaultNamespace("item/empty_armor_slot_chestplate"),
-            EquipmentSlot.HEAD, ResourceLocation.withDefaultNamespace("item/empty_armor_slot_helmet")
+            EquipmentSlot.FEET, InventoryMenu.EMPTY_ARMOR_SLOT_BOOTS,
+            EquipmentSlot.LEGS, InventoryMenu.EMPTY_ARMOR_SLOT_LEGGINGS,
+            EquipmentSlot.CHEST, InventoryMenu.EMPTY_ARMOR_SLOT_CHESTPLATE,
+            EquipmentSlot.HEAD, InventoryMenu.EMPTY_ARMOR_SLOT_HELMET
     );
 
     public static final EquipmentSlot[] SLOT_IDS = new EquipmentSlot[]{EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET};
@@ -84,16 +86,14 @@ public class ArmorSlotTypes implements UniqueSlotHandling.RegistrationCallback {
     private static final ResourceLocation HORSE_ARMOR_SLOT_SPRITE = ResourceLocation.withDefaultNamespace("container/horse/armor_slot");
 
     @Nullable
-    public static Pair<@Nullable ResourceLocation, ResourceLocation> getEmptyTexture(EquipmentSlot slot, LivingEntity living) {
+    public static ResourceLocation getEmptyTexture(EquipmentSlot slot, LivingEntity living) {
         var texture = TEXTURE_EMPTY_SLOTS.get(slot);
 
-        if (texture != null) return Pair.of(null, texture);
+        if (texture != null) return texture;
 
         if (living instanceof AbstractHorse horse) {
             if (horse.canUseSlot(EquipmentSlot.BODY)) {
-                if (horse instanceof Llama) return Pair.of(SPRITE_ATLAS_LOCATION, LLAMA_ARMOR_SLOT_SPRITE);
-
-                return Pair.of(SPRITE_ATLAS_LOCATION, HORSE_ARMOR_SLOT_SPRITE);
+                return (horse instanceof Llama) ? LLAMA_ARMOR_SLOT_SPRITE : HORSE_ARMOR_SLOT_SPRITE;
             }
         }
 
