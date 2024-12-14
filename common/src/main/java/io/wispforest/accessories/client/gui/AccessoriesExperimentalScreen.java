@@ -73,22 +73,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     private static final ResourceLocation SLOT_HIGHLIGHT_BACK_SPRITE = ResourceLocation.withDefaultNamespace("container/slot_highlight_back");
     private static final ResourceLocation SLOT_HIGHLIGHT_FRONT_SPRITE = ResourceLocation.withDefaultNamespace("container/slot_highlight_front");
 
-    protected void renderSlotHighlightBack(GuiGraphics guiGraphics) {
-        guiGraphics.translate(0, 0, 300);
-
-        if (this.hoveredSlot != null && this.hoveredSlot.isHighlightable()) {
-            guiGraphics.blitSprite(RenderType::guiTextured, SLOT_HIGHLIGHT_BACK_SPRITE, this.hoveredSlot.x - 4, this.hoveredSlot.y - 4, 24, 24);
-        }
-    }
-
-    protected void renderSlotHighlightFront(GuiGraphics guiGraphics) {
-        if (this.hoveredSlot != null && this.hoveredSlot.isHighlightable()) {
-            guiGraphics.blitSprite(RenderType::guiTexturedOverlay, SLOT_HIGHLIGHT_FRONT_SPRITE, this.hoveredSlot.x - 4, this.hoveredSlot.y - 4, 24, 24);
-        }
-
-        guiGraphics.translate(0, 0, -300);
-    }
-
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (AccessoriesClient.OPEN_SCREEN.matches(keyCode, scanCode)) {
@@ -206,10 +190,12 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     //--
 
     @Override
-    protected void renderFloatingItem(GuiGraphics guiGraphics, ItemStack stack, int x, int y, @Nullable String text) {
-        guiGraphics.translate(0,0, 600);
-        super.renderFloatingItem(guiGraphics, stack, x, y, text);
-        guiGraphics.translate(0,0, -600);
+    protected int getLayerZOffset(HandledScreenLayer layer) {
+        if(layer == HandledScreenLayer.CURSOR_ITEM || layer == HandledScreenLayer.ITEM_TOOLTIP) {
+            return 600;
+        }
+
+        return super.getLayerZOffset(layer);
     }
 
     @Override
@@ -228,13 +214,12 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
             }
         }
 
-        guiGraphics.translate(0,0,600);
         super.renderTooltip(guiGraphics, x, y);
-        guiGraphics.translate(0,0,-600);
 
         AccessoriesScreenBase.FORCE_TOOLTIP_LEFT.setValue(false);
     }
 
+    @Override
     protected List<Component> getTooltipFromContainerItem(ItemStack itemStack) {
         var tooltipData = getTooltipFromItem(this.minecraft, itemStack);
 
@@ -434,6 +419,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                                                         .tooltip(createToggleTooltip("advanced_options", true, this.showAdvancedOptions()))
                                                         .sizing(Sizing.fixed(16))
                                                         .margins(Insets.of(1))
+                                                        .zIndex(400)
                                         )
                                         .child(
                                                 Components.button(createToggleTooltip("crafting_grid", false, this.showCraftingGrid()), btn -> {
@@ -451,6 +437,7 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
                                                         .tooltip(createToggleTooltip("crafting_grid", true, this.showCraftingGrid()))
                                                         .sizing(Sizing.fixed(16))
                                                         .margins(Insets.of(1))
+                                                        .zIndex(400)
                                                         .id("crafting_grid_button")
                                         )
                                         .child(Components.spacer().sizing(Sizing.fixed(18)))

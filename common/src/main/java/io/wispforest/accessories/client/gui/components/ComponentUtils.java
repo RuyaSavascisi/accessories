@@ -108,7 +108,9 @@ public class ComponentUtils {
     private static final ButtonComponent.Renderer DARK_BUTTON_RENDERER = (context, button, delta) -> {
         RenderSystem.enableDepthTest();
 
-        var texture = button.active ? (button.isHovered() ? DARK_HOVERED_TEXTURE : DARK_ACTIVE_TEXTURE) : DARK_DISABLED_TEXTURE;
+        var texture = button.active ? (button.isHoveredOrFocused() ? DARK_HOVERED_TEXTURE : DARK_ACTIVE_TEXTURE) : DARK_DISABLED_TEXTURE;
+
+        //System.out.println("Is Button Hovererd:" + button.isHovered());
 
         NinePatchTexture.draw(texture, context, button.getX(), button.getY(), button.width(), button.height());
     };
