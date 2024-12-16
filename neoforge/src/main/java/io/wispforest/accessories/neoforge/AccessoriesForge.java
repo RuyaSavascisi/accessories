@@ -1,6 +1,5 @@
 package io.wispforest.accessories.neoforge;
 
-import com.mojang.logging.LogUtils;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.components.AccessoriesDataComponents;
@@ -8,7 +7,6 @@ import io.wispforest.accessories.commands.AccessoriesCommands;
 import io.wispforest.accessories.data.EntitySlotLoader;
 import io.wispforest.accessories.data.SlotGroupLoader;
 import io.wispforest.accessories.data.SlotTypeLoader;
-import io.wispforest.accessories.networking.client.InvalidateEntityCache;
 import io.wispforest.owo.serialization.RegistriesAttribute;
 import io.wispforest.accessories.impl.AccessoriesCapabilityImpl;
 import io.wispforest.accessories.impl.AccessoriesEventHandler;
@@ -21,7 +19,6 @@ import io.wispforest.endec.SerializationContext;
 import io.wispforest.owo.serialization.format.nbt.NbtDeserializer;
 import io.wispforest.owo.serialization.format.nbt.NbtSerializer;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,7 +35,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -53,8 +49,6 @@ import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.entity.EntityTeleportEvent;
-import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -63,7 +57,6 @@ import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -72,40 +65,31 @@ import java.util.stream.Stream;
 @Mod(Accessories.MODID)
 public class AccessoriesForge {
 
-    public static final Logger LOGGER = LogUtils.getLogger();
+    public static final AttachmentType<AccessoriesHolderImpl> HOLDER_ATTACHMENT_TYPE = AttachmentType.builder(AccessoriesHolderImpl::of)
+            .serialize(new IAttachmentSerializer<>() {
+                private final Endec<AccessoriesHolderImpl> ENDEC = InstanceEndec.constructed(AccessoriesHolderImpl::new);
 
-    public static final AttachmentType<AccessoriesHolderImpl> HOLDER_ATTACHMENT_TYPE;
+                @Override
+                public AccessoriesHolderImpl read(IAttachmentHolder holder, Tag tag, HolderLookup.Provider provider) {
+                    return ENDEC.decodeFully(
+                            SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
+                            NbtDeserializer::of,
+                            tag);
+                }
+
+                @Override
+                @Nullable
+                public Tag write(AccessoriesHolderImpl object, HolderLookup.Provider provider) {
+                    return ENDEC.encodeFully(
+                            SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
+                            NbtSerializer::of,
+                            object);
+                }
+            })
+            .copyOnDeath()
+            .build();
 
     public static final EntityCapability<AccessoriesCapability, Void> CAPABILITY = EntityCapability.createVoid(Accessories.of("capability"), AccessoriesCapability.class);
-
-    static {
-        HOLDER_ATTACHMENT_TYPE = Registry.register(
-                NeoForgeRegistries.ATTACHMENT_TYPES,
-                Accessories.of("inventory_holder"),
-                AttachmentType.builder(AccessoriesHolderImpl::of)
-                        .serialize(new IAttachmentSerializer<>() {
-                            private final Endec<AccessoriesHolderImpl> ENDEC = InstanceEndec.constructed(AccessoriesHolderImpl::new);
-
-                            @Override
-                            public AccessoriesHolderImpl read(IAttachmentHolder holder, Tag tag, HolderLookup.Provider provider) {
-                                return ENDEC.decodeFully(
-                                        SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
-                                        NbtDeserializer::of,
-                                        tag);
-                            }
-
-                            @Override
-                            @Nullable
-                            public Tag write(AccessoriesHolderImpl object, HolderLookup.Provider provider) {
-                                return ENDEC.encodeFully(
-                                        SerializationContext.attributes(RegistriesAttribute.of((RegistryAccess) provider)),
-                                        NbtSerializer::of,
-                                        object);
-                            }
-                        })
-                        .copyOnDeath()
-                        .build());
-    }
 
     public static IEventBus BUS;
 
@@ -169,6 +153,7 @@ public class AccessoriesForge {
         event.register(Registries.TRIGGER_TYPE, (helper) -> Accessories.registerCriteria());
         event.register(Registries.DATA_COMPONENT_TYPE, (helper) -> AccessoriesDataComponents.init());
         event.register(Registries.COMMAND_ARGUMENT_TYPE, (helper) -> AccessoriesCommands.registerCommandArgTypes());
+        event.register(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, (helper) -> helper.register(Accessories.of("inventory_holder"), HOLDER_ATTACHMENT_TYPE));
     }
 
     public void registerReloadListeners(AddReloadListenerEvent event){
