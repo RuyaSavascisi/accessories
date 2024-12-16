@@ -361,7 +361,7 @@ public class AccessoriesExperimentalMenu extends AccessoriesMenuBase {
         } else {
             boolean changeOccured = false;
 
-            if (canMoveToAccessorySlot(itemStack2, this.targetEntityDefaulted()) && index < this.startingAccessoriesSlot) {
+            if (canMoveToAccessorySlot(itemStack2, this.targetEntityDefaulted())) {
                 moveItemStackTo(itemStack2, upperInventorySize, slots.size(), false);
 
                 if (itemStack2.getCount() != itemStack.getCount() || itemStack2.isEmpty()) {

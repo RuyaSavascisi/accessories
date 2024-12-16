@@ -70,9 +70,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
 
     //--
 
-    private static final ResourceLocation SLOT_HIGHLIGHT_BACK_SPRITE = ResourceLocation.withDefaultNamespace("container/slot_highlight_back");
-    private static final ResourceLocation SLOT_HIGHLIGHT_FRONT_SPRITE = ResourceLocation.withDefaultNamespace("container/slot_highlight_front");
-
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (AccessoriesClient.OPEN_SCREEN.matches(keyCode, scanCode)) {
@@ -368,6 +365,10 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
     protected void build(FlowLayout rootComponent) {
         this.changedSlots.clear();
 
+        this.getMenu().slots.forEach(this::disableSlot);
+
+        //--
+
         rootComponent.allowOverflow(true)
                 .horizontalAlignment(HorizontalAlignment.CENTER)
                 .verticalAlignment(VerticalAlignment.CENTER)
@@ -378,8 +379,6 @@ public class AccessoriesExperimentalScreen extends BaseOwoHandledScreen<FlowLayo
         var accessoriesComponent = createAccessoriesComponent();
 
         //--
-
-        this.getMenu().slots.forEach(this::disableSlot);
 
         var menu = this.getMenu();
 
