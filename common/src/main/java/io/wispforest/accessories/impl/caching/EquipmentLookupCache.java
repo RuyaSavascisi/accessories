@@ -2,8 +2,8 @@ package io.wispforest.accessories.impl.caching;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import io.wispforest.accessories.api.equip.EquipmentChecking;
 import io.wispforest.accessories.api.caching.ItemStackBasedPredicate;
+import io.wispforest.accessories.api.equip.EquipmentChecking;
 import io.wispforest.accessories.api.slot.SlotEntryReference;
 import org.jetbrains.annotations.Nullable;
 

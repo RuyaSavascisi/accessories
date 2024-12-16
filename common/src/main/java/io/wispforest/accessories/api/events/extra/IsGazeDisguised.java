@@ -1,7 +1,6 @@
 package io.wispforest.accessories.api.events.extra;
 
 import io.wispforest.accessories.api.slot.SlotReference;
-import jdk.jfr.Experimental;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.api.util.TriState;

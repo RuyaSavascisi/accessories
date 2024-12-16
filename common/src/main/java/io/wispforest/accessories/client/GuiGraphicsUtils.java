@@ -1,6 +1,7 @@
 package io.wispforest.accessories.client;
 
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import io.wispforest.owo.client.OwoClient;
 import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import net.minecraft.Util;
@@ -9,14 +10,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.metadata.gui.GuiSpriteScaling;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.TriState;
-import org.apache.logging.log4j.util.BiConsumer;
-import org.apache.logging.log4j.util.TriConsumer;
 import org.joml.Vector4f;
 
-import java.util.List;
 import java.util.function.Function;
 
 public class GuiGraphicsUtils {

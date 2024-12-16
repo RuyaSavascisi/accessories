@@ -1,6 +1,5 @@
 package io.wispforest.accessories.client.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.menu.AccessoriesBasedSlot;
 import io.wispforest.accessories.networking.AccessoriesNetworking;

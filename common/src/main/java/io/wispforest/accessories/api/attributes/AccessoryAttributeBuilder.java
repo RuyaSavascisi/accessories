@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.mojang.logging.LogUtils;
-import io.wispforest.accessories.AccessoriesInternals;
 import io.wispforest.accessories.AccessoriesLoaderInternals;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.minecraft.core.Holder;

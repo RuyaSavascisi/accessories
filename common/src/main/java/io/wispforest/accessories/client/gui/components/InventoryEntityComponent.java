@@ -1,16 +1,13 @@
 package io.wispforest.accessories.client.gui.components;
 
-import com.mojang.blaze3d.platform.GlConst;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Axis;
 import io.wispforest.owo.ui.component.EntityComponent;
-import io.wispforest.owo.ui.core.Color;
 import io.wispforest.owo.ui.core.Component;
 import io.wispforest.owo.ui.core.OwoUIDrawContext;
 import io.wispforest.owo.ui.core.Sizing;
 import io.wispforest.owo.util.pond.OwoEntityRenderDispatcherExtension;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -19,10 +16,6 @@ import net.minecraft.world.entity.LivingEntity;
 import org.apache.logging.log4j.util.TriConsumer;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
-import java.util.function.BiConsumer;
 
 public class InventoryEntityComponent<E extends Entity> extends EntityComponent<E> {
 

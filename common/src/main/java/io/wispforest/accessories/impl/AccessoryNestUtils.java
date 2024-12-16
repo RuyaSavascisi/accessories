@@ -4,8 +4,8 @@ import io.wispforest.accessories.api.AccessoryNest;
 import io.wispforest.accessories.api.AccessoryRegistry;
 import io.wispforest.accessories.api.components.AccessoriesDataComponents;
 import io.wispforest.accessories.api.components.AccessoryNestContainerContents;
-import io.wispforest.accessories.impl.slot.NestedSlotReferenceImpl;
 import io.wispforest.accessories.api.slot.SlotReference;
+import io.wispforest.accessories.impl.slot.NestedSlotReferenceImpl;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 

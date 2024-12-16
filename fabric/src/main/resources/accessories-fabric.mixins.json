@@ -7,10 +7,10 @@
     "client.AbstractContainerScreenMixin"
   ],
   "mixins": [
+    "DataPackContentsMixin",
     "LivingEntityMixin",
     "PlayerListMixin",
-    "ServerEntityEvent",
-    "DataPackContentsMixin"
+    "ServerEntityEvent"
   ],
   "injectors": {
     "defaultRequire": 1

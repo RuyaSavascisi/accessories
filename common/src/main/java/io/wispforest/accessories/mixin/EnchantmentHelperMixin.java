@@ -5,7 +5,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.wispforest.accessories.AccessoriesInternals;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.data.AccessoriesTags;
 import io.wispforest.accessories.api.slot.SlotEntryReference;
 import net.minecraft.core.Holder;

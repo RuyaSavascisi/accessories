@@ -4,15 +4,15 @@ import com.mojang.logging.LogUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.endec.NbtMapCarrier;
-import io.wispforest.accessories.impl.AccessoriesHolderImpl;
-import io.wispforest.owo.serialization.RegistriesAttribute;
 import io.wispforest.accessories.impl.AccessoriesContainerImpl;
+import io.wispforest.accessories.impl.AccessoriesHolderImpl;
 import io.wispforest.accessories.menu.variants.AccessoriesMenuBase;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.SerializationContext;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
 import io.wispforest.owo.serialization.CodecUtils;
+import io.wispforest.owo.serialization.RegistriesAttribute;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.entity.LivingEntity;
@@ -21,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import org.slf4j.Logger;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * Catch all packet for handling syncing of containers and accessories within the main container

@@ -3,7 +3,6 @@ package io.wispforest.accessories.api.events.extra;
 import io.wispforest.accessories.api.slot.SlotReference;
 import io.wispforest.accessories.impl.event.WrappedEvent;
 import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;

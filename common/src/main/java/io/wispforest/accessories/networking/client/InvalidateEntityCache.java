@@ -2,8 +2,6 @@ package io.wispforest.accessories.networking.client;
 
 import com.mojang.logging.LogUtils;
 import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.data.EntitySlotLoader;
-import io.wispforest.accessories.endec.NbtMapCarrier;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;

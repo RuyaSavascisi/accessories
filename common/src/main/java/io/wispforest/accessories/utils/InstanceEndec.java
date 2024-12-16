@@ -2,11 +2,11 @@ package io.wispforest.accessories.utils;
 
 import com.google.gson.JsonObject;
 import io.wispforest.accessories.endec.NbtMapCarrier;
-import io.wispforest.endec.format.gson.GsonMapCarrier;
-import io.wispforest.owo.serialization.format.nbt.NbtEndec;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.SerializationContext;
+import io.wispforest.endec.format.gson.GsonMapCarrier;
 import io.wispforest.endec.util.MapCarrier;
+import io.wispforest.owo.serialization.format.nbt.NbtEndec;
 import net.minecraft.Util;
 
 import java.util.function.Supplier;

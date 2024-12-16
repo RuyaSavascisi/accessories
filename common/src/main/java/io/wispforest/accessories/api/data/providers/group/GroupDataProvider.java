@@ -3,8 +3,6 @@ package io.wispforest.accessories.api.data.providers.group;
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import io.wispforest.accessories.api.data.providers.BaseDataProvider;
-import io.wispforest.accessories.api.data.providers.slot.SlotBuilder;
-import io.wispforest.accessories.data.SlotGroupLoader;
 import io.wispforest.owo.serialization.CodecUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;

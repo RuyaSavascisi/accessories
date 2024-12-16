@@ -8,7 +8,6 @@ import io.wispforest.accessories.api.slot.SlotType;
 import io.wispforest.accessories.impl.AccessoriesEventHandler;
 import io.wispforest.accessories.impl.AccessoryAttributeLogic;
 import io.wispforest.accessories.mixin.LivingEntityAccessor;
-import io.wispforest.accessories.networking.AccessoriesNetworking;
 import io.wispforest.accessories.networking.client.AccessoryBreak;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;

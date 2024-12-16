@@ -13,15 +13,15 @@
   ],
   "mixins": [
     "AccessoriesAPIMixin",
+    "AccessoriesEventHandlerMixin",
     "AccessoriesForgeMixin",
+    "ConfigWrapperMixin",
     "DataLoaderBaseMixin",
     "EntitySlotLoaderMixin",
     "ItemStackMixin",
     "SlotGroupLoaderMixin",
     "SlotTypeLoaderMixin",
-    "AccessoriesEventHandlerMixin",
-    "TagGroupLoaderMixin",
-    "ConfigWrapperMixin"
+    "TagGroupLoaderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,7 +1,6 @@
 package io.wispforest.accessories.api.totem;
 
 import io.wispforest.accessories.api.slot.SlotReference;
-import jdk.jfr.Experimental;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DeathProtection;

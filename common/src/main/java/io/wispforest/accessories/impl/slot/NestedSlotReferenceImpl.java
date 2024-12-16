@@ -1,7 +1,6 @@
 package io.wispforest.accessories.impl.slot;
 
 import com.google.common.collect.Lists;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.AccessoryNest;
 import io.wispforest.accessories.api.AccessoryRegistry;
 import io.wispforest.accessories.api.slot.SlotReference;

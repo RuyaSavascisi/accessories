@@ -3,7 +3,6 @@ package io.wispforest.accessories.client.gui.components;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.menu.AccessoriesBasedSlot;
 import io.wispforest.accessories.client.gui.AccessoriesExperimentalScreen;
-import io.wispforest.accessories.impl.AccessoriesHolderImpl;
 import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.owo.ui.base.BaseParentComponent;
 import io.wispforest.owo.ui.component.ButtonComponent;

@@ -1,7 +1,6 @@
 package io.wispforest.accessories.api.attributes;
 
 import com.google.common.collect.Multimap;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.slot.SlotType;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;

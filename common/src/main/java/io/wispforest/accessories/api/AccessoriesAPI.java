@@ -3,7 +3,10 @@ package io.wispforest.accessories.api;
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.attributes.AccessoryAttributeBuilder;
 import io.wispforest.accessories.api.attributes.AccessoryAttributeUtils;
-import io.wispforest.accessories.api.slot.*;
+import io.wispforest.accessories.api.slot.SlotBasedPredicate;
+import io.wispforest.accessories.api.slot.SlotPredicateRegistry;
+import io.wispforest.accessories.api.slot.SlotReference;
+import io.wispforest.accessories.api.slot.SlotType;
 import io.wispforest.accessories.impl.AccessoryAttributeLogic;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +20,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * Class containing the bulk of API calls for either registering {@link Accessory} instances, new {@link SlotBasedPredicate}s and more.

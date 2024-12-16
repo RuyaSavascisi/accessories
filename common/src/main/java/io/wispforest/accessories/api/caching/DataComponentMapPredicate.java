@@ -2,7 +2,6 @@ package io.wispforest.accessories.api.caching;
 
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.component.TypedDataComponent;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;

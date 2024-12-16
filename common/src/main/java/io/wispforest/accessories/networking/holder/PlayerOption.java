@@ -1,7 +1,6 @@
 package io.wispforest.accessories.networking.holder;
 
 import io.wispforest.accessories.AccessoriesInternals;
-import io.wispforest.accessories.impl.AccessoriesHolderImpl;
 import io.wispforest.accessories.impl.AccessoriesPlayerOptions;
 import io.wispforest.accessories.impl.PlayerEquipControl;
 import io.wispforest.endec.Endec;

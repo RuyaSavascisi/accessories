@@ -1,11 +1,13 @@
 package io.wispforest.accessories.utils;
 
 import io.wispforest.accessories.endec.NbtMapCarrier;
+import io.wispforest.endec.Endec;
+import io.wispforest.endec.SerializationAttributes;
+import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.BuiltInEndecs;
-import io.wispforest.owo.serialization.format.nbt.NbtEndec;
-import io.wispforest.endec.*;
 import io.wispforest.endec.impl.StructEndecBuilder;
 import io.wispforest.endec.util.MapCarrier;
+import io.wispforest.owo.serialization.format.nbt.NbtEndec;
 import it.unimi.dsi.fastutil.floats.FloatArrayList;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.nbt.CompoundTag;
@@ -15,9 +17,7 @@ import org.joml.*;
 
 import java.lang.Math;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public class EndecUtils {
 

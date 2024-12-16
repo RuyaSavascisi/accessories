@@ -1,6 +1,5 @@
 package io.wispforest.accessories.api.events;
 
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.attributes.AccessoryAttributeBuilder;
 import io.wispforest.accessories.api.slot.SlotReference;
 import io.wispforest.accessories.impl.AccessoryAttributeLogic;

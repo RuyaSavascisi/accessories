@@ -2,10 +2,11 @@ package io.wispforest.accessories.menu;
 
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.Accessory;
-import io.wispforest.accessories.api.slot.*;
-import it.unimi.dsi.fastutil.Pair;
+import io.wispforest.accessories.api.slot.EntityBasedPredicate;
+import io.wispforest.accessories.api.slot.SlotPredicateRegistry;
+import io.wispforest.accessories.api.slot.SlotTypeReference;
+import io.wispforest.accessories.api.slot.UniqueSlotHandling;
 import net.fabricmc.fabric.api.util.TriState;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;

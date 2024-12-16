@@ -4,20 +4,20 @@
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
   "client": [
-    "client.ClientLanguageMixin",
-    "client.AccessoriesRendererRegistryMixin"
+    "client.AccessoriesRendererRegistryMixin",
+    "client.ClientLanguageMixin"
   ],
   "mixins": [
     "AccessoriesAPIMixin",
     "AccessoriesCapabilityImplMixin",
+    "AccessoriesEventHandlerMixin",
     "AccessoriesForgeMixin",
     "EntitySlotLoaderMixin",
     "ItemStackMixin",
     "RegisterCapabilitiesEventMixin",
     "SlotTypeLoaderMixin",
-    "AccessoriesEventHandlerMixin",
-    "compat.AetherAccessoriesMenuMixin",
-    "TagGroupLoaderMixin"
+    "TagGroupLoaderMixin",
+    "compat.AetherAccessoriesMenuMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -6,8 +6,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import io.wispforest.accessories.pond.stack.PatchedDataComponentMapExtension;
 import io.wispforest.accessories.utils.ItemStackMutation;
 import io.wispforest.owo.util.EventStream;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.PatchedDataComponentMap;

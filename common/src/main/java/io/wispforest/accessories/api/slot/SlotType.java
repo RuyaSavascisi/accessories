@@ -1,7 +1,6 @@
 package io.wispforest.accessories.api.slot;
 
 import io.wispforest.accessories.Accessories;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.DropRule;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;

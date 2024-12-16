@@ -24,7 +24,6 @@ import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Optional;
 
 /**
  * An implementation of SimpleContainer with easy utilities for iterating over the stacks

@@ -2,7 +2,6 @@ package io.wispforest.testccessories.neoforge.client;
 
 import io.wispforest.accessories.Accessories;
 import io.wispforest.accessories.api.menu.AccessoriesBasedSlot;
-import io.wispforest.accessories.client.GuiGraphicsUtils;
 import io.wispforest.testccessories.neoforge.TestMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

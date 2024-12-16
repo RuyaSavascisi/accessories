@@ -2,10 +2,10 @@ package io.wispforest.accessories.utils;
 
 import com.mojang.logging.LogUtils;
 import io.wispforest.accessories.api.attributes.AccessoryAttributeBuilder;
-import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
+import io.wispforest.owo.serialization.endec.MinecraftEndecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import org.slf4j.Logger;

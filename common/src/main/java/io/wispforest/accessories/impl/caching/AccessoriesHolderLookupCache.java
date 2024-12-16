@@ -1,8 +1,8 @@
 package io.wispforest.accessories.impl.caching;
 
 import com.mojang.logging.LogUtils;
-import io.wispforest.accessories.api.equip.EquipmentChecking;
 import io.wispforest.accessories.api.caching.ItemStackBasedPredicate;
+import io.wispforest.accessories.api.equip.EquipmentChecking;
 import io.wispforest.accessories.api.slot.SlotEntryReference;
 import io.wispforest.accessories.impl.AccessoriesHolderImpl;
 import net.minecraft.core.component.DataComponentType;

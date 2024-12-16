@@ -1,6 +1,5 @@
 package io.wispforest.accessories.api.data.providers.group;
 
-import io.wispforest.accessories.api.data.providers.slot.RawSlotType;
 import io.wispforest.endec.Endec;
 import io.wispforest.endec.StructEndec;
 import io.wispforest.endec.impl.StructEndecBuilder;
